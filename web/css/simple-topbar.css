@@ -1,0 +1,27 @@
+/*!
+ * Bootstrap - Top Sidebar HTML Template (http://getbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/* Toggle Styles */
+
+.topbar-add-style {
+  margin-top: 50px;
+  padding: 0;
+  z-index: 500;
+  background: linear-gradient(#026,#026);
+}
+.topbar-add-style>.navbar-header>a,
+#navbar-top-collapse>ul>li>a {
+  color: white;
+}
+#navbar-top-collapse>ul>li>a:hover {
+  color: #bbb;
+  transform: scale(1.2);
+}
+
+.body-style-topmenu {
+  margin-top: 110px;
+  opacity: 0.8;
+}

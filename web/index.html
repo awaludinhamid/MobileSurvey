@@ -1,0 +1,147 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="Refresh" content="7; url=apps/auth/login"/>
+    <title>Loading page, please wait..</title>
+    <style>
+      body {
+        background: url('img/mobile-survey-image-op3.png');
+        background-size: cover;
+      }
+      
+      #nacl {
+        opacity: 0;    
+        -webkit-animation-name: output-left;
+        -webkit-animation-duration: 9s;
+        -webkit-animation-fill-mode: forwards;
+        animation-name: output-left;
+        animation-duration: 9s;
+        animation-fill-mode: forwards;
+      }
+      @-webkit-keyframes output-left {
+        50% {opacity: 0;}
+        90% {opacity: 0.5;}
+        100% {opacity: 0.5;}
+      }
+      @keyframes output-left {
+        50% {opacity: 0;}
+        90% {opacity: 0.5;}
+        100% {opacity: 0.5;}
+      }
+      
+      #h2o {
+        opacity: 0;     
+        -webkit-animation-name: output-right;
+        -webkit-animation-duration: 9s;
+        -webkit-animation-fill-mode: forwards;
+        animation-name: output-right;
+        animation-duration: 9s;
+        animation-fill-mode: forwards;
+      }
+      @-webkit-keyframes output-right {
+        50% {transform: scale(1.4,0.8) translate(-260px,75px); opacity: 0;}
+        100% {transform: scale(1) translate(0px,0px); opacity: 0.7}
+      }
+      @keyframes output-right {
+        50% {transform: scale(1.4,0.8) translate(-260px,75px); opacity: 0;}
+        100% {transform: scale(1) translate(0px,0px); opacity: 0.7}
+      }
+      
+      #naoh {       
+        -webkit-animation-name: input-left;
+        -webkit-animation-duration: 9s; 
+        -webkit-animation-fill-mode: forwards;
+        animation-name: input-left;
+        animation-duration: 9s;
+        animation-fill-mode: forwards;
+      }
+      @-webkit-keyframes input-left {
+        15% {opacity: 1;}
+        25% {opacity: 0;}
+        100% {opacity: 0;}
+      }
+      @keyframes input-left {
+        15% {opacity: 1;}
+        25% {opacity: 0;}
+        100% {opacity: 0;}
+      }
+      
+      #hcl {  
+        -webkit-animation-name: input-right;
+        -webkit-animation-duration: 9s;
+        -webkit-animation-fill-mode: forwards;
+        animation-name: input-right;
+        animation-duration: 9s;
+        animation-fill-mode: forwards;
+      }
+      @-webkit-keyframes input-right {
+        10% {transform: translate(0px,0px); opacity: 1}
+        30% {transform: translate(-210px,0px); opacity: 0}
+      }
+      @keyframes input-right {
+        10% {transform: translate(0px,0px); opacity: 1}
+        30% {transform: translate(-210px,0px); opacity: 0}
+        100% {opacity: 0}
+      }
+      
+      
+      #blow {
+        opacity: 0;
+        -webkit-animation-name: blow-up;
+        -webkit-animation-duration: 9s;
+        -webkit-animation-fill-mode: forwards;
+        animation-name: blow-up;
+        animation-duration: 9s;
+        animation-fill-mode: forwards;
+      }
+      @-webkit-keyframes blow-up {
+        30% {transform: scale(1); opacity: 1;}
+        100% {transform: translate(-10200px,-5500px) scale(20); opacity: 0;}
+      }
+      @keyframes blow-up {
+        30% {transform: scale(1); opacity: 1;}
+        100% {transform: translate(-10200px,-5500px) scale(20); opacity: 0;}
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <svg width="100%" height="100%" style="position: fixed">  
+        <circle id="blow" cx="550px" cy="300px" r="100" fill="darkblue"/>      
+        <g id="naoh">
+          <circle cx="550px" cy="300px" r="100" fill="url(#blue-ball)"/>
+          <text x="510" y="320" fill="white" style="font-size: 45px">Web</text>
+        </g>
+        <g id="hcl">
+          <circle cx="760px" cy="300px" r="100" fill="url(#red-ball)"/>          
+          <text x="675" y="320" fill="white" style="font-size: 60px">Gadget</text>  
+        </g>  
+        <g id="nacl">
+          <circle cx="550px" cy="300px" r="100" fill="url(#black-ball)"/>    
+          <text x="465" y="320" fill="#000" style="font-size: 60px">Mobile</text>
+        </g>
+        <g id="h2o">
+          <circle cx="760px" cy="300px" r="100" fill="url(#black-ball)"/>  
+          <text x="680" y="320" fill="#000" style="font-size: 60px">Survey</text>
+        </g>
+        <linearGradient id="black-ball" x1="0%" x2="100%" y1="0%" y2="0%">
+          <stop offset="0%" stop-color="white"/>
+          <stop offset="100%" stop-color="#444"/>
+        </linearGradient>
+        <linearGradient id="red-ball" x1="0%" x2="100%" y1="0%" y2="0%">
+          <stop offset="0%" stop-color="#f00"/>
+          <stop offset="100%" stop-color="#200"/>
+        </linearGradient>
+        <linearGradient id="blue-ball" x1="0%" x2="100%" y1="0%" y2="0%">
+          <stop offset="0%" stop-color="#00f"/>
+          <stop offset="100%" stop-color="#004"/>
+        </linearGradient>
+      </svg>
+    </div>
+  </body>
+</html>

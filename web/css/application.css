@@ -1,0 +1,324 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 6, 2016, 11:50:03 AM
+    Author     : awal
+*/
+
+/* * * * * * M O D A L * * * * * */
+
+.modal {
+  background-color: rgba(0,0,0,0.9);
+}
+.modal-dialog {
+  margin-top: 4%;
+}
+.modal-two-columns .modal-dialog {
+  width: 1190px;
+}
+
+div#mdl-save-record .modal-dialog {
+  /*margin-left: 0%;
+  margin-top: 0%;
+  width: 1190px;*/
+}
+div#mdl-save-record .modal-header,
+div#mdl-menu-list .modal-header {
+  background-color: #147;
+  color: #efefff;
+}
+div#mdl-save-record .modal-header img,
+div#mdl-menu-list .modal-header img {
+  width: 30px;
+  height: 30px;
+}
+div#mdl-save-record .modal-header>button.close,
+div#mdl-menu-list .modal-header>button.close {
+  color: red;
+  opacity: 0.5;
+}
+div#mdl-save-record .modal-header>button.close:hover,
+div#mdl-menu-list .modal-header>button.close:hover {
+  opacity: 0.9;
+  transform: scale(1.5);
+}
+
+div.find-record {
+  margin: 10px 0px 20px -15px;
+}
+div.find-record>img {
+  margin-left: 10px;
+}
+
+div.img-container {
+  margin-top: 10px;
+}
+div.img-container>img {
+  margin-right: 10px;
+} 
+
+.img-record {
+}
+.img-record:hover {
+  cursor: pointer;
+  transform: scale(1.5);  
+}
+.img-record-large {
+  width: 30px;
+  height: 30px;
+}
+.img-record-medium {
+  width: 25px;
+  height: 25px;
+}
+.img-record-small {
+  width: 20px;
+  height: 20px;
+}
+
+div#mdl-coy-logo .modal-body>div {
+  overflow: auto;
+}
+div#mdl-coy-logo .modal-header img {
+  width: 30px;
+  height: 30px;
+}
+
+div#message-mdl .modal-content {
+  background-color: rgba(10,20,40,0.8);
+  color: red;
+}
+
+div#div-preview-logo>div.companylogoimg {
+  width: 560px;
+  height: 300px;
+  border: #cfcfcf solid 1px;
+  border-radius: 4px;
+  overflow: auto;
+  background-color: #f6f6f6;
+  padding: 10px;  
+}
+
+/* * * * * * * * * * * * * * * * */
+
+/* * * * * * T A B L E * * * * * */
+
+.table-container {
+  height: 400px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: #148 solid 2px;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: white 0px 0px 10px 10px;
+}
+.table-container>table>thead>tr>th {
+  color: white;
+  background-color: rgba(20,60,110,0.9);
+  text-align: center;
+  white-space: nowrap;
+}
+.table-container>table, .table-container>table>thead>tr {
+  border-top: none;
+  border-left: none;
+}
+.table-container>table>thead>tr>th:first-child {
+  background-color: transparent;
+  border-left: none;
+  height: 35px;
+  width: 60px;
+}
+.table-container>table>tbody>tr>td {
+  text-align: center;
+  white-space: nowrap;
+  background-color: rgba(256,256,256,0.6);
+  color: #148;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.table-container>table>tbody>tr>td:hover {
+  max-width: none;
+  overflow: visible;
+}
+.table-container>table>tbody>tr>td:first-child {
+  
+}
+
+.table-title {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: #008 0px 0px 4px;
+}
+td .coy-logo {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.table-container-normal th {
+  color: white;
+  background-color: rgba(20,60,110,0.9);
+  text-align: center;
+  white-space: nowrap;  
+}
+
+/* * * * * * * * * * * * * * * * */
+
+/* * * * * * F O R M * * * * * */
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    lightskyblue !important;
+    opacity: 0.2 !important;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    lightskyblue !important;
+    opacity: 0.2 !important;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    lightskyblue !important;
+    opacity: 0.2 !important;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    lightskyblue !important;
+    opacity: 0.2 !important;
+}
+
+label.control-label {
+  color: #147;
+}
+.btn-form-save {
+  text-align: right;
+}
+div#form-preview-logo {
+  position: absolute;
+  top: 165px;
+  margin-left: 793px;
+}
+div#form-preview-logo>div.companylogoimg {
+  width: 365px;
+  height: 250px;
+  border: #cfcfcf solid 1px;
+  border-radius: 4px;
+  overflow: auto;
+  background-color: #f6f6f6;
+  padding: 10px;
+}
+
+/* * * * * * * * * * * * * * * * */
+
+/* * * * * * D A T E P I C K E R * * * * * */
+
+
+.ui-datepicker {
+  width: 216px;
+  height: auto;
+  margin: 5px auto 0;
+  font: 9pt Arial, sans-serif;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+  z-index: 1100 !important;
+}
+.ui-datepicker a {
+  text-decoration: none;
+}
+.ui-datepicker table {
+  width: 100%;
+}
+.ui-datepicker-header {
+  background-color: #a73;
+  color: #e0e0e0;
+  font-weight: bold;
+  -webkit-box-shadow: inset 0px 1px 1px 0px rgba(250, 250, 250, 2);
+  -moz-box-shadow: inset 0px 1px 1px 0px rgba(250, 250, 250, .2);
+  box-shadow: inset 0px 1px 1px 0px rgba(250, 250, 250, .2);
+  text-shadow: 1px -1px 0px #000;
+  filter: dropshadow(color=#000, offx=1, offy=-1);
+  line-height: 30px;
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #111;
+}
+.ui-datepicker-title {
+  text-align: center;
+}
+.ui-datepicker thead {
+  background-color: #ccf;
+ /* background-image: -moz-linear-gradient(top,  #f7f7f7 0%, #f1f1f1 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(100%,#f1f1f1));
+  background-image: -webkit-linear-gradient(top,  #f7f7f7 0%,#f1f1f1 100%);
+  background-image: -o-linear-gradient(top,  #f7f7f7 0%,#f1f1f1 100%);
+  background-image: -ms-linear-gradient(top,  #f7f7f7 0%,#f1f1f1 100%);
+  background-image: linear-gradient(top,  #f7f7f7 0%,#f1f1f1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#f1f1f1',GradientType=0 );
+  border-bottom: 1px solid #bbb;*/
+}
+.ui-datepicker th {
+  text-transform: uppercase;
+  font-size: 6pt;
+  padding: 5px 0;
+  color: #4f4f4f;
+  text-shadow: 1px 0px 0px #fff;
+  filter: dropshadow(color=#fff, offx=1, offy=0);
+}
+.ui-datepicker th:first-child {
+  color: red;
+}
+.ui-datepicker td:first-child a {
+  color: red;
+}
+.ui-datepicker td:first-child a.ui-state-active {
+  color: white;
+}
+.ui-datepicker-calendar .ui-state-active {
+  
+}
+
+/* * * * * * * * * * * * * * * * */
+
+/* * * * * * P A G I N G * * * * * */
+
+.pagination>li>a {
+  background-color: transparent;
+  margin-left: 10px;
+  border-color: lightskyblue;
+}
+.pagination>li.disabled>a {
+  color: white;
+  background-color: rgba(255,80,80,0.6);
+}
+
+/* * * * * * * * * * * * * * * * */
+
+/* * * * * * T O O L T I P   D A T E * * * * * */
+
+.tooltip-date {
+  position: fixed;
+  opacity: 0;
+  color: #a00;
+  animation-name: play-tooltip; /* Standard syntax */
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-play-state: paused;
+  -webkit-animation-name: play-tooltip; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 10s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-play-state: paused;
+}
+@keyframes play-tooltip {/* Standard syntax */
+  0% {opacity: 0;}
+  10% {opacity: 1;}
+  90% {opacity: 1;}
+  100% {opacity: 0;}
+}
+@-webkit-keyframes play-tooltip {/* Chrome, Safari, Opera */
+  0% {opacity: 0;}
+  10% {opacity: 1;}
+  90% {opacity: 1;}
+  100% {opacity: 0;}
+}
