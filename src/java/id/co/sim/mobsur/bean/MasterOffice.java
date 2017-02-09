@@ -9,7 +9,6 @@ package id.co.sim.mobsur.bean;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import id.co.sim.mobsur.bean.support.RecordControllerBean;
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="MASTER_OFFICE")
-public class MasterOffice extends RecordControllerBean implements Serializable {
+public class MasterOffice extends RecordControllerBean {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

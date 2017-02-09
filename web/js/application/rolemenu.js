@@ -6,7 +6,8 @@
 
 //
 dataIdField = "roleMenuId";
-objRelMap = [{name: "role", field: ["roleId"]},{name: "menu", field: ["menuId"]}];
+objRelMap = [{name: "role", field: [{column: "roleId", id: "roleId"}]},
+              {name: "menu", field: [{column: "menuId", id: "menuId"}]}];
 dropdownArr = ["role","menu"];
 
 $(document).ready(function() {  

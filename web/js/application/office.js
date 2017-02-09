@@ -6,7 +6,7 @@
   
 //
 dataIdField = "officeId";
-objRelMap = [{name: "company", field: ["coyId"]}];
+objRelMap = [{name: "company", field: [{column: "coyId", id: "coyId"}]}];
 
 
 $(document).ready(function() {

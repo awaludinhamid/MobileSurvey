@@ -13,7 +13,7 @@ import id.co.sim.mobsur.bean.MasterOffice;
 import id.co.sim.mobsur.bean.MasterRole;
 import id.co.sim.mobsur.bean.MasterUser;
 import id.co.sim.mobsur.bean.MasterUserRole;
-import id.co.sim.mobsur.bean.save.old.MasterUserRoleSaveOld;
+import id.co.sim.mobsur.bean.dto.old.MasterUserRoleDTOOld;
 import id.co.sim.mobsur.service.DetailCompanyLogoService;
 import id.co.sim.mobsur.service.MasterCompanyService;
 import id.co.sim.mobsur.service.MasterMenuService;
@@ -144,8 +144,8 @@ public class SaveControllerOld {
   }
 
   @RequestMapping(value = "/userrole", method = RequestMethod.POST)
-  public @ResponseBody MasterUserRoleSaveOld saveUserRole(
-          @RequestBody MasterUserRoleSaveOld userRoleSave,
+  public @ResponseBody MasterUserRoleDTOOld saveUserRole(
+          @RequestBody MasterUserRoleDTOOld userRoleSave,
           HttpSession session
           )
   {

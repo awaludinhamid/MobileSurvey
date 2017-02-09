@@ -37,11 +37,22 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     <error-page>
         <error-code>404</error-code>
-        <location>/jsp/errorpage404.jsp</location>
-    </error-page> 
+        <location>/jsp/error/errorpage.jsp</location>
+    </error-page>   
+    <error-page>
+        <error-code>405</error-code>
+        <location>/jsp/error/errorpage.jsp</location>
+    </error-page>   
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/jsp/error/errorpage.jsp</location>
+    </error-page>
 </web-app>

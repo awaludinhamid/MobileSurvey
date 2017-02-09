@@ -48,7 +48,7 @@
           <tbody>
             <tr ng-repeat="data in datatable" data-id="{{data.roleMenuId}}">
               <td>
-                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record"/>
+                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
                 <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
               </td>
               <td>{{data.role.roleName}}</td>

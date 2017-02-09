@@ -34,6 +34,7 @@
     username-parameter="username"
     password-parameter="password"
     login-processing-url="/apps/auth/security"
+    always-use-default-target="true"
     authentication-success-handler-ref="customAuthenticationSuccessHandler"/>
 
   <security:logout

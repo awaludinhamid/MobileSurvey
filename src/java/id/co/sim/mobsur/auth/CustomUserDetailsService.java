@@ -14,7 +14,8 @@ import org.apache.log4j.Logger;
 import id.co.sim.mobsur.bean.MasterUser;
 import id.co.sim.mobsur.service.MasterRoleService;
 import id.co.sim.mobsur.service.MasterUserService;
-import id.co.sim.mobsur.util.SessionUtil;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,6 +37,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = true)
 public class CustomUserDetailsService implements UserDetailsService {
+  
+  @Autowired
+  private HttpServletRequest request;
+  @Autowired
+  private MasterRoleService mrServ;
+  @Autowired
+  private MasterUserService muServ;
 
   protected static Logger logger = Logger.getLogger("service");
 
@@ -94,9 +102,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     List<GrantedAuthority> authList = new ArrayList<>();
     
     // Set user roles 
-    MasterRoleService rolesServ =
-            new SessionUtil<MasterRoleService>().getAppContext("masterRoleService");
-    for(MasterRole role : rolesServ.getRolesByUser(userId)) {
+    for(MasterRole role : mrServ.getRolesByUser(userId)) {
       authList.add(new SimpleGrantedAuthority(role.getRoleCode()));
     }
     
@@ -113,9 +119,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     // Retrieve user from the database
     //List<Users> users = internalDatabase();
-    MasterUserService mstUsersServ =
-            new SessionUtil<MasterUserService>().getAppContext("masterUserService");
-    MasterUser user = mstUsersServ.getByCode(username);
+    MasterUser user = muServ.getByCodeAndCoy(username,request.getParameter("coyCode"));
     if(user == null) {
       logger.error("User does not exist!");
       throw new RuntimeException("User does not exist!");

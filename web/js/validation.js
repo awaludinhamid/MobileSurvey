@@ -31,11 +31,15 @@ $(document).ready(function() {
                         "<img class='img-record img-record-medium' src='"+relativePath+"img/icon/"+val.iconPath+"' alt='"+val.menu+"'/>&nbsp;"+val.menu+
                       "</a></li>"});
           } else {
+            var separator = "";
             if(idx === 0)
               urlredirect = val.menuUrl;
+            else
+              separator = "<li><hr/></li>";
             userMenuArr.push({
               "idx": idx,
-              "val":"<li class='label-menu' id='"+val.parent.replace(" ","")+"'>"+val.parent+"</li>" +
+              "val":separator +
+                    "<li class='label-menu' id='"+val.parent.replace(" ","")+"'>"+val.parent+"</li>" +
                     "<li data-save-url='"+val.menuUrl.replace("/application/","/save/")+
                       "' data-data-url='"+val.menuUrl.replace("/application/","/data/")+"'>"+                    
                       "<a href='"+relativePath+val.menuUrl+"'>"+

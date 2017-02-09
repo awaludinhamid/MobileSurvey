@@ -24,10 +24,9 @@ var relativePath = "../../";
 
 /* * * * * * G L O B A L   F U N C T I O N * * * * * */
 
-//
+//camel word convertion
 function initCap(pText) {
     return pText.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (initChar) {
       return initChar.toUpperCase();
      });
 }
-

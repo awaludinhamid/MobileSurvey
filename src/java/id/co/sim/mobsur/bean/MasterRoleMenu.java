@@ -8,7 +8,6 @@ package id.co.sim.mobsur.bean;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import id.co.sim.mobsur.bean.support.RecordControllerBean;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +23,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="MASTER_ROLE_MENU")
-public class MasterRoleMenu extends RecordControllerBean implements Serializable {
+public class MasterRoleMenu extends RecordControllerBean {
 
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)

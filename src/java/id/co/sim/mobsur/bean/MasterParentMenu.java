@@ -7,8 +7,7 @@
 package id.co.sim.mobsur.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import id.co.sim.mobsur.bean.support.RecordControllerBean;
-import java.io.Serializable;
+import id.co.sim.mobsur.bean.support.RecordAuditBean;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +23,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="MASTER_PARENT_MENU")
-public class MasterParentMenu extends RecordControllerBean implements Serializable {
+public class MasterParentMenu extends RecordAuditBean {
 
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)

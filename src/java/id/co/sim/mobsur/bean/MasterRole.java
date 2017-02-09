@@ -8,13 +8,14 @@ package id.co.sim.mobsur.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import id.co.sim.mobsur.bean.support.RecordControllerBean;
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,7 +25,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="MASTER_ROLE")
-public class MasterRole extends RecordControllerBean implements Serializable {
+public class MasterRole extends RecordControllerBean {
 
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -36,8 +37,11 @@ public class MasterRole extends RecordControllerBean implements Serializable {
   private String roleName;
   @Column(name="ROLE_DESC")
   private String roleDesc;
-  @Column(name="IS_OWNER")
-  private String isOwner;
+  @Column(name="ROLE_LEVEL")
+  private int roleLevel;
+  @ManyToOne
+  @JoinColumn(name="ROLE_TYPE_ID")
+  private MasterRoleType roleType; 
   @JsonBackReference
   @OneToMany(mappedBy="role")
   private List<MasterRoleMenu> roleMenus;
@@ -102,20 +106,6 @@ public class MasterRole extends RecordControllerBean implements Serializable {
   }
 
   /**
-   * @return the isOwner
-   */
-  public String getIsOwner() {
-    return isOwner;
-  }
-
-  /**
-   * @param isOwner the isOwner to set
-   */
-  public void setIsOwner(String isOwner) {
-    this.isOwner = isOwner;
-  }
-
-  /**
    * @return the roleMenus
    */
   public List<MasterRoleMenu> getRoleMenus() {
@@ -141,5 +131,33 @@ public class MasterRole extends RecordControllerBean implements Serializable {
    */
   public void setUserRoles(List<MasterUserRole> userRoles) {
     this.userRoles = userRoles;
+  }
+
+  /**
+   * @return the roleLevel
+   */
+  public int getRoleLevel() {
+    return roleLevel;
+  }
+
+  /**
+   * @param roleLevel the roleLevel to set
+   */
+  public void setRoleLevel(int roleLevel) {
+    this.roleLevel = roleLevel;
+  }
+
+  /**
+   * @return the roleType
+   */
+  public MasterRoleType getRoleType() {
+    return roleType;
+  }
+
+  /**
+   * @param roleType the roleType to set
+   */
+  public void setRoleType(MasterRoleType roleType) {
+    this.roleType = roleType;
   }
 }

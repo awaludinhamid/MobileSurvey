@@ -8,7 +8,7 @@ $(document).ready(function() {
   
   //generate menu
   $.each(JSON.parse(localStorage.getItem("userMenuArr")),function(idx,val) {
-    $("div#sidebar-wrapper>ul.sidebar-nav").append(val.val);
+    $("div#sidebar-wrapper ul.sidebar-nav").append(val.val);
   });
   
   // active-page  
@@ -23,6 +23,11 @@ $(document).ready(function() {
   liObj.each(function() {
     if(page === $(this).children("a").attr("href").split("/").pop()) {
       $(this).addClass("active-page");
+      var topPos = $(this).position().top;
+      var parentHeight = $("div#sidebar-wrapper").height();
+      if(topPos > (parentHeight/2)) {//move scrollbar to obj position if it over the limit (to prevent unseeing menu)
+        $("div#sidebar-wrapper").scrollTop(topPos);        
+      }
       return false;
     }
   });

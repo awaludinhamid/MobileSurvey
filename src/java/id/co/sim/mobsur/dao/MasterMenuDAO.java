@@ -54,7 +54,7 @@ public class MasterMenuDAO extends BaseDAO<MasterMenu> {
               "join mnu.roleMenus rm " +
               "join rm.role.userRoles ur " +
               "where ur.user.userId = :userId " +
-              "order by mnu.sort")
+              "order by mnu.parentMenu.parentMenuId, mnu.sort")
             .setInteger("userId", userId)
             .list();
   }

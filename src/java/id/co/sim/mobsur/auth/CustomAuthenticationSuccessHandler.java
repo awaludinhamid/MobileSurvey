@@ -13,15 +13,15 @@ import id.co.sim.mobsur.service.MasterCompanyService;
 import id.co.sim.mobsur.service.MasterOfficeService;
 import id.co.sim.mobsur.service.MasterUserService;
 import id.co.sim.mobsur.util.GlobalIntVariable;
-import id.co.sim.mobsur.util.SessionUtil;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,9 +31,16 @@ import org.springframework.stereotype.Component;
  * @author awal
  */
 @Component("customAuthenticationSuccessHandler")
-public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler { //SimpleUrlAuthenticationSuccessHandler
+public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler { // SavedRequestAwareAuthenticationSuccessHandler
  
   private final Logger authLogger = Logger.getLogger("auth");
+  
+  @Autowired
+  private MasterUserService muServ;  
+  @Autowired
+  private MasterCompanyService mcServ;
+  @Autowired
+  private MasterOfficeService moServ;
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
@@ -44,23 +51,20 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     String userName = (String) session.getAttribute("userName");
     if(userName == null || userName.equals("")) {        
       String name = auth.getName();
-      MasterUserService mstUsersServ =
-              new SessionUtil<MasterUserService>().getAppContext("masterUserService");
-      MasterCompanyService mstCoyServ =
-              new SessionUtil<MasterCompanyService>().getAppContext("masterCompanyService");
-      MasterUser mstUser = mstUsersServ.getByCode(name);
-      MasterOffice mstOffice = new SessionUtil<MasterOfficeService>().getAppContext("masterOfficeService").getById(mstUser.getOffice().getOfficeId());
-      MasterCompany mstCoy = mstCoyServ.getById(mstOffice.getCompany().getCoyId());
+      MasterUser mstUser = muServ.getByCode(name);
+      MasterOffice mstOffice = moServ.getById(mstUser.getOffice().getOfficeId());
+      MasterCompany mstCoy = mcServ.getById(mstOffice.getCompany().getCoyId());
       session.setAttribute("realName", mstUser.getUserName());
       session.setAttribute("userId", mstUser.getUserId());
       session.setAttribute("userName", name);
       session.setAttribute("sessionId", session.getId());
       session.setAttribute("hasRole", mstUser.getUserRoles() == null ? "no" : "yes");      
-      session.setAttribute("isValid", mstCoyServ.getValidCoyByUserId(mstUser.getUserId()) == null ? "no" : "yes");
+      session.setAttribute("isValid", mcServ.getValidCoyByUserId(mstUser.getUserId()) == null ? "no" : "yes");
       session.setAttribute("systemName", mstCoy.getSystemName());
       session.setAttribute("coyId", mstCoy.getCoyId());
       session.setAttribute("companyLogoId", mstCoy.getDetailCompanyLogo().getCompanyLogoId());
       session.setAttribute("pagingRecords", GlobalIntVariable.PAGING_RECORDS.getVar());
+      session.setAttribute("officeName", mstOffice.getOfficeName());
     }
     //redirect
     setDefaultTargetUrl("/apps/main/validation");

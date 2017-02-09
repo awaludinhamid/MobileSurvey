@@ -124,6 +124,210 @@ public class ApplicationController {
   }
 
   /**
+    * Handles and retrieves parameter JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/parameter", method = RequestMethod.GET)
+  public String getParameterPage() {
+    logger.debug("Received request to show parameter page");
+    // This will resolve to /jsp/application/parameterpage.jsp
+    return "application/parameterpage";
+  }
+
+  /**
+    * Handles and retrieves hierarchy JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/hierarchy", method = RequestMethod.GET)
+  public String getHierarchyPage() {
+    logger.debug("Received request to show hierarchy page");
+    // This will resolve to /jsp/application/hierarchypage.jsp
+    return "application/hierarchypage";
+  }
+
+  /**
+    * Handles and retrieves distribution JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/distribution", method = RequestMethod.GET)
+  public String getDistributionPage() {
+    logger.debug("Received request to show distribution page");
+    // This will resolve to /jsp/application/distributionpage.jsp
+    return "application/distributionpage";
+  }
+
+  /**
+    * Handles and retrieves provinsi JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/provinsi", method = RequestMethod.GET)
+  public String getProvinsiPage() {
+    logger.debug("Received request to show provinsi page");
+    // This will resolve to /jsp/application/provinsipage.jsp
+    return "application/provinsipage";
+  }
+
+  /**
+    * Handles and retrieves city JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/city", method = RequestMethod.GET)
+  public String getCityPage() {
+    logger.debug("Received request to show city page");
+    // This will resolve to /jsp/application/citypage.jsp
+    return "application/citypage";
+  }
+
+  /**
+    * Handles and retrieves kecamatan JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/kecamatan", method = RequestMethod.GET)
+  public String getKecamatanPage() {
+    logger.debug("Received request to show kecamatan page");
+    // This will resolve to /jsp/application/kecamatanpage.jsp
+    return "application/kecamatanpage";
+  }
+
+  /**
+    * Handles and retrieves kelurahan JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/kelurahan", method = RequestMethod.GET)
+  public String getKelurahanPage() {
+    logger.debug("Received request to show kelurahan page");
+    // This will resolve to /jsp/application/kelurahanpage.jsp
+    return "application/kelurahanpage";
+  }
+
+  /**
+    * Handles and retrieves question JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/question", method = RequestMethod.GET)
+  public String getQuestionPage() {
+    logger.debug("Received request to show question page");
+    // This will resolve to /jsp/application/questionpage.jsp
+    return "application/questionpage";
+  }
+
+  /**
+    * Handles and retrieves group question JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/questiongroup", method = RequestMethod.GET)
+  public String getQuestionGroupPage() {
+    logger.debug("Received request to show group question page");
+    // This will resolve to /jsp/application/questiongrouppage.jsp
+    return "application/questiongrouppage";
+  }
+
+  /**
+    * Handles and retrieves template JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/template", method = RequestMethod.GET)
+  public String getTemplatePage() {
+    logger.debug("Received request to show template page");
+    // This will resolve to /jsp/application/templatepage.jsp
+    return "application/templatepage";
+  }
+
+  /**
+    * Handles and retrieves product JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/product", method = RequestMethod.GET)
+  public String getProductPage() {
+    logger.debug("Received request to show product page");
+    // This will resolve to /jsp/application/productpage.jsp
+    return "application/productpage";
+  }
+
+  /**
+    * Handles and retrieves job assignment JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/jobassignment", method = RequestMethod.GET)
+  public String getJobAssignmentPage() {
+    logger.debug("Received request to show job assignment page");
+    // This will resolve to /jsp/application/jobassignmentpage.jsp
+    return "application/jobassignmentpage";
+  }
+
+  /**
+    * Handles and retrieves zipcode verificator JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/zipcodeverif", method = RequestMethod.GET)
+  public String getZipcodeVerifPage() {
+    logger.debug("Received request to show zipcode verificator page");
+    // This will resolve to /jsp/application/zipcodeverifpage.jsp
+    return "application/zipcodeverifpage";
+  }
+
+  /**
+    * Handles and retrieves absence JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/absence", method = RequestMethod.GET)
+  public String getAbsencePage() {
+    logger.debug("Received request to show absence page");
+    // This will resolve to /jsp/application/absencepage.jsp
+    return "application/absencepage";
+  }
+
+  /**
+    * Handles and retrieves mobile task assign JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/taskassign", method = RequestMethod.GET)
+  public String getMobileTaskAssignPage() {
+    logger.debug("Received request to show mobile task assign page");
+    // This will resolve to /jsp/application/taskassignpage.jsp
+    return "application/taskassignpage";
+  }
+
+  /**
+    * Handles and retrieves mobile rolling task JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/rollingtask", method = RequestMethod.GET)
+  public String getMobileRollingTaskPage() {
+    logger.debug("Received request to show mobile rolling task page");
+    // This will resolve to /jsp/application/rollingtaskpage.jsp
+    return "application/rollingtaskpage";
+  }
+
+  /**
+    * Handles and retrieves mobile inquiry task JSP page
+    *
+    * @return the name of the JSP page
+    */
+  @RequestMapping(value = "/inquirytask", method = RequestMethod.GET)
+  public String getMobileInquiryTaskPage() {
+    logger.debug("Received request to show mobile inquiry task page");
+    // This will resolve to /jsp/application/inquirytaskpage.jsp
+    return "application/inquirytaskpage";
+  }
+
+  /**
     * Handles and retrieves the summary JSP page
     *
     * @param httpRequest

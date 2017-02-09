@@ -15,8 +15,10 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
-          <ul class="sidebar-nav">
-          </ul>
+          <nav>
+            <ul class="sidebar-nav">
+            </ul>
+          </nav>
         </div>
     </div>
   </body>

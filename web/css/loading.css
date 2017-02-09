@@ -1,0 +1,156 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 29, 2016, 5:33:17 PM
+    Author     : awal
+*/
+
+.red-ball {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  animation-name: ball-round-stretch;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-play-state: paused;
+  -webkit-animation-name: ball-round-stretch;
+  -webkit-animation-duration: 6s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-play-state: paused;
+}
+.red-ball>div {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background-color: #f66;        
+}
+
+.blue-ball {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: scale(0);
+  animation-name: ball-round-stretch;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-delay: 2s;
+  animation-play-state: paused;
+  -webkit-animation-name: ball-round-stretch;
+  -webkit-animation-duration: 6s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-delay: 2s;
+  -webkit-animation-play-state: paused;
+}
+.blue-ball>div {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background-color: #99f;        
+}
+
+.green-ball {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: scale(0);
+  animation-name: ball-round-stretch;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-delay: 4s;
+  animation-play-state: paused;
+  -webkit-animation-name: ball-round-stretch;
+  -webkit-animation-duration: 6s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-delay: 4s;
+  -webkit-animation-play-state: paused;
+}
+.green-ball>div {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background-color: #9f9;        
+}
+
+@keyframes ball-round-stretch {
+  0% {transform: scale(1) rotate(0deg);}
+  50% {transform: scale(0.5) rotate(180deg);}
+  100% {transform: scale(1) rotate(360deg);}
+}
+@-webkit-keyframes ball-round-stretch {
+  0% {transform: scale(1) rotate(0deg);}
+  50% {transform: scale(0.5) rotate(180deg);}
+  100% {transform: scale(1) rotate(360deg);}
+}
+
+.loading-text {
+  position: fixed;
+  left: 48%;
+  top: 60%;
+  color: white;
+  animation-name: text-blinking;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-delay: 3s;
+  animation-play-state: paused;
+  -webkit-animation-name: text-blinking;
+  -webkit-animation-duration: 6s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-delay: 3s;
+  -webkit-animation-play-state: paused;
+}
+@keyframes text-blinking {
+  0% {opacity: 1;}
+  50% {opacity: 0.1;}
+  100% {opacity: 1;}
+}
+@-webkit-keyframes text-blinking {
+  0% {opacity: 1;}
+  50% {opacity: 0.1;}
+  100% {opacity: 1;}
+}
+
+.back-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,1);
+  z-index: 1200;
+  animation-name: back-blinking;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-play-state: paused;
+  -webkit-animation-name: back-blinking;
+  -webkit-animation-duration: 6s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-play-state: paused;
+}
+@keyframes back-blinking {
+  0% {opacity: 1;}
+  50% {opacity: 0.8;}
+  100% {opacity: 1;}
+}
+@-webkit-keyframes back-blinking {
+  0% {opacity: 1;}
+  50% {opacity: 0.8;}
+  100% {opacity: 1;}
+}

@@ -6,7 +6,7 @@
   
 //
 dataIdField = "coyId";
-objRelMap = [{name: "detailCompanyLogo", field: ["companyLogoId"]}];
+objRelMap = [{name: "detailCompanyLogo", field: [{column: "companyLogoId", id: "companyLogoId"}]}];
 uploadFileObj = {name: "company", field: "companyLogoId"};
 
 
@@ -23,8 +23,7 @@ $(document).ready(function() {
       $("div#mdl-coy-logo .modal-body div>img").attr("src","data:image/jpg;base64," + response);
       $("div#mdl-coy-logo").modal("show");
     }).fail(function() {
-      $("div#message-mdl .modal-body").html("Currently no company logo");
-      $("div#message-mdl").modal("show");
+      showMessage("Currently no company logo");
     });
   });
   

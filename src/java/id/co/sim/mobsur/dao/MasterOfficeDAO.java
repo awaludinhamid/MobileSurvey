@@ -33,8 +33,8 @@ public class MasterOfficeDAO extends BaseDAO<MasterOffice> {
     return sessionFactory.getCurrentSession().createQuery(
             "from " + domainClass.getName() + " ofc " +
             "where ofc.company.coyId = :coyId " +
-              "and ofc.officeCode like :officeCodePattern " +
-              "and ofc.officeName like :officeNamePattern " +
+              "and UPPER(ofc.officeCode) like UPPER(:officeCodePattern) " +
+              "and UPPER(ofc.officeName) like UPPER(:officeNamePattern) " +
               "and ofc.endDate >= to_date(:asOfDate,'yyyy-mm-dd')")
             .setInteger("coyId", coyId)
             .setString("officeCodePattern", "%"+officeCodePattern+"%")
@@ -57,8 +57,8 @@ public class MasterOfficeDAO extends BaseDAO<MasterOffice> {
     return ((Long) sessionFactory.getCurrentSession().createQuery(
             "select count(*) from " + domainClass.getName() + " ofc " +
             "where ofc.company.coyId = :coyId " +
-              "and ofc.officeCode like :officeCodePattern " +
-              "and ofc.officeName like :officeNamePattern " +
+              "and UPPER(ofc.officeCode) like UPPER(:officeCodePattern) " +
+              "and UPPER(ofc.officeName) like UPPER(:officeNamePattern) " +
               "and ofc.endDate >= to_date(:asOfDate,'yyyy-mm-dd')")
             .setInteger("coyId", coyId)
             .setString("officeCodePattern", "%"+officeCodePattern+"%")

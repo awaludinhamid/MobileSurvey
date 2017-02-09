@@ -25,25 +25,52 @@ div#mdl-save-record .modal-dialog {
   margin-top: 0%;
   width: 1190px;*/
 }
+div#mdl-menu-list .table-container-normal,
+div#mdl-option-list .table-container-normal,
+div#mdl-question-list .table-container-normal,
+div#mdl-question-group-list .table-container-normal {
+  max-height: 400px;
+  overflow-y: auto;
+}
 div#mdl-save-record .modal-header,
-div#mdl-menu-list .modal-header {
+div#mdl-menu-list .modal-header,
+div#mdl-option-list .modal-header,
+div#mdl-question-list .modal-header,
+div#mdl-question-group-list .modal-header,
+div#validation-alert-mdl .modal-header {
   background-color: #147;
   color: #efefff;
 }
 div#mdl-save-record .modal-header img,
-div#mdl-menu-list .modal-header img {
+div#mdl-menu-list .modal-header img,
+div#mdl-option-list .modal-header img,
+div#mdl-question-list .modal-header img,
+div#mdl-question-group-list .modal-header img {
   width: 30px;
   height: 30px;
 }
 div#mdl-save-record .modal-header>button.close,
-div#mdl-menu-list .modal-header>button.close {
+div#mdl-menu-list .modal-header>button.close,
+div#mdl-option-list .modal-header>button.close,
+div#mdl-question-list .modal-header>button.close,
+div#mdl-question-group-list .modal-header>button.close {
   color: red;
   opacity: 0.5;
 }
 div#mdl-save-record .modal-header>button.close:hover,
-div#mdl-menu-list .modal-header>button.close:hover {
+div#mdl-menu-list .modal-header>button.close:hover,
+div#mdl-option-list .modal-header>button.close:hover,
+div#mdl-question-list .modal-header>button.close:hover,
+div#mdl-question-group-list .modal-header>button.close:hover {
   opacity: 0.9;
   transform: scale(1.5);
+}
+div#mdl-menu-list table tr>td,
+div#mdl-option-list table tr>td,
+div#mdl-question-list table tr>td,
+div#mdl-question-group-list table tr>td {
+  text-align: center;
+  white-space: nowrap; 
 }
 
 div.find-record {
@@ -87,9 +114,8 @@ div#mdl-coy-logo .modal-header img {
   height: 30px;
 }
 
-div#message-mdl .modal-content {
-  background-color: rgba(10,20,40,0.8);
-  color: red;
+div#message-mdl {
+  z-index: 1200;
 }
 
 div#div-preview-logo>div.companylogoimg {
@@ -117,7 +143,7 @@ div#div-preview-logo>div.companylogoimg {
 }
 .table-container>table>thead>tr>th {
   color: white;
-  background-color: rgba(20,60,110,0.9);
+  background-color: rgba(60,60,60,0.9);
   text-align: center;
   white-space: nowrap;
 }
@@ -135,7 +161,7 @@ div#div-preview-logo>div.companylogoimg {
   text-align: center;
   white-space: nowrap;
   background-color: rgba(256,256,256,0.6);
-  color: #148;
+  color: rgba(60,60,60,1);
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -144,8 +170,8 @@ div#div-preview-logo>div.companylogoimg {
   max-width: none;
   overflow: visible;
 }
-.table-container>table>tbody>tr>td:first-child {
-  
+.table-container>table tbody>tr:hover {
+  background-color: rgba(90,120,90,0.9);
 }
 
 .table-title {
@@ -167,25 +193,45 @@ td .coy-logo {
   white-space: nowrap;  
 }
 
+.table-container-detail {
+  height: auto;
+}
+.table-container.table-container-detail table tr>th {
+  white-space: normal;
+  vertical-align: middle;
+}
+.table-container-detail table tbody{
+  display: block;
+  height: 140px;
+  overflow-y: auto;/*set tbody to auto*/
+}
+.table-container-detail table thead tr{
+    display: block;
+}
+.table-container-detail table tr>td:first-child {
+  padding: 0;
+}
+
+
 /* * * * * * * * * * * * * * * * */
 
 /* * * * * * F O R M * * * * * */
 
 ::-webkit-input-placeholder { /* WebKit browsers */
     color:    lightskyblue !important;
-    opacity: 0.2 !important;
+    opacity: 0.5 !important;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color:    lightskyblue !important;
-    opacity: 0.2 !important;
+    opacity: 0.5 !important;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
     color:    lightskyblue !important;
-    opacity: 0.2 !important;
+    opacity: 0.5 !important;
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color:    lightskyblue !important;
-    opacity: 0.2 !important;
+    opacity: 0.5 !important;
 }
 
 label.control-label {
@@ -207,6 +253,13 @@ div#form-preview-logo>div.companylogoimg {
   overflow: auto;
   background-color: #f6f6f6;
   padding: 10px;
+}
+
+.border-around-subject {
+  border: #aab solid 2px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transform: translate(10px,-10px);
 }
 
 /* * * * * * * * * * * * * * * * */
@@ -321,4 +374,13 @@ div#form-preview-logo>div.companylogoimg {
   10% {opacity: 1;}
   90% {opacity: 1;}
   100% {opacity: 0;}
+}
+
+/* * * * * * * * * * * * * * * * */
+
+/* * * * * * C U S T O M * * * * * */
+label.form-control {
+  font-weight: normal;
+  background-color: #dfdfdf;
+  cursor: not-allowed;
 }

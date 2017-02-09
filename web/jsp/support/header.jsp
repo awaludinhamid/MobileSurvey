@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../../jQuery/css/jquery-ui.min.css"/>
     <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../../css/header.css"/>
+    <link rel="stylesheet" href="../../css/loading.css"/>
     <script src="../../jQuery/js/jquery.min.js"></script>
     <!--script src="../../jQuery/js/jquery-3.1.1.min.js"></script-->
     <script src="../../jQuery/js/jquery-ui.min.js"></script>
@@ -25,8 +26,7 @@
   </head>
   <body>
     <div class="background"></div>
-    <div class="title">
-            
+    <div class="title">            
       <span class="title-info"><img class="title-info img-logo" src="" alt="Logo"/>${sessionScope.systemName}</span>
       <div class="right-info">
         <span>Powered by PKP&trade;</span>
@@ -92,16 +92,34 @@
         </div>
       </div>
     </div>
-    <div>
-      <span id="userid" hidden>${sessionScope.userId}</span>
-      <span id="username" hidden>${sessionScope.userName}</span>
-      <span id="has-role" hidden>${sessionScope.hasRole}</span>
-      <span id="is-valid" hidden>${sessionScope.isValid}</span>
-      <span id="sessionid" hidden>${sessionScope.sessionId}</span>
-      <span id="paging-records" hidden>${sessionScope.pagingRecords}</span>
-      <span id="company-logo-id" hidden>${sessionScope.companyLogoId}</span>
-      <span id="csrf-param-name" hidden>${_csrf.parameterName}</span>
-      <span id="csrf-token" hidden>${_csrf.token}</span>
+    <div hidden>
+      <span id="userid">${sessionScope.userId}</span>
+      <span id="username">${sessionScope.userName}</span>
+      <span id="realname">${sessionScope.realName}</span>
+      <span id="has-role">${sessionScope.hasRole}</span>
+      <span id="is-valid">${sessionScope.isValid}</span>
+      <span id="sessionid">${sessionScope.sessionId}</span>
+      <span id="officename">${sessionScope.officeName}</span>
+      <span id="paging-records">${sessionScope.pagingRecords}</span>
+      <span id="company-logo-id">${sessionScope.companyLogoId}</span>
+      <span id="csrf-param-name">${_csrf.parameterName}</span>
+      <span id="csrf-token">${_csrf.token}</span>
+    </div>
+    
+    
+    <div class="back-cover" hidden>
+      <div class="red-ball">
+        <div></div>
+      </div>
+      <div class="blue-ball">
+        <div></div>
+      </div>
+      <div class="green-ball">
+        <div></div>
+      </div>
+      <div class="loading-text">
+        <span>Loading...</span>
+      </div>
     </div>
   </body>
 </html>

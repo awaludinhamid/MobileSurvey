@@ -20,7 +20,7 @@
             <h4 class="modal-title"><span class="glyphicon glyphicon-alert"></span>&nbsp;Validation Alert</h4>
           </div>
           <div class="modal-body">
-            <span>Please setup role first..</span>
+            <span>Your MOU might be expired or you must setup user role first..</span>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

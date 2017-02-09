@@ -7,12 +7,13 @@
 package id.co.sim.mobsur.bean;
 
 import id.co.sim.mobsur.bean.support.RecordControllerBean;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="MASTER_ZIPCODE")
-public class MasterZipcode extends RecordControllerBean implements Serializable {
+public class MasterZipcode extends RecordControllerBean {
 
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -31,14 +32,9 @@ public class MasterZipcode extends RecordControllerBean implements Serializable 
   private String zipcodeCode;
   @Column(name="ZIPCODE_DESC")
   private String zipcodeDesc;
-  @Column(name="KELURAHAN")
-  private String kelurahan;
-  @Column(name="KECAMATAN")
-  private String kecamatan;
-  @Column(name="CITY")
-  private String city;
-  @Column(name="PROVINSI")
-  private String provinsi;
+  @ManyToOne
+  @JoinColumn(name="KEC_ID")
+  private MasterKecamatan kecamatan;
 
   /**
    * @return the zipcodeId
@@ -69,62 +65,6 @@ public class MasterZipcode extends RecordControllerBean implements Serializable 
   }
 
   /**
-   * @return the kelurahan
-   */
-  public String getKelurahan() {
-    return kelurahan;
-  }
-
-  /**
-   * @param kelurahan the kelurahan to set
-   */
-  public void setKelurahan(String kelurahan) {
-    this.kelurahan = kelurahan;
-  }
-
-  /**
-   * @return the kecamatan
-   */
-  public String getKecamatan() {
-    return kecamatan;
-  }
-
-  /**
-   * @param kecamatan the kecamatan to set
-   */
-  public void setKecamatan(String kecamatan) {
-    this.kecamatan = kecamatan;
-  }
-
-  /**
-   * @return the city
-   */
-  public String getCity() {
-    return city;
-  }
-
-  /**
-   * @param city the city to set
-   */
-  public void setCity(String city) {
-    this.city = city;
-  }
-
-  /**
-   * @return the provinsi
-   */
-  public String getProvinsi() {
-    return provinsi;
-  }
-
-  /**
-   * @param provinsi the provinsi to set
-   */
-  public void setProvinsi(String provinsi) {
-    this.provinsi = provinsi;
-  }
-
-  /**
    * @return the zipcodeCode
    */
   public String getZipcodeCode() {
@@ -136,5 +76,19 @@ public class MasterZipcode extends RecordControllerBean implements Serializable 
    */
   public void setZipcodeCode(String zipcodeCode) {
     this.zipcodeCode = zipcodeCode;
+  }
+
+  /**
+   * @return the kecamatan
+   */
+  public MasterKecamatan getKecamatan() {
+    return kecamatan;
+  }
+
+  /**
+   * @param kecamatan the kecamatan to set
+   */
+  public void setKecamatan(MasterKecamatan kecamatan) {
+    this.kecamatan = kecamatan;
   }
 }

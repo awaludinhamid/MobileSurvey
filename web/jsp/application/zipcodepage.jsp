@@ -30,10 +30,9 @@
               </th>
               <th>Zipcode</th>
               <th>Description</th>
-              <th>Kelurahan</th>
-              <th>Kecamatan</th>
-              <th>Kabupaten/Kota</th>
               <th>Provinsi</th>
+              <th>Kabupaten/Kota</th>
+              <th>Kecamatan</th>
               <th>Start Date</th>
               <th>End Date</th>
             </tr>
@@ -41,15 +40,14 @@
           <tbody>
             <tr ng-repeat="data in datatable" data-id="{{data.zipcodeId}}">
               <td>
-                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record"/>
+                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
                 <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
               </td>
               <td>{{data.zipcodeCode}}</td>
               <td>{{data.zipcodeDesc}}</td>
-              <td>{{data.kelurahan}}</td>
-              <td>{{data.kecamatan}}</td>
-              <td>{{data.city}}</td>
-              <td>{{data.provinsi}}</td>
+              <td>{{data.kecamatan.city.provinsi.provName}}</td>
+              <td>{{data.kecamatan.city.cityName}}</td>
+              <td>{{data.kecamatan.kecName}}</td>
               <td>{{data.startDate}}</td>
               <td>{{data.endDate}}</td>
             </tr>
@@ -75,6 +73,7 @@
           <form id="form-save" class="form-horizontal">
             <input type="hidden" id="zipcodeId"/>
             <input type="hidden" id="createdBy"/>
+            <input type="hidden" id="kecId" value="{{kecamatan}}">
             <div class="form-group">
               <label class="col-sm-3 control-label">Zipcode*</label>
               <div class="col-sm-9">
@@ -88,39 +87,27 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Kelurahan</label>
+              <label class="col-sm-3 control-label">Provinsi*</label>
               <div class="col-sm-9">
-                <input id="kelurahan" class="form-control" placeholder="[Cimahpar]" maxlength="100" tabindex="3" list="kelurahan-list">
-                <datalist id="kelurahan-list">
-                  <option ng-repeat="drop in datadrop.kelurahan" value="{{drop}}">{{drop}}</option>
-                </datalist>
+                <select id="prov" class="form-control display-only select-exclude-scan" tabindex="3" ng-model="prov" 
+                        ng-options="drop.provId as drop.provName for drop in datadrop.provinsi">
+                </select>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Kecamatan</label>
+              <label class="col-sm-3 control-label">Kab/Kota*</label>
               <div class="col-sm-9">
-                <input id="kecamatan" class="form-control" placeholder="[Bogor Utara]" maxlength="100" tabindex="4" list="kecamatan-list">
-                <datalist id="kecamatan-list">
-                  <option ng-repeat="drop in datadrop.kecamatan" value="{{drop}}">{{drop}}</option>
-                </datalist>
+                <select id="city" class="form-control select-exclude-scan" tabindex="4" required ng-model="city"
+                        ng-options="drop.cityId as drop.cityName for drop in datadrop.citybyprov">
+                </select>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Kabupaten/Kota</label>
+              <label class="col-sm-3 control-label">Kecamatan*</label>
               <div class="col-sm-9">
-                <input id="city" class="form-control" placeholder="[Bogor]" maxlength="100" tabindex="5" list="city-list">
-                <datalist id="city-list">
-                  <option ng-repeat="drop in datadrop.city" value="{{drop}}">{{drop}}</option>
-                </datalist>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-3 control-label">Provinsi</label>
-              <div class="col-sm-9">
-                <input id="provinsi" class="form-control" placeholder="[Jawa Barat]" maxlength="100" tabindex="6" list="provinsi-list">
-                <datalist id="provinsi-list">
-                  <option ng-repeat="drop in datadrop.provinsi" value="{{drop}}">{{drop}}</option>
-                </datalist>
+                <select id="kecamatan" class="form-control select-exclude-scan" tabindex="5" required ng-model="kecamatan"
+                        ng-options="drop.kecId as drop.kecName for drop in datadrop.kecbycity">
+                </select>
               </div>
             </div>
             <div class="form-group">

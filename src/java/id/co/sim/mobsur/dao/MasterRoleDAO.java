@@ -46,7 +46,8 @@ public class MasterRoleDAO extends BaseDAO<MasterRole> {
     return sessionFactory.getCurrentSession().createQuery(
             "select rol from " + domainClass.getName() + " rol " +
               "join rol.userRoles ur " +
-              "where ur.user.userId = :userId")
+              "where ur.user.userId = :userId " +
+              "order by rol.roleLevel")
             .setInteger("userId", userId)
             .list();
   }
@@ -54,7 +55,63 @@ public class MasterRoleDAO extends BaseDAO<MasterRole> {
   public List<MasterRole> getForClientRole() {
     return sessionFactory.getCurrentSession().createQuery(
             "from " + domainClass.getName() + " rol " +
-              "where rol.roleName != 'System Owner'")
+              "where rol.roleType.roleTypeCode != 'O' " +
+              "order by rol.roleLevel")
             .list();    
+  }
+  
+  public List<MasterRole> getForOwnerRole() {
+    return sessionFactory.getCurrentSession().createQuery(
+            "from " + domainClass.getName() + " rol " +
+              "where rol.roleType.roleTypeCode = 'O' " +
+              "order by rol.roleLevel")
+            .list();    
+  }
+  
+  public List<MasterRole> getForAssignDist() {
+    return sessionFactory.getCurrentSession().createQuery(
+            "from " + domainClass.getName() + " rol " +
+              "where rol.roleType.roleTypeCode in ('C','V') " +
+              "order by rol.roleLevel")
+            .list();
+  }
+  
+  public List<MasterRole> getByParentRoleLevel(int parentRoleLevel) {
+    return sessionFactory.getCurrentSession().createQuery(
+            "from " + domainClass.getName() + " rol " +
+              "where rol.roleLevel > :parentRoleLevel " +
+              "order by rol.roleLevel")
+            .setInteger("parentRoleLevel", parentRoleLevel)
+            .list();
+  }
+  
+  public List<MasterRole> getByCoyAndParentRole(int coyId, int parentRoleId) {
+    return sessionFactory.getCurrentSession().createSQLQuery(
+            "select role.* from master_role role,( " +
+              "with recursive nodes (role_id) as ( " +
+                "select hie1.role_id " +
+                  "from master_hierarchy hie1 " +
+                  "where hie1.role_id_up = :parentRoleId " +
+                    "and hie1.coy_id = :coyId " +
+                "union " +
+                "select hie2.role_id " +
+                  "from master_hierarchy hie2, " +
+                  "nodes hie3 " +
+                  "where hie2.role_id_up = hie3.role_id " +
+                    "and hie2.coy_id = :coyId) " +
+              "select role_id from nodes) nodes " +
+              "where role.role_id = nodes.role_id")
+            .addEntity(domainClass)
+            .setInteger("parentRoleId", parentRoleId)
+            .setInteger("coyId", coyId)
+            .list();
+  }
+  
+  @Override
+  public List<MasterRole> getAll() {
+    return sessionFactory.getCurrentSession().createQuery(
+            "from " + domainClass.getName() + " rol " +
+              "order by rol.roleLevel")
+            .list();
   }
 }

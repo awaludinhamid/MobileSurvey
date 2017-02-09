@@ -25,4 +25,10 @@ public interface MasterRoleService {
   int countByRoleAndDate(int roleId, String asOfDate);
   List<MasterRole> getRolesByUser(int userId);
   List<MasterRole> getForClientRole();
+  List<MasterRole> getForClientRoleWithNull();
+  List<MasterRole> getForOwnerRole();
+  List<MasterRole> getForOwnerRoleWithNull();
+  List<MasterRole> getByCoyAndParentRole(int coyId, int parentRoleId);
+  List<MasterRole> getForAssignDist();
+  List<MasterRole> getByParentRoleLevel(int parentRoleLevel);
 }

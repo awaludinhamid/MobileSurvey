@@ -37,7 +37,7 @@ public class MasterUserRoleDAO extends BaseDAO<MasterUserRole> {
                     "(case when :officeId = 0 then mur.user.office.officeId else :officeId end) " +
                 "and mur.role.roleId = " +
                     "(case when :roleId = 0 then mur.role.roleId else :roleId end) " +
-                "and mur.user.userName like :userNamePattern " +
+                "and UPPER(mur.user.userName) like UPPER(:userNamePattern) " +
                 "and mur.endDate >= to_date(:asOfDate,'yyyy-mm-dd')")
             .setInteger("coyId", coyId)
             .setInteger("officeId", officeId)
@@ -65,7 +65,7 @@ public class MasterUserRoleDAO extends BaseDAO<MasterUserRole> {
                     "(case when :officeId = 0 then mur.user.office.officeId else :officeId end) " +
                 "and mur.role.roleId = " +
                     "(case when :roleId = 0 then mur.role.roleId else :roleId end) " +
-                "and mur.user.userName like :userNamePattern " +
+                "and UPPER(mur.user.userName) like UPPER(:userNamePattern) " +
                 "and mur.endDate >= to_date(:asOfDate,'yyyy-mm-dd')")
             .setInteger("coyId", coyId)
             .setInteger("officeId", officeId)

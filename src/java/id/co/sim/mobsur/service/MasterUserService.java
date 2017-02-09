@@ -27,4 +27,12 @@ public interface MasterUserService {
   int countByCompanyUserNameAndDate(int coyId, String userCode, String userName, String asOfDate);
   List<MasterUser> getByCompany(int coyId);
   List<MasterUser> getByOffice(int officeId);
+  MasterUser getByCodeAndCoy(String userName, String coyCode);
+  List<MasterUser> getByRoleCoy(int roleId, int coyId);
+  List<MasterUser> getByCoyAsVerificator(int coyId);
+  List<MasterUser> getByCoyAndUserChildRole(int coyId, int parentRoleId);
+  int countByCoyAndUserChildRole(int coyId, int parentRoleId);
+  List<MasterUser> getByParentUser(int parentUserId);
+  List<MasterUser> getByRoleAndParentUser(int roleTypeId, int parentUserId);
+  List<MasterUser> getByOfficeAndRoleTypeCode(int officeId, String roleTypeCode);
 }

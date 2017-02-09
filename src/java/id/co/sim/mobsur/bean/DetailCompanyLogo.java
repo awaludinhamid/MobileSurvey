@@ -7,10 +7,7 @@
 package id.co.sim.mobsur.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import id.co.sim.mobsur.bean.support.RecordControllerBean;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;

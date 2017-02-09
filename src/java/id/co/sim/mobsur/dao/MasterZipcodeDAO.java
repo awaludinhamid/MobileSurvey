@@ -23,8 +23,8 @@ public class MasterZipcodeDAO extends BaseDAO<MasterZipcode> {
   public List<MasterZipcode> getByRangeZipcodeDesc(String zipcodeCodePattern, String zipcodeDescPattern, int start, int num) {
     return sessionFactory.getCurrentSession().createQuery(
             "from " + domainClass.getName() + " zip " +
-              "where zipcodeCode like :zipcodeCodePattern " +
-                "and zipcodeDesc like :zipcodeDescPattern")
+              "where UPPER(zipcodeCode) like UPPER(:zipcodeCodePattern) " +
+                "and UPPER(zipcodeDesc) like UPPER(:zipcodeDescPattern)")
             .setString("zipcodeCodePattern", "%"+zipcodeCodePattern+"%")
             .setString("zipcodeDescPattern", "%"+zipcodeDescPattern+"%")
             .setFirstResult(start)
@@ -35,8 +35,8 @@ public class MasterZipcodeDAO extends BaseDAO<MasterZipcode> {
   public int countByZipcodeDesc(String zipcodeCodePattern, String zipcodeDescPattern) {
     return ((Long) sessionFactory.getCurrentSession().createQuery(
             "select count(*) from " + domainClass.getName() + " zip " +
-              "where zipcodeCode like :zipcodeCodePattern " +
-                "and zipcodeDesc like :zipcodeDescPattern")
+              "where UPPER(zipcodeCode) like UPPER(:zipcodeCodePattern) " +
+                "and UPPER(zipcodeDesc) like UPPER(:zipcodeDescPattern)")
             .setString("zipcodeCodePattern", "%"+zipcodeCodePattern+"%")
             .setString("zipcodeDescPattern", "%"+zipcodeDescPattern+"%")
             .iterate().next()).intValue();
@@ -46,5 +46,21 @@ public class MasterZipcodeDAO extends BaseDAO<MasterZipcode> {
     Criteria crit = sessionFactory.getCurrentSession().createCriteria(domainClass)
             .setProjection(Projections.distinct(Projections.property(fieldName)));
     return crit.list();
+  }
+  
+  public MasterZipcode getByZipcodeCode(String zipcodeCode) {
+    return (MasterZipcode) sessionFactory.getCurrentSession().createQuery(
+            "from " + domainClass.getName() + " " +
+              "where zipcodeCode = :zipcodeCode")
+            .setString("zipcodeCode", zipcodeCode)
+            .uniqueResult();
+  }
+  
+  public List<MasterZipcode> getByKecamatan(int kecId) {
+    return sessionFactory.getCurrentSession().createQuery(
+            "from " + domainClass.getName() + " zip " +
+              "where zip.kecamatan.kecId = :kecId")
+            .setInteger("kecId", kecId)
+            .list();
   }
 }

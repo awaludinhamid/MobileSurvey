@@ -24,4 +24,6 @@ public interface MasterZipcodeService {
   int count();
   int countByZipcodeDesc(String zipcodeCodePattern, String zipcodeDescPattern);
   List<String> getListInput(String fieldName);
+  MasterZipcode getByZipcodeCode(String zipcodeCode);
+  List<MasterZipcode> getByKecamatan(int kecId);
 }

@@ -15,23 +15,27 @@
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
-        <div class="col-sm-2">
-          <select class="form-control" ng-model="officeId" ng-init="officeId=0">
-            <option value="0">--Choose Office--</option>
-            <option ng-repeat="data in datadrop.office" value="{{data.officeId}}">{{data.officeName}}</option>
-          </select>
+        <div class="col-sm-5">
+          <div class="col-sm-6">
+            <select class="form-control" ng-model="officeId" ng-init="officeId=0">
+              <option value="0">--Choose Office--</option>
+              <option ng-repeat="data in datadrop.office" value="{{data.officeId}}">{{data.officeName}}</option>
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <select class="form-control" ng-model="roleId" ng-init="roleId=0">
+              <option value="0">--Choose Role--</option>
+              <option ng-repeat="data in datadrop.rolebyrole" value="{{data.roleId}}">{{data.roleName}}</option>
+            </select>
+          </div>
         </div>
-        <div class="col-sm-2">
-          <select class="form-control" ng-model="roleId" ng-init="roleId=0">
-            <option value="0">--Choose Role--</option>
-            <option ng-repeat="data in datadrop.role" value="{{data.roleId}}">{{data.roleName}}</option>
-          </select>
-        </div>
-        <div class="col-sm-3">
-          <input class="form-control" placeholder="User Name" ng-model="userNamePattern" ng-init="userNamePattern=''">
-        </div>
-        <div class="col-sm-2">
-          <input id="asOfDate" class="form-control" placeholder="As of Date [yyyy-mm-dd]" ng-model="asOfDate" ng-init="asOfDate=''">
+        <div class="col-sm-6">
+          <div class="col-sm-7">
+            <input class="form-control" placeholder="User Name" ng-model="userNamePattern" ng-init="userNamePattern=''">
+          </div>
+          <div class="col-sm-5">
+            <input id="asOfDate" class="form-control" placeholder="As of Date [yyyy-mm-dd]" ng-model="asOfDate" ng-init="asOfDate=''">
+          </div>
         </div>
       </div>
       <div id="div-table" class="table-container">
@@ -51,7 +55,7 @@
           <tbody>
             <tr ng-repeat="data in datatable" data-id="{{data.userRoleId}}">
               <td>
-                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="store(data)"/>
+                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
                 <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
               </td>
               <td>{{data.user.userName}}</td>
@@ -85,46 +89,40 @@
           <form id="form-save" class="form-horizontal">
             <input type="hidden" id="userRoleId">
             <input type="hidden" id="createdBy">
-            <input type="hidden" id="userId">
+            <input type="hidden" id="userId" ng-value="user.userId">
             <div class="form-group">
               <label class="col-sm-3 control-label">Office*</label>
               <div class="col-sm-8">
-                <select id="officeId" class="form-control display-only" tabindex="1">
-                  <option ng-repeat="drop in datadrop.office" value="{{drop.officeId}}">{{drop.officeName}}</option>
+                <select id="officeId" class="form-control display-only select-exclude-scan" tabindex="1" autofocus ng-model="office"
+                        ng-options="drop.officeName for drop in datadrop.office track by drop.officeId">
                 </select>
-              </div>
-            </div>
-            <div class="form-group" hidden>
-              <label class="col-sm-3 control-label">Office*</label>
-              <div class="col-sm-8">
-                <input id="officeName" class="form-control display-only" readonly>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">User Code*</label>
               <div class="col-sm-8">
-                <select id="userIdTemp" class="form-control" tabindex="2">
-                  <option ng-repeat="drop in datadrop.userbyoffice" value="{{drop.userId}}">{{drop.userCode}}</option>
+                <select id="userIdTemp" class="form-control display-only select-exclude-scan" tabindex="2" ng-model="user"
+                        ng-options="drop.userCode for drop in datadrop.userbyoffice track by drop.userId">
                 </select>
               </div>
             </div>
-            <div class="form-group" hidden>
-              <label class="col-sm-3 control-label">User Code*</label>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">User Code</label>
               <div class="col-sm-8">
-                <input id="userCode" class="form-control display-only" readonly>
+                <label id="userCode" class="form-control" ng-bind="user.userCode"></label>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">User Name</label>
               <div class="col-sm-8">
-                <input id="userName" class="form-control display-only" readonly>
+                <label id="userName" class="form-control" ng-bind="user.userName"></label>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Role*</label>
               <div class="col-sm-8">
                 <select id="roleId" class="form-control" tabindex="3" required>
-                  <option ng-repeat="drop in datadrop.role" value="{{drop.roleId}}">{{drop.roleName}}</option>
+                  <option ng-repeat="drop in datadrop.rolebyrole" value="{{drop.roleId}}">{{drop.roleName}}</option>
                 </select>
               </div>
             </div>

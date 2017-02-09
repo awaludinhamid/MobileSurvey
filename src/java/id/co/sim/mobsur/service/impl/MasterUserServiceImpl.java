@@ -88,4 +88,44 @@ public class MasterUserServiceImpl implements MasterUserService {
   public List<MasterUser> getByOffice(int officeId) {
     return masterUserDAO.getByOffice(officeId);
   }
+
+  @Override
+  public MasterUser getByCodeAndCoy(String userName, String coyCode) {
+    return masterUserDAO.getByCodeAndCoy(userName, coyCode);
+  }
+
+  @Override
+  public List<MasterUser> getByRoleCoy(int roleId, int coyId) {
+    return masterUserDAO.getByRoleCoy(roleId, coyId);
+  }
+
+  @Override
+  public List<MasterUser> getByCoyAsVerificator(int coyId) {
+    return masterUserDAO.getByCoyAsVerificator(coyId);
+  }
+
+  @Override
+  public List<MasterUser> getByCoyAndUserChildRole(int coyId, int parentRoleId) {
+    return masterUserDAO.getByCoyAndUserChildRole(coyId, parentRoleId);
+  }
+
+  @Override
+  public int countByCoyAndUserChildRole(int coyId, int parentRoleId) {
+    return masterUserDAO.countByCoyAndUserChildRole(coyId, parentRoleId);
+  }
+
+  @Override
+  public List<MasterUser> getByParentUser(int parentUserId) {
+    return masterUserDAO.getByParentUser(parentUserId);
+  }
+
+  @Override
+  public List<MasterUser> getByRoleAndParentUser(int roleTypeId, int parentUserId) {
+    return masterUserDAO.getByRoleAndParentUser(roleTypeId, parentUserId);
+  }
+
+  @Override
+  public List<MasterUser> getByOfficeAndRoleTypeCode(int officeId, String roleTypeCode) {
+    return masterUserDAO.getByOfficeAndRoleTypeCode(officeId, roleTypeCode);
+  }
 }

@@ -21,8 +21,8 @@ public class MasterCompanyDAO extends BaseDAO<MasterCompany> {
   public List<MasterCompany> getByRangeCodeAndNamePattern(String coyCodePattern, String coyNamePattern, int start, int num) {
     return sessionFactory.getCurrentSession().createQuery(
             "from " + domainClass.getName() + " " +
-              "where coyCode like :coyCodePattern " +
-                "and coyName like :coyNamePattern")
+              "where UPPER(coyCode) like UPPER(:coyCodePattern) " +
+                "and UPPER(coyName) like UPPER(:coyNamePattern)")
             .setString("coyCodePattern", "%"+coyCodePattern+"%")
             .setString("coyNamePattern", "%"+coyNamePattern+"%")
             .setFirstResult(start)
@@ -33,8 +33,8 @@ public class MasterCompanyDAO extends BaseDAO<MasterCompany> {
   public int countByCodeAndNamePattern(String coyCodePattern, String coyNamePattern) {
     return ((Long) sessionFactory.getCurrentSession().createQuery(
             "select count(*) from " + domainClass.getName() + " " +
-              "where coyCode like :coyCodePattern " +
-                "and coyName like :coyNamePattern")
+              "where UPPER(coyCode) like UPPER(:coyCodePattern) " +
+                "and UPPER(coyName) like UPPER(:coyNamePattern)")
             .setString("coyCodePattern", "%"+coyCodePattern+"%")
             .setString("coyNamePattern", "%"+coyNamePattern+"%")
             .iterate().next()).intValue();

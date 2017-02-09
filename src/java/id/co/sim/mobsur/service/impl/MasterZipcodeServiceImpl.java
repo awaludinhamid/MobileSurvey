@@ -73,4 +73,14 @@ public class MasterZipcodeServiceImpl implements MasterZipcodeService {
   public List<String> getListInput(String fieldName) {
     return masterZipcodeDAO.getListInput(fieldName);
   }
+
+  @Override
+  public MasterZipcode getByZipcodeCode(String zipcodeCode) {
+    return masterZipcodeDAO.getByZipcodeCode(zipcodeCode);
+  }
+
+  @Override
+  public List<MasterZipcode> getByKecamatan(int kecId) {
+    return masterZipcodeDAO.getByKecamatan(kecId);
+  }
 }

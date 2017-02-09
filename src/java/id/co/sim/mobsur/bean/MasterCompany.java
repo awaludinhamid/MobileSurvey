@@ -9,7 +9,6 @@ package id.co.sim.mobsur.bean;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import id.co.sim.mobsur.bean.support.RecordControllerBean;
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,7 +28,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="MASTER_COMPANY")
 //@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class,property="masterCompany")
-public class MasterCompany extends RecordControllerBean implements Serializable {
+public class MasterCompany extends RecordControllerBean {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

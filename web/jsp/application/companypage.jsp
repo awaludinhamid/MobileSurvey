@@ -45,7 +45,7 @@
           <tbody>
             <tr ng-repeat="data in datatable" data-id="{{data.coyId}}" data-logo-id="{{data.detailCompanyLogo.companyLogoId}}">
               <td>
-                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record"/>
+                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
                 <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
               </td>
               <td>{{data.coyCode}}</td>

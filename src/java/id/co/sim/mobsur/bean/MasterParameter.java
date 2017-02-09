@@ -7,7 +7,6 @@
 package id.co.sim.mobsur.bean;
 
 import id.co.sim.mobsur.bean.support.RecordControllerBean;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="MASTER_PARAMETER")
-public class MasterParameter extends RecordControllerBean implements Serializable {
+public class MasterParameter extends RecordControllerBean {
 
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)

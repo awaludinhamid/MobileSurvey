@@ -33,24 +33,26 @@
               </th>
               <th>Role Name</th>
               <th>Description</th>
-              <th>Owner</th>
+              <th>Role Type</th>
               <th>Valid Date</th>
               <th>Until Date</th>
               <th>Role Code</th>
+              <th>Role Level</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="data in datatable" data-id="{{data.roleId}}">
               <td>
-                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record"/>
+                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
                 <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
               </td>
               <td>{{data.roleName}}</td>
               <td>{{data.roleDesc}}</td>
-              <td><input type="checkbox" ng-checked="{{data.isOwner}}" disabled><span ng-model="is-owner" hidden>{{data.isOwner}}</span></td>
+              <td>{{data.roleType.roleTypeCode}}</td>
               <td>{{data.startDate}}</td>
               <td>{{data.endDate}}</td>
               <td>{{data.roleCode}}</td>
+              <td>{{data.roleLevel}}</td>
             </tr>
           </tbody>
         </table>
@@ -74,25 +76,27 @@
             <input type="hidden" id="roleId">
             <input type="hidden" id="createdBy">
             <div class="form-group">
-              <label class="col-sm-3 control-label">Role Name*</label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 control-label">Role Name*</label>
+              <div class="col-sm-8">
                 <input id="roleName" class="form-control" placeholder="[System Owner]" maxlength="100" tabindex="1" required autofocus>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Description*</label>
-              <div class="col-sm-9">
-                <input id="roleDesc" class="form-control" placeholder="[Pemberi hak akses]" maxlength="255" tabindex="2" required>
+              <label class="col-sm-4 control-label">Description</label>
+              <div class="col-sm-8">
+                <input id="roleDesc" class="form-control" placeholder="[Pemberi hak akses]" maxlength="255" tabindex="2">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Is Owner</label>
-              <div class="col-sm-1 checkbox">
-                <input type="checkbox" id="isOwner" class="form-control" value="" tabindex="3">
+              <label class="col-sm-4 control-label">Role Type*</label>
+              <div class="col-sm-8">
+                <select id="roleTypeId" class="form-control" tabindex="3" required>
+                  <option ng-repeat="drop in datadrop.roletype" value="{{drop.roleTypeId}}">{{drop.roleTypeCode}} &dash; {{drop.roleTypeDesc}}</option>
+                </select>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Valid Date*</label>
+              <label class="col-sm-4 control-label">Valid Date*</label>
               <div class="col-sm-4">
                 <div class="input-group">
                   <input id="startDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="4" required>
@@ -103,7 +107,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Until Date*</label>
+              <label class="col-sm-4 control-label">Until Date*</label>
               <div class="col-sm-4">
                 <div class="input-group">
                   <input id="endDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="5" required>
@@ -114,14 +118,20 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Role Code*</label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 control-label">Role Code*</label>
+              <div class="col-sm-8">
                 <input id="roleCode" class="form-control" placeholder="[ROLE_SYS_OWNER]" maxlength="20" tabindex="6" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">Role Level</label>
+              <div class="col-sm-8">
+                <input type="number" id="roleLevel" class="form-control" placeholder="[2]" max="999" tabindex="7" required>
               </div>
             </div>
             <div class="btn-form-save">
               <button id="btn-clear" class="btn btn-warning" type="reset">Clear</button>
-              <button id="btn-save" class="btn btn-primary" type="submit" tabindex="7">Save</button>
+              <button id="btn-save" class="btn btn-primary" type="submit" tabindex="15">Save</button>
             </div>
           </form>
         </div>

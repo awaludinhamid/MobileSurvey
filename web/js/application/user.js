@@ -6,11 +6,10 @@
 
 //
 dataIdField = "userId";
-objRelMap = [{name: "office", field: ["officeId"]}];
+objRelMap = [{name: "office", field: [{column: "officeId", id: "officeId"}]}];
 dropdownArr = ["user","office"];
 hideFieldOnUpdateArr = ["user-password","con-user-password"];
 fieldToCheckBeforeSaveArr = [{field1: "user-password", field2: "con-user-password", alert: "Password mismatch"}];
-fieldToAssignBeforeSaveArr = [{source: "user-password", target: "userPassword"}];
 
 $(document).ready(function() {
   datePicker("input#asOfDate");

@@ -12,6 +12,9 @@ import id.co.sim.mobsur.util.SupportUtil;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +52,13 @@ public class LoginLogoutController {
  public String getLoginPage(@RequestParam(value="error", required=false) boolean error,
    ModelMap model) {
   logger.debug("Received request to show login page");
+  
+  //we need logged user forward to default target url when he tried to login again
+  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+  if (!(auth instanceof AnonymousAuthenticationToken)) {
+    return "redirect:/apps/main/validation";
+    //return "welcomepage";  
+  }
 
   // Add an error message to the model if login is unsuccessful
   // The 'error' parameter is set to true based on the when the authentication has failed.
@@ -61,7 +71,7 @@ public class LoginLogoutController {
    */
   if (error == true) {
    // Assign an error message
-   model.put("error", "You have entered an invalid username or password!");
+   model.put("error", "You have entered an invalid username, password or company code!");
   } else {
     model.put("error", "");
   }

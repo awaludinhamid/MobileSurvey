@@ -13,15 +13,17 @@ $(document).ready(function() {
   //controlling user visibility
   if($("span#username").text().length > 0) {
     $("div#user-menu, .title-info").show();
-    // show logo & system name
-    var logoPicture = localStorage.getItem("logoPicture");
-    if(logoPicture)
-      $(".img-logo").attr("src","data:image/jpg;base64," + logoPicture);
-    else
+    // show logo
+    if(localStorage.getItem("logoPicture") === "") {
       $.get(relativePath+"apps/data/detailcompanylogo/"+$("span#company-logo-id").text(), {}, function(dataLogo, statusLogo) {
         $(".img-logo").attr("src","data:image/jpg;base64," + dataLogo);
         localStorage.setItem("logoPicture",dataLogo);
+      }).fail(function() {
+        showMessage("Currently no company logo");
       });
+    } else {
+      $(".img-logo").attr("src","data:image/jpg;base64," + localStorage.getItem("logoPicture"));
+    }    
     // records per page
     var recordsPerPage = localStorage.getItem("recordsPerPage");
     if(!recordsPerPage)

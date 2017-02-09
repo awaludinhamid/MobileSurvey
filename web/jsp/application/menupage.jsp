@@ -50,7 +50,7 @@
           <tbody>
             <tr ng-repeat="data in datatable" data-id="{{data.menuId}}">
               <td>
-                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record"/>
+                <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
                 <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
               </td>
               <td>{{data.parentMenu.parentMenuName}}</td>
@@ -94,7 +94,7 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">Menu*</label>
               <div class="col-sm-9">
-                <input id="menuName" class="form-control" placeholder="[Parameter]" maxlength="20" tabindex="2" required>
+                <input id="menuName" class="form-control" placeholder="[Parameter]" maxlength="30" tabindex="2" required>
               </div>
             </div>
             <div class="form-group">
