@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Provinsi service implementation (see the service for usage info)
  * @created Dec 19, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterProvinsiServiceImpl implements MasterProvinsiService {
 
   @Autowired
-  private MasterProvinsiDAO masterProvinsiDAO;  
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterProvinsiDAO masterProvinsiDAO; // DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterProvinsiServiceImpl implements MasterProvinsiService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterProvinsi delete(MasterProvinsi mp) {
-    return masterProvinsiDAO.delete(mp);
+  public void delete(MasterProvinsi mp) {
+    masterProvinsiDAO.delete(mp);
   }
 
   @Override

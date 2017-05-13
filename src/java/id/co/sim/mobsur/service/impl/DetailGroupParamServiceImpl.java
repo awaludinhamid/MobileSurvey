@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Detail group parameter service implementation (see the service for usage info)
  * @created Jan 9, 2017
  * @author awal
  */
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DetailGroupParamServiceImpl implements DetailGroupParamService {
 
   @Autowired
-  private DetailGroupParamDAO detailGroupParamDAO;
+  private DetailGroupParamDAO detailGroupParamDAO;// DAO injection
 
   @Override
   public List<DetailGroupParam> getByGroupParamId(int groupParamId) {

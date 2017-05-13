@@ -4,15 +4,20 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/template.js"></script>
-    <link rel="stylesheet" href="../../css/application/template.css"/>
+    <!--script src="../../js/application/template.js"></script>
+    <link rel="stylesheet" href="../../css/application/template.css"/--> 
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="template" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -37,7 +42,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.tempId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.tempCode}}</td>
               <td>{{data.tempLabel}}</td>
@@ -74,7 +79,7 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">Template Code*</label>
               <div class="col-sm-9">
-                <input id="tempCode" class="form-control" placeholder="[TNMCORD]" tabindex="1" maxlength="255" required autofocus>
+                <input id="tempCode" class="form-control" placeholder="[TNMCORD]" tabindex="1" maxlength="30" required autofocus>
               </div>
             </div>
             <div class="form-group">
@@ -125,7 +130,7 @@
                       <input type="hidden" id="endDate" class="data-detail"/>
                     </td>
                     <td>{{data.questGroupLabel}}</td>
-                    <td><input type="number" id="sort" class="form-control data-detail" min="1" max="99999" tabindex="6"/></td>
+                    <td><input type="number" id="sort" class="form-control data-detail" min="1" max="99999" maxlength="5" tabindex="6"/></td>
                     <td>
                       <img id="img-question-record" class="img-record img-record-small" src="../../img/icon/menu-icon.png" alt="Question icon" 
                            title="Question" ng-click="store(data.detailQuestionGroups)"/>
@@ -166,7 +171,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="data in data">
+                <tr ng-repeat="data in data | orderBy : 'sort'">
                   <td>{{data.questionGroup.questGroupLabel}}</td>
                   <td>{{data.sort}}</td>
                 </tr>
@@ -202,7 +207,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="data in data">
+                <tr ng-repeat="data in data | orderBy : 'sort'">
                     <td>{{data.question.questLabel}}</td>
                     <td>{{data.question.answerType.answerTypeName}}</td>
                     <td>{{data.question.optionAnswer.optionAnswerName}}</td>
@@ -217,6 +222,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

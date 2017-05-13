@@ -21,11 +21,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_USER
  * @created Apr 4, 2016
  * @author awal
  */
 @Entity
 @Table(name="MASTER_USER")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterUser extends RecordControllerBean {
 
   @Id
@@ -42,6 +44,8 @@ public class MasterUser extends RecordControllerBean {
   private String isVerif;  
   @Column(name="USER_EMAIL")
   private String userEmail;
+  @Column(name="USER_IMEI")
+  private String userImei;
   @JsonManagedReference
   @ManyToOne
   @JoinColumn(name="OFFICE_ID")
@@ -160,5 +164,19 @@ public class MasterUser extends RecordControllerBean {
    */
   public void setUserRoles(List<MasterUserRole> userRoles) {
     this.userRoles = userRoles;
+  }
+
+  /**
+   * @return the userImei
+   */
+  public String getUserImei() {
+    return userImei;
+  }
+
+  /**
+   * @param userImei the userImei to set
+   */
+  public void setUserImei(String userImei) {
+    this.userImei = userImei;
   }
 }

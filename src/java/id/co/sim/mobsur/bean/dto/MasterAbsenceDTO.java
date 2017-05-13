@@ -9,6 +9,7 @@ package id.co.sim.mobsur.bean.dto;
 import id.co.sim.mobsur.bean.dto.support.RecordControllerBeanDTO;
 
 /**
+ * DTO table MASTER_ABSENCE
  * @created Jan 26, 2017
  * @author awal
  */

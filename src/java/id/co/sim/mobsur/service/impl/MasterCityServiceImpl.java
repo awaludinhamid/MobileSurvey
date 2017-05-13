@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * City service implementation (see the service for usage info)
  * @created Dec 19, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterCityServiceImpl implements MasterCityService {
 
   @Autowired
-  private MasterCityDAO masterCityDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterCityDAO masterCityDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterCityServiceImpl implements MasterCityService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterCity delete(MasterCity mc) {
-    return masterCityDAO.delete(mc);
+  public void delete(MasterCity mc) {
+    masterCityDAO.delete(mc);
   }
 
   @Override

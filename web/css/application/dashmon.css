@@ -1,0 +1,45 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 22, 2017, 3:08:10 PM
+    Author     : awal
+*/
+
+div#dashmon div#div-map {
+  height: 400px;
+  border: #148 solid 2px;
+  border-radius: 4px;
+  padding: 10px;
+  margin-left: 3px;
+  box-shadow: white 0px 0px 10px 10px;
+}
+div#dashmon div#div-map>div#verif-list {
+  overflow-y: auto;
+  height: 100%;
+  background-color: #efefff;
+  font-size: 11px;
+  padding: 5px;
+  border-right: grey solid 1px;
+}
+div#dashmon div#div-map>div#verif-list>div>span:first-child {
+  font-weight: bold;
+  color: #0f2f6f;
+}
+div#dashmon div#div-map>div#verif-list>div>span:first-child:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 12px;
+}
+div#dashmon div#div-map>div#verif-list>div>span:nth-child(3) {
+  color: #ff2f2f;
+}
+div#dashmon div#div-map>div#verif-list>div>span:nth-child(4) {
+  color: #1faf1f;
+}
+
+div#dashmon div#googleMap {
+  height: 100%;
+}

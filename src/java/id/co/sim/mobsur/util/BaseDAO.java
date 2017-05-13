@@ -7,7 +7,11 @@ package id.co.sim.mobsur.util;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -22,6 +26,8 @@ public class BaseDAO<T> {
   protected Class domainClass;
   @Autowired
   protected SessionFactory sessionFactory;
+  
+  private final Logger logger = Logger.getLogger("dao");
 
   /**
    * Using java reflection to get current bean class which used this class
@@ -41,15 +47,39 @@ public class BaseDAO<T> {
     sessionFactory.getCurrentSession().saveOrUpdate(domain);
     return domain;
   }
+  
+  /**
+   * Save bulk record into database
+   * @param domain
+   * @param bulkRecord, number of record per batch
+   */  
+  public void save(List<T> domain, int bulkRecord) {
+    try {
+      Session session = sessionFactory.openSession();
+      Transaction tx = session.beginTransaction();
+      int idxTx = 0;
+      for(T t : domain) {
+        session.saveOrUpdate(t);
+        if(++idxTx % bulkRecord == 0) {
+          session.flush();
+          session.clear();
+        }
+      }
+      tx.commit();
+      session.close();
+    } catch(GenericJDBCException gje) {
+      logger.error(gje);
+    }
+  }
 
   /**
    * Delete current record from database
    * @param domain
-   * @return class bean
+   //* @return class bean
    */
-  public T delete(T domain) {
+  public void delete(T domain) {
     sessionFactory.getCurrentSession().delete(domain);
-    return domain;
+    //return domain;
   }
 
   /**
@@ -92,8 +122,8 @@ public class BaseDAO<T> {
   }
 
   /**
-   * Get records count
-   * @return integer
+   * Get number of records
+   * @return records count
    */
   public int count() {
     return ((Long) sessionFactory.getCurrentSession().createQuery(

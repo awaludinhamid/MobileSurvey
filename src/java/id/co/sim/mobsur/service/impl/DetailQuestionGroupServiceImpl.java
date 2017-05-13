@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Detail question group service implementation (see the service for usage info)
  * @created Jan 11, 2017
  * @author awal
  */
@@ -23,16 +24,31 @@ import org.springframework.transaction.annotation.Transactional;
 public class DetailQuestionGroupServiceImpl implements DetailQuestionGroupService {
 
   @Autowired
-  private DetailQuestionGroupDAO detailQuestionGroupDAO;
+  private DetailQuestionGroupDAO detailQuestionGroupDAO;// DAO injection
 
   @Override
   @Transactional(readOnly=false)
-  public DetailQuestionGroup delete(DetailQuestionGroup dqg) {
-    return detailQuestionGroupDAO.delete(dqg);
+  public void delete(DetailQuestionGroup dqg) {
+    detailQuestionGroupDAO.delete(dqg);
   }
 
   @Override
   public List<DetailQuestionGroup> getByQuestGroup(int questGroupId) {
     return detailQuestionGroupDAO.getByQuestGroup(questGroupId);
+  }
+
+  @Override
+  public List<DetailQuestionGroup> getByQuest(int questId) {
+    return detailQuestionGroupDAO.getByQuest(questId);
+  }
+
+  @Override
+  public DetailQuestionGroup getById(int detQuestGroupId) {
+    return detailQuestionGroupDAO.getById(detQuestGroupId);
+  }
+
+  @Override
+  public int countByQuest(int questId) {
+    return detailQuestionGroupDAO.countByQuest(questId);
   }
 }

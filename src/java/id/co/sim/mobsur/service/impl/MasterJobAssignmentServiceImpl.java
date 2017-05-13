@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Job assignment service implementation (see the service for usage info)
  * @created Jan 17, 2017
  * @author awal
  */
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterJobAssignmentServiceImpl implements MasterJobAssignmentService {
 
   @Autowired
-  private MasterJobAssignmentDAO masterJobAssignmentDAO;
+  private MasterJobAssignmentDAO masterJobAssignmentDAO;// DAO injection
 
   @Override
   @Transactional(readOnly=false)
@@ -33,8 +34,8 @@ public class MasterJobAssignmentServiceImpl implements MasterJobAssignmentServic
 
   @Override
   @Transactional(readOnly=false)
-  public MasterJobAssignment delete(MasterJobAssignment jobAssign) {
-    return masterJobAssignmentDAO.delete(jobAssign);
+  public void delete(MasterJobAssignment jobAssign) {
+    masterJobAssignmentDAO.delete(jobAssign);
   }
 
   @Override

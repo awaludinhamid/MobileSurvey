@@ -17,11 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_PRODUCT
  * @created Jan 5, 2017
  * @author awal
  */
 @Entity
 @Table(name="MASTER_PRODUCT")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterProduct extends RecordControllerBean {
 
   @Id

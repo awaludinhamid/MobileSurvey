@@ -16,17 +16,28 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
+ * Read the text file
+ * Supported extention: .txt
  * @created Jan 25, 2017
  * @author awal
  */
 public class ReadText {
 
-  private final MultipartFile file;
-  private final List<String> fields;
-  private final boolean hasHeader;
-  private final String textDelimiter;
+  private final MultipartFile file;//text file
+  private final List<String> fields;//list of column name
+  private final boolean hasHeader;//where to start read the data
+  private final String textDelimiter;//character separator between two columns
   private final String fileName; //preserve for future use
 
+  /**
+   * The only constructor to access the instance
+   * Prepare initial parameter
+   * @param file
+   * @param fields
+   * @param hasHeader
+   * @param textDelimiter
+   * @param fileName 
+   */
   public ReadText(MultipartFile file, List<String> fields, boolean hasHeader, String textDelimiter, String fileName) {
     this.file = file;
     this.fields = fields;
@@ -35,6 +46,11 @@ public class ReadText {
     this.fileName = fileName;
   }
   
+  /**
+   * Get the file contents
+   * @return list of row of column of index and data contents
+   * @throws IOException 
+   */
   @SuppressWarnings("ConvertToTryWithResources")
   public List<Map<String,String>> getFileContents() throws IOException {
     //container

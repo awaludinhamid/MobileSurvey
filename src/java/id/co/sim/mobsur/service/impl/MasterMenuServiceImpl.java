@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Menu service implementation (see the service for usage info)
  * @created Oct 14, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterMenuServiceImpl implements MasterMenuService {
 
   @Autowired
-  private MasterMenuDAO masterMenuDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterMenuDAO masterMenuDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)

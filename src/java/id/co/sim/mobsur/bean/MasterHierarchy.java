@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_HIERARCHY
  * @created Nov 29, 2016
  * @author awal
  */

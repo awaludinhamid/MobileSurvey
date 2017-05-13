@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/user.js"></script>
+    <!--script src="../../js/application/user.js"></script-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="user" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -52,7 +57,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.userId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.userName}}</td>
               <td>{{data.userCode}}</td>
@@ -109,13 +114,13 @@
             <div class="form-group">
               <label class="col-sm-4 control-label">Password*</label>
               <div class="col-sm-8">
-                <input type="password" id="user-password" class="form-control" placeholder="[**********]" pattern=".{6,}" maxlength="10" tabindex="4" required ng-model="userPassword">
+                <input type="password" id="user-password" class="form-control" placeholder="[**********]" pattern=".{6,10}" maxlength="10" tabindex="4" required ng-model="userPassword">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-4 control-label">Confirm Password*</label>
               <div class="col-sm-8">
-                <input type="password" id="con-user-password" class="form-control" placeholder="[**********]" pattern=".{6,}" maxlength="10" tabindex="5" required>
+                <input type="password" id="con-user-password" class="form-control" placeholder="[**********]" pattern=".{6,10}" maxlength="10" tabindex="5" required>
               </div>
             </div>
             <div class="form-group">
@@ -169,6 +174,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

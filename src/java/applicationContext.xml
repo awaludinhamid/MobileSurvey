@@ -39,6 +39,7 @@
         <context:property-placeholder location="classpath:jdbc.properties" />
         <tx:annotation-driven />
 
+        <!-- Connection info -->
         <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="${jdbc.driver}"

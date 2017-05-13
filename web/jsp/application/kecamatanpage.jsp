@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/kecamatan.js"></script>
+    <!--script src="../../js/application/kecamatan.js"></script-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="kecamatan" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -40,7 +45,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.kecId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.kecCode}}</td>
               <td>{{data.kecName}}</td>
@@ -87,8 +92,8 @@
             <div class="form-group">
               <label class="col-sm-4 control-label">Provinsi*</label>
               <div class="col-sm-8">
-                <select id="prov" class="form-control display-only select-exclude-scan" tabindex="3" ng-model="prov" 
-                        ng-options="drop.provId as drop.provName for drop in datadrop.provinsi">
+                <select id="provId" class="form-control display-only select-exclude-scan" tabindex="3" ng-model="prov" 
+                        ng-options="drop.provName for drop in datadrop.provinsi track by drop.provId">
                 </select>
               </div>
             </div>
@@ -133,6 +138,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

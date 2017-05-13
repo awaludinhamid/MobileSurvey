@@ -2,10 +2,10 @@
 
 <!--
     Document   : spring-security.xml
-    Created on : June 19, 2015, 12:43 PM
+    Created on : June 19, 2016, 12:43 PM
     Author     : awal
     Description:
-        Purpose of the document follows.
+        Setup authorization.
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -20,11 +20,42 @@
  <security:http auto-config="true" use-expressions="true">
 
   <security:intercept-url pattern="/apps/auth/login" access="permitAll"/>
-  <security:intercept-url pattern="/apps/main/admin" access="hasRole('ROLE_ADMIN')"/>
   <security:intercept-url pattern="/apps/main/**" access="isAuthenticated()"/>
-  <security:intercept-url pattern="/apps/application/company" access="hasRole('ROLE_SYS_OWNER')"/>
   <!-- -->
-  <security:intercept-url pattern="/apps/data/currentsession" access="permitAll"/>
+  <!--Authorization to owner only -->
+  <security:intercept-url pattern="/apps/application/company" access="hasRole('ROLE_SYS_OWNER')"/>
+  <security:intercept-url pattern="/apps/application/menu" access="hasRole('ROLE_SYS_OWNER')"/>
+  <security:intercept-url pattern="/apps/application/role" access="hasRole('ROLE_SYS_OWNER')"/>
+  <security:intercept-url pattern="/apps/application/rolemenu" access="hasRole('ROLE_SYS_OWNER')"/>
+  <security:intercept-url pattern="/apps/application/zipcode" access="hasRole('ROLE_SYS_OWNER')"/>
+  <security:intercept-url pattern="/apps/application/provinsi" access="hasRole('ROLE_SYS_OWNER')"/>
+  <security:intercept-url pattern="/apps/application/city" access="hasRole('ROLE_SYS_OWNER')"/>
+  <!-- -->
+  <!--Authorization to owner and manager -->
+  <security:intercept-url pattern="/apps/application/office" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/user" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/userrole" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/parameter" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/distribution" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/question" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/questiongroup" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/template" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/product" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/jobassignment" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <security:intercept-url pattern="/apps/application/zipcodeverif" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
+  <!-- -->
+  <!--Authorization to owner, manager and coordinator -->
+  <security:intercept-url pattern="/apps/application/absence" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
+  <security:intercept-url pattern="/apps/application/taskassign" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
+  <security:intercept-url pattern="/apps/application/rollingtask" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
+  <security:intercept-url pattern="/apps/application/inquirytask" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
+  <security:intercept-url pattern="/apps/application/verifytask" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
+  <security:intercept-url pattern="/apps/application/droptask" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
+  <security:intercept-url pattern="/apps/application/dashmon" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
+  <security:intercept-url pattern="/apps/application/loctrack" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
+  <security:intercept-url pattern="/apps/application/repmon" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
+  <!-- -->
+  <security:intercept-url pattern="/apps/auth/currentsession" access="permitAll"/>
   <security:intercept-url pattern="/apps/data/**" access="isAuthenticated()"/>
   <security:intercept-url pattern="/apps/save/**" access="isAuthenticated()"/>
 

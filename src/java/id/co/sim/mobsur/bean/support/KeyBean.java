@@ -9,6 +9,7 @@ import java.util.Calendar;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * POJO oauth key
  * @created May 9, 2013
  * @author awal
  */

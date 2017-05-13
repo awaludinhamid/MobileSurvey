@@ -4,7 +4,7 @@
     Created on : June 19, 2015, 5:40 PM
     Author     : awal
     Description:
-        Purpose of the document follows.
+        Page transalation setup.
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"

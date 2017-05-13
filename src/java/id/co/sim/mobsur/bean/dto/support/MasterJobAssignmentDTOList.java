@@ -10,6 +10,7 @@ import id.co.sim.mobsur.bean.dto.MasterJobAssignmentDTO;
 import java.util.List;
 
 /**
+ * DTO list table MASTER_JOB_ASSIGNMENT
  * @created Jan 21, 2017
  * @author awal
  */

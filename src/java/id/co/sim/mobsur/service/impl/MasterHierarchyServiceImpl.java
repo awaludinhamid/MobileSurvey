@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Hierarchy service implementation (see the service for usage info)
  * @created Nov 29, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterHierarchyServiceImpl implements MasterHierarchyService {
 
   @Autowired
-  private MasterHierarchyDAO masterHierarchyDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterHierarchyDAO masterHierarchyDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,13 @@ public class MasterHierarchyServiceImpl implements MasterHierarchyService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterHierarchy delete(MasterHierarchy mh) {
-    return masterHierarchyDAO.delete(mh);
+  public void delete(MasterHierarchy mh) {
+    masterHierarchyDAO.delete(mh);
+  }
+
+  @Override
+  public MasterHierarchy getById(int hieId) {
+    return masterHierarchyDAO.getById(hieId);
   }
 
   @Override

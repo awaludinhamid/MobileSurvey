@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_ABSENCE
  * @created Jan 26, 2017
  * @author awal
  */

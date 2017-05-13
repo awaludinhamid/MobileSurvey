@@ -8,37 +8,37 @@ and open the template in the editor.
     Author     : awal
 */
 
-table#tbl-data-dtl tr>th:first-child
+div#questiongroup table#tbl-data-dtl tr>th:first-child
 {
   width: 41px;
 }
-table#tbl-data-dtl tr>td:first-child
+div#questiongroup table#tbl-data-dtl tr>td:first-child
 {
   width: 40px;
 }
-table#tbl-data-dtl tr>th:nth-child(2),
-table#tbl-data-dtl tr>td:nth-child(2)
+div#questiongroup table#tbl-data-dtl tr>th:nth-child(2),
+div#questiongroup table#tbl-data-dtl tr>td:nth-child(2)
 {
   width: 210px;
 }
-table#tbl-data-dtl tr>th:nth-child(3),
-table#tbl-data-dtl tr>td:nth-child(3)
+div#questiongroup table#tbl-data-dtl tr>th:nth-child(3),
+div#questiongroup table#tbl-data-dtl tr>td:nth-child(3)
 {
   width: 135px;
 }
-table#tbl-data-dtl tr>th:nth-child(4),
-table#tbl-data-dtl tr>td:nth-child(4)
+div#questiongroup table#tbl-data-dtl tr>th:nth-child(4),
+div#questiongroup table#tbl-data-dtl tr>td:nth-child(4)
 {
   width: 70px;
 }
-table#tbl-data-dtl tr>th:last-child,
-table#tbl-data-dtl tr>td:last-child
+div#questiongroup table#tbl-data-dtl tr>th:last-child,
+div#questiongroup table#tbl-data-dtl tr>td:last-child
 {
   width: 90px;
 }
-table#tbl-data-dtl tr>td:last-child {
+div#questiongroup table#tbl-data-dtl tr>td:last-child {
   padding: 2px;
 }
-table#tbl-data-dtl tr>td:last-child>input {
+div#questiongroup table#tbl-data-dtl tr>td:last-child>input {
   height: 30px
 }

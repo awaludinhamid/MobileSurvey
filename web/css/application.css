@@ -11,13 +11,16 @@ and open the template in the editor.
 /* * * * * * M O D A L * * * * * */
 
 .modal {
-  background-color: rgba(0,0,0,0.9);
+  /*background-color: rgba(0,0,0,0.9);*/
 }
 .modal-dialog {
   margin-top: 4%;
 }
 .modal-two-columns .modal-dialog {
   width: 1190px;
+}
+.modal-backdrop.in {
+  opacity: 0.8 !important;
 }
 
 div#mdl-save-record .modal-dialog {
@@ -128,12 +131,28 @@ div#div-preview-logo>div.companylogoimg {
   padding: 10px;  
 }
 
+div#delete-mdl .modal-header {
+  background-color: #cf0f0f;
+  color: #efefff;
+}
+div#delete-mdl .modal-body>table {
+  margin-top: 10px;  
+}
+div#delete-mdl .modal-body>table th {
+  text-align: center;
+  background-color: #147;
+  color: #efefff;
+}
+div#delete-mdl .modal-body>span {
+  font-weight: bold;
+}
+
 /* * * * * * * * * * * * * * * * */
 
 /* * * * * * T A B L E * * * * * */
 
 .table-container {
-  height: 400px;
+  height: 420px;
   overflow-x: auto;
   overflow-y: hidden;
   border: #148 solid 2px;
@@ -346,6 +365,10 @@ div#form-preview-logo>div.companylogoimg {
   background-color: rgba(255,80,80,0.6);
 }
 
+div#pagination {
+  text-align: center;
+}
+
 /* * * * * * * * * * * * * * * * */
 
 /* * * * * * T O O L T I P   D A T E * * * * * */
@@ -354,6 +377,7 @@ div#form-preview-logo>div.companylogoimg {
   position: fixed;
   opacity: 0;
   color: #a00;
+  z-index: 50;
   animation-name: play-tooltip; /* Standard syntax */
   animation-duration: 10s;
   animation-timing-function: linear;
@@ -375,6 +399,35 @@ div#form-preview-logo>div.companylogoimg {
   90% {opacity: 1;}
   100% {opacity: 0;}
 }
+
+/* * * * * * * * * * * * * * * * */
+
+/* * * * * * B A C K G R O U N D   E R R O R * * * * * */
+.back-error {
+  animation-name: play-back; /* Standard syntax */
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-play-state: paused;
+  -webkit-animation-name: play-back; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 10s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-play-state: paused;
+}
+@keyframes play-back {/* Standard syntax */
+  0% {background-color: white;}
+  25% {background-color: red;}
+  50% {background-color: white;}
+  75% {background-color: red;}
+  100% {background-color: white;}
+}
+@-webkit-keyframes play-back {/* Chrome, Safari, Opera */
+  0% {background-color: white;}
+  25% {background-color: red;}
+  50% {background-color: white;}
+  75% {background-color: red;}
+  100% {background-color: white;}
+}
+
 
 /* * * * * * * * * * * * * * * * */
 

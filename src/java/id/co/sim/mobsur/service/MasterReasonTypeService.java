@@ -10,11 +10,22 @@ import id.co.sim.mobsur.bean.MasterReasonType;
 import java.util.List;
 
 /**
+ * SPI of reason type module
  * @created Jan 26, 2017
  * @author awal
  */
 public interface MasterReasonTypeService {
 
+  /**
+   * Get reason type by id
+   * @param reasonTypeId
+   * @return reason type based on given id
+   */
   MasterReasonType getById(int reasonTypeId);
+  
+  /**
+   * Get all reason type data
+   * @return list of all reason types
+   */
   List<MasterReasonType> getAll();
 }

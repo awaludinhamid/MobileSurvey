@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Kecamatan service implementation (see the service for usage info)
  * @created Dec 19, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterKecamatanServiceImpl implements MasterKecamatanService {
 
   @Autowired
-  private MasterKecamatanDAO masterKecamatanDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterKecamatanDAO masterKecamatanDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterKecamatanServiceImpl implements MasterKecamatanService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterKecamatan delete(MasterKecamatan mk) {
-    return masterKecamatanDAO.delete(mk);
+  public void delete(MasterKecamatan mk) {
+    masterKecamatanDAO.delete(mk);
   }
 
   @Override

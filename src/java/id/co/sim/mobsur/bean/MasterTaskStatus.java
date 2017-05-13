@@ -13,11 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_TASK_STATUS
  * @created Feb 7, 2017
  * @author awal
  */
 @Entity
 @Table(name="MASTER_TASK_STATUS")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterTaskStatus extends RecordAuditBean {
 
   @Id

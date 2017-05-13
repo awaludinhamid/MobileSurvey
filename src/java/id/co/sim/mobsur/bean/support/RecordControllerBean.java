@@ -14,6 +14,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
+ * POJO superclass for controller function
  * @created Oct 14, 2016
  * @author awal
  */

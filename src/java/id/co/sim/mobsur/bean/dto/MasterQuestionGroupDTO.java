@@ -10,6 +10,7 @@ import id.co.sim.mobsur.bean.dto.support.RecordControllerBeanDTO;
 import java.util.List;
 
 /**
+ * DTO table MASTER_QUESTION_GROUP
  * @created Jan 10, 2017
  * @author awal
  */

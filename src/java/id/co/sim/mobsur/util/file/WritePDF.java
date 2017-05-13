@@ -18,17 +18,29 @@ import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 /**
+ * Write the pdf file
+ * Output extention: .pdf
  * @created Jan 28, 2017
  * @author awal
  */
 public class WritePDF {
 
-  private final File file;
-  private final List<String> titles;
-  private final List<String> headers;
-  private final List<List<String>> contents;
-  private final String sheetName;
+  private final File file;//output file
+  private final List<String> titles;//list of description of document
+  private final List<String> headers;//list of column headers
+  private final List<List<String>> contents;//excle file contents
+  private final String sheetName;//future used
+  private final int maxValLength = 30;//limit the length of the column contents
   
+  /**
+   * The only constructor to access the instance
+   * Prepare initial parameter
+   * @param file
+   * @param titles
+   * @param headers
+   * @param contents
+   * @param sheetName 
+   */
   public WritePDF(File file, List<String> titles, List<String> headers, List<List<String>> contents, String sheetName) {
     this.file = file;
     this.titles = titles;
@@ -37,6 +49,11 @@ public class WritePDF {
     this.sheetName = sheetName;
   }
   
+  /**
+   * Create the pdf file
+   * @throws IOException
+   * @throws COSVisitorException 
+   */
   public void createFile() throws IOException, COSVisitorException {
     //object preparation
     PDDocument doc = new PDDocument();
@@ -60,13 +77,13 @@ public class WritePDF {
     //define column width, base on the longest value
     List<Integer> columnsLength = new ArrayList();
     for(String header : headers) {
-      int longestVal = header.length();
+      int longestVal = new Double((header.length() * 1.5)).intValue();
       for(List<String> content : contents) {
         int valLen = content.get(idxCol).length();
         if(valLen > longestVal)
           longestVal = valLen;
       }
-      columnsLength.add(longestVal * 4);
+      columnsLength.add((longestVal > maxValLength ? maxValLength : longestVal) * 3);
       idxCol++;
     }
     
@@ -139,7 +156,7 @@ public class WritePDF {
           for(String val : content) {
             contentStream.beginText();
             contentStream.moveTextPositionByAmount(textx,texty);
-            contentStream.drawString(val);
+            contentStream.drawString(val.substring(0, (val.length() > maxValLength ? maxValLength : val.length())));
             contentStream.endText();
             textx += columnsLength.get(idxCol++) + cellMargin;
           }

@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/product.js"></script>
+    <!--script src="../../js/application/product.js"></script--> 
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="product" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -38,7 +43,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.productId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.productCode}}</td>
               <td>{{data.productName}}</td>
@@ -73,13 +78,13 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">Product Code*</label>
               <div class="col-sm-9">
-                <input id="productCode" class="form-control" placeholder="[NMC]" maxlength="20" tabindex="1" required autofocus>
+                <input id="productCode" class="form-control" placeholder="[NMC]" maxlength="30" tabindex="1" required autofocus>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Product Name*</label>
               <div class="col-sm-9">
-                <input id="productName" class="form-control" placeholder="[New Order NMC]" maxlength="100" tabindex="2" required>
+                <input id="productName" class="form-control" placeholder="[New Order NMC]" maxlength="30" tabindex="2" required>
               </div>
             </div>
             <div class="form-group">
@@ -135,6 +140,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

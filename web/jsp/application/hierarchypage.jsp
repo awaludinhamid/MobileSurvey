@@ -4,26 +4,31 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/hierarchy.js"></script>
+    <!--script src="../../js/application/hierarchy.js"></script--> 
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="hierarchy" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
         <div class="col-sm-3">
-          <select class="form-control" ng-model="roleId" ng-init="roleId=-1">
-            <option value="-1">--Choose Role--</option>
+          <select class="form-control" ng-model="roleId" ng-init="roleId=0">
+            <option value="0">--Choose Role--</option>
             <option ng-repeat="data in datadrop.rolebyrole" value="{{data.roleId}}">{{data.roleName}}</option>
           </select>
         </div>
         <div class="col-sm-3">
-          <select class="form-control" ng-model="roleIdUp" ng-init="roleIdUp=-1">
-            <option value="-1">--Choose Up Level--</option>
+          <select class="form-control" ng-model="roleIdUp" ng-init="roleIdUp=0">
+            <option value="0">--Choose Up Level--</option>
             <option ng-repeat="data in datadrop.rolebyrolewithnull" value="{{data.roleId}}">{{data.roleName}}</option>
           </select>
         </div>
@@ -44,7 +49,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.hieId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.role.roleName}}</td>
               <!--td>{{switchValTo(data.roleUp.roleName,'','System Owner')}}</td-->
@@ -123,6 +128,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

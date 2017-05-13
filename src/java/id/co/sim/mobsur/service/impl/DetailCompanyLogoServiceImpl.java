@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Detail company logo service implementation (see the service for usage info)
  * @created Oct 19, 2016
  * @author awal
  */
@@ -22,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DetailCompanyLogoServiceImpl implements DetailCompanyLogoService {
 
   @Autowired
-  private DetailCompanyLogoDAO detailCompanyLogoDAO;
+  private DetailCompanyLogoDAO detailCompanyLogoDAO;// DAO injection
 
   @Override
   @Transactional(readOnly=false)
@@ -32,8 +33,8 @@ public class DetailCompanyLogoServiceImpl implements DetailCompanyLogoService {
 
   @Override
   @Transactional(readOnly=false)
-  public DetailCompanyLogo delete(DetailCompanyLogo dcl) {
-    return detailCompanyLogoDAO.delete(dcl);
+  public void delete(DetailCompanyLogo dcl) {
+    detailCompanyLogoDAO.delete(dcl);
   }
 
   @Override

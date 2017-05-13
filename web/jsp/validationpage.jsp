@@ -20,7 +20,13 @@
             <h4 class="modal-title"><span class="glyphicon glyphicon-alert"></span>&nbsp;Validation Alert</h4>
           </div>
           <div class="modal-body">
-            <span>Your MOU might be expired or you must setup user role first..</span>
+            <span>If you are experienced this message, you probably has the following condition:</span>
+            <ul>
+              <li>Your company MOU have expired</li>
+              <li>Your role have not been setup yet</li>
+              <li>Your role has forbidden to access the application</li>
+            </ul>
+            <span>Please contact the administrator or the vendor for further information...
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

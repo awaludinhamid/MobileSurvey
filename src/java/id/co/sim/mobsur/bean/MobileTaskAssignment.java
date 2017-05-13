@@ -6,8 +6,10 @@
 
 package id.co.sim.mobsur.bean;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import id.co.sim.mobsur.bean.support.RecordAuditBean;
-import java.sql.Date;
+import id.co.sim.mobsur.util.CustomJsonTimeSerializerWithoutTimeZone;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,13 +18,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
+ * POJO table MOBILE_TASK_ASSIGNMENT
  * @created Feb 2, 2017
  * @author awal
  */
 @Entity
 @Table(name="MOBILE_TASK_ASSIGNMENT")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MobileTaskAssignment extends RecordAuditBean {
 
   @Id
@@ -32,6 +38,7 @@ public class MobileTaskAssignment extends RecordAuditBean {
   @Column(name="ORDER_ID")
   private String orderId;
   @Column(name="ORDER_DATE")
+  @Temporal(TemporalType.DATE)
   private Date orderDate;
   @Column(name="CUSTOMER_ID")
   private String customerId;
@@ -56,16 +63,27 @@ public class MobileTaskAssignment extends RecordAuditBean {
   @Column(name="VERIFY_BY")
   private String verifyBy;
   @Column(name="VERIFY_DATE")
+  @Temporal(TemporalType.TIMESTAMP)
   private Date verifyDate;
   @Column(name="ASSIGNMENT_DATE")
+  @Temporal(TemporalType.TIMESTAMP)
+  @JsonSerialize(using = CustomJsonTimeSerializerWithoutTimeZone.class)
   private Date assignmentDate;
   @Column(name="RETRIEVE_DATE")
+  @Temporal(TemporalType.TIMESTAMP)
+  @JsonSerialize(using = CustomJsonTimeSerializerWithoutTimeZone.class)
   private Date retrieveDate;
   @Column(name="SUBMIT_DATE")
+  @Temporal(TemporalType.TIMESTAMP)
+  @JsonSerialize(using = CustomJsonTimeSerializerWithoutTimeZone.class)
   private Date submitDate;
   @Column(name="FINALIZATION_DATE")
+  @Temporal(TemporalType.TIMESTAMP)
+  @JsonSerialize(using = CustomJsonTimeSerializerWithoutTimeZone.class)
   private Date finalizationDate;
   @Column(name="RECEIVE_DATE")
+  @Temporal(TemporalType.TIMESTAMP)
+  @JsonSerialize(using = CustomJsonTimeSerializerWithoutTimeZone.class)
   private Date receiveDate;
   @Column(name="ASSIGNMENT_STATUS")
   private String assignmentStatus;

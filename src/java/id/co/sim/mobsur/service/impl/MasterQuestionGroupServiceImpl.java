@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Question group service implementation (see the service for usage info)
  * @created Jan 10, 2017
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterQuestionGroupServiceImpl implements MasterQuestionGroupService {
 
   @Autowired
-  private MasterQuestionGroupDAO masterQuestionGroupDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterQuestionGroupDAO masterQuestionGroupDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterQuestionGroupServiceImpl implements MasterQuestionGroupServic
 
   @Override
   @Transactional(readOnly=false)
-  public MasterQuestionGroup delete(MasterQuestionGroup mqg) {
-    return masterQuestionGroupDAO.delete(mqg);
+  public void delete(MasterQuestionGroup mqg) {
+    masterQuestionGroupDAO.delete(mqg);
   }
 
   @Override

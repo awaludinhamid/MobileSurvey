@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Role type service implementation (see the service for usage info)
  * @created Feb 3, 2017
  * @author awal
  */
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterRoleTypeServiceImpl implements MasterRoleTypeService {
 
   @Autowired
-  private MasterRoleTypeDAO masterRoleTypeDAO;
+  private MasterRoleTypeDAO masterRoleTypeDAO;// DAO injection
 
   @Override
   public List<MasterRoleType> getAll() {

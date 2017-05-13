@@ -6,7 +6,7 @@
 package id.co.sim.mobsur.util;
 
 /**
- *
+ * Class to store global variable which has integer datatype
  * @author awal
  */
 public enum GlobalIntVariable {
@@ -19,6 +19,10 @@ public enum GlobalIntVariable {
     this.var = var;
   }
   
+  /**
+   * Access the enum variable
+   * @return 
+   */
   public int getVar() {
     return var;
   }

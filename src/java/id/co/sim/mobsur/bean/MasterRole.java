@@ -20,11 +20,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_ROLE
  * @created Apr 4, 2016
  * @author awal
  */
 @Entity
 @Table(name="MASTER_ROLE")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterRole extends RecordControllerBean {
 
   @Id

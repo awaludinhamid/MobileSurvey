@@ -22,12 +22,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_COMPANY
  * @created Oct 12, 2016
  * @author awal
  */
 @Entity
 @Table(name="MASTER_COMPANY")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class,property="masterCompany")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterCompany extends RecordControllerBean {
 
   @Id

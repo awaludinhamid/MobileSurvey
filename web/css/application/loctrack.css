@@ -1,0 +1,60 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 23, 2017, 3:08:10 PM
+    Author     : awal
+*/
+
+div#loctrack select, input {
+  margin-bottom: 10px;
+}
+
+div#loctrack .i-am-a-border {
+  opacity: 0 !important;
+}
+div#loctrack .i-am-a-border:hover {
+  cursor: default;  
+}
+
+div#loctrack div#div-map {
+  height: 400px;
+  border: #148 solid 2px;
+  border-radius: 4px;
+  padding: 10px;
+  margin-left: 3px;
+  box-shadow: white 0px 0px 10px 10px;
+}
+div#loctrack div#div-map>div#verif-list {
+  overflow-y: auto;
+  height: 100%;
+  background-color: #efefff;
+  font-size: 11px;
+  padding: 5px;
+  border-right: grey solid 1px;
+}
+div#loctrack div#div-map>div#verif-list>div>span:first-child {
+  font-weight: bold;
+  color: #0f2f6f;
+}
+div#loctrack div#div-map>div#verif-list>div>span:first-child:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 12px;
+}
+div#loctrack div#div-map>div#verif-list>div>span:nth-child(3) {
+  color: #ff2f2f;
+}
+div#loctrack div#div-map>div#verif-list>div>span:nth-child(4) {
+  color: #1faf1f;
+}
+
+div#loctrack div#googleMap {
+  height: 100%;
+}
+
+div#loctrack div.img-container>img#img-find-record {
+  margin-left: 10px;
+}

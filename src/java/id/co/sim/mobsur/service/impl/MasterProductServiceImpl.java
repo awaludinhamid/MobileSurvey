@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Product service implementation (see the service for usage info)
  * @created Jan 5, 2017
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterProductServiceImpl implements MasterProductService {
 
   @Autowired
-  private MasterProductDAO masterProductDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterProductDAO masterProductDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,13 @@ public class MasterProductServiceImpl implements MasterProductService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterProduct delete(MasterProduct mp) {
-    return masterProductDAO.delete(mp);
+  public void delete(MasterProduct mp) {
+    masterProductDAO.delete(mp);
+  }
+
+  @Override
+  public MasterProduct getById(int productId) {
+    return masterProductDAO.getById(productId);
   }
 
   @Override
@@ -67,5 +73,10 @@ public class MasterProductServiceImpl implements MasterProductService {
   @Override
   public int countByCoy(int coyId) {
     return masterProductDAO.countByCoy(coyId);
+  }
+
+  @Override
+  public int countByTemplate(int tempId) {
+    return masterProductDAO.countByTemplate(tempId);
   }
 }

@@ -15,11 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_GROUP_PARAM
  * @created Jan 5, 2017
  * @author awal
  */
 @Entity
 @Table(name="MASTER_GROUP_PARAM")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterGroupParam extends RecordAuditBean {
 
   @Id

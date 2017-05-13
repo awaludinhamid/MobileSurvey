@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/role.js"></script>
+    <!--script src="../../js/application/role.js"></script-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="role" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -44,7 +49,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.roleId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.roleName}}</td>
               <td>{{data.roleDesc}}</td>
@@ -78,13 +83,13 @@
             <div class="form-group">
               <label class="col-sm-4 control-label">Role Name*</label>
               <div class="col-sm-8">
-                <input id="roleName" class="form-control" placeholder="[System Owner]" maxlength="100" tabindex="1" required autofocus>
+                <input id="roleName" class="form-control" placeholder="[System Owner]" maxlength="30" tabindex="1" required autofocus>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-4 control-label">Description</label>
+              <label class="col-sm-4 control-label">Description*</label>
               <div class="col-sm-8">
-                <input id="roleDesc" class="form-control" placeholder="[Pemberi hak akses]" maxlength="255" tabindex="2">
+                <input id="roleDesc" class="form-control" placeholder="[Pemberi hak akses]" maxlength="255" tabindex="2" required>
               </div>
             </div>
             <div class="form-group">
@@ -126,7 +131,7 @@
             <div class="form-group">
               <label class="col-sm-4 control-label">Role Level</label>
               <div class="col-sm-8">
-                <input type="number" id="roleLevel" class="form-control" placeholder="[2]" max="999" tabindex="7" required>
+                <input type="number" id="roleLevel" class="form-control" placeholder="[2]" min="1" max="999" maxlength="3" tabindex="7" required>
               </div>
             </div>
             <div class="btn-form-save">
@@ -140,6 +145,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

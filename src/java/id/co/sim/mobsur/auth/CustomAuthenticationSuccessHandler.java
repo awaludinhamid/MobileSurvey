@@ -9,8 +9,10 @@ package id.co.sim.mobsur.auth;
 import id.co.sim.mobsur.bean.MasterCompany;
 import id.co.sim.mobsur.bean.MasterOffice;
 import id.co.sim.mobsur.bean.MasterUser;
+import id.co.sim.mobsur.bean.MasterUserRole;
 import id.co.sim.mobsur.service.MasterCompanyService;
 import id.co.sim.mobsur.service.MasterOfficeService;
+import id.co.sim.mobsur.service.MasterUserRoleService;
 import id.co.sim.mobsur.service.MasterUserService;
 import id.co.sim.mobsur.util.GlobalIntVariable;
 import java.io.IOException;
@@ -36,12 +38,22 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
   private final Logger authLogger = Logger.getLogger("auth");
   
   @Autowired
-  private MasterUserService muServ;  
-  @Autowired
   private MasterCompanyService mcServ;
   @Autowired
   private MasterOfficeService moServ;
+  @Autowired
+  private MasterUserService muServ;  
+  @Autowired
+  private MasterUserRoleService murServ;  
 
+  /**
+   * Override super behaviour, prepare web parameter used
+   * @param request, http request
+   * @param response, http response
+   * @param auth, authentication object
+   * @throws IOException
+   * @throws ServletException 
+   */
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
           throws IOException, ServletException {    
@@ -50,21 +62,22 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     HttpSession session = request.getSession();
     String userName = (String) session.getAttribute("userName");
     if(userName == null || userName.equals("")) {        
-      String name = auth.getName();
-      MasterUser mstUser = muServ.getByCode(name);
+      MasterUser mstUser = muServ.getById((int) session.getAttribute("userId"));
       MasterOffice mstOffice = moServ.getById(mstUser.getOffice().getOfficeId());
-      MasterCompany mstCoy = mcServ.getById(mstOffice.getCompany().getCoyId());
+      MasterCompany mstCoy = mcServ.getById(mstOffice.getCompany().getCoyId());      
       session.setAttribute("realName", mstUser.getUserName());
       session.setAttribute("userId", mstUser.getUserId());
-      session.setAttribute("userName", name);
+      session.setAttribute("userName", mstUser.getUserCode());
       session.setAttribute("sessionId", session.getId());
-      session.setAttribute("hasRole", mstUser.getUserRoles() == null ? "no" : "yes");      
+      session.setAttribute("hasRole", murServ.countByUserValid(mstUser.getUserId()) == 0 ? "no" : "yes");      
       session.setAttribute("isValid", mcServ.getValidCoyByUserId(mstUser.getUserId()) == null ? "no" : "yes");
       session.setAttribute("systemName", mstCoy.getSystemName());
       session.setAttribute("coyId", mstCoy.getCoyId());
       session.setAttribute("companyLogoId", mstCoy.getDetailCompanyLogo().getCompanyLogoId());
       session.setAttribute("pagingRecords", GlobalIntVariable.PAGING_RECORDS.getVar());
       session.setAttribute("officeName", mstOffice.getOfficeName());
+      MasterUserRole mur = murServ.getByUser(mstUser.getUserId());
+      session.setAttribute("roleTypeCode", mur == null ? "" : mur.getRole().getRoleType().getRoleTypeCode());
     }
     //redirect
     setDefaultTargetUrl("/apps/main/validation");

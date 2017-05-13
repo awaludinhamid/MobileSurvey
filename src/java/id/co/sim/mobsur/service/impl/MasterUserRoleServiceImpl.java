@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * User role service implementation (see the service for usage info)
  * @created Apr 14, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterUserRoleServiceImpl implements MasterUserRoleService {
 
   @Autowired
-  private MasterUserRoleDAO masterUserRoleDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterUserRoleDAO masterUserRoleDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,14 @@ public class MasterUserRoleServiceImpl implements MasterUserRoleService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterUserRole delete(MasterUserRole mur) {
-    return masterUserRoleDAO.delete(mur);
+  public void delete(MasterUserRole mur) {
+    if(mur != null)
+      masterUserRoleDAO.delete(mur);
+  }
+
+  @Override
+  public MasterUserRole getById(int userRoleId) {
+    return masterUserRoleDAO.getById(userRoleId);
   }
 
   @Override
@@ -59,5 +66,30 @@ public class MasterUserRoleServiceImpl implements MasterUserRoleService {
   @Override
   public int countByCoyOfficeRoleUserNameDate(int coyId, int officeId, int roleId, String userNamePattern, String asOfDate) {
     return masterUserRoleDAO.countByCoyOfficeRoleUserNameDate(coyId, officeId, roleId, userNamePattern, asOfDate);
+  }
+
+  @Override
+  public List<MasterUserRole> getByOffice(int officeId) {
+    return masterUserRoleDAO.getByOffice(officeId);
+  }
+
+  @Override
+  public int countByUserValid(int userId) {
+    return masterUserRoleDAO.countByUserValid(userId);
+  }
+
+  @Override
+  public int countByRole(int roleId) {
+    return masterUserRoleDAO.countByRole(roleId);
+  }
+
+  @Override
+  public int countByUser(int userId) {
+    return masterUserRoleDAO.countByUser(userId);
+  }
+
+  @Override
+  public MasterUserRole getByUser(int userId) {
+    return masterUserRoleDAO.getByUser(userId);
   }
 }

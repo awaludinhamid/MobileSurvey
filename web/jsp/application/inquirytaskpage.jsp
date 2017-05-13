@@ -4,15 +4,20 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/inquirytask.js"></script>
-    <link rel="stylesheet" href="../../css/application/inquirytask.css"/>
+    <!--script src="../../js/application/inquirytask.js"></script>
+    <link rel="stylesheet" href="../../css/application/inquirytask.css"/-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="inquirytask" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record">
@@ -66,10 +71,10 @@
             </select>
           </div>
           <div class="col-sm-3">
-            <select id="priorityId" class="form-control" ng-model="priorityId" ng-init="priorityId=0">
-              <option value="0">--Choose Priority--</option>
-              <option value="1">Yes</option>
-              <option value="2">No</option>
+            <select id="priority" class="form-control" ng-model="priority" ng-init="priority=''">
+              <option value="">--Choose Priority--</option>
+              <option value="Y">Yes</option>
+              <option value="N">No</option>
             </select>
           </div>
           <div class="col-sm-2">
@@ -95,8 +100,8 @@
           </thead>
           <tbody>
             <tr ng-repeat="data in datatable" data-id="{{data.taskId}}">
-              <td><button ng-click="storearr(data); showModal('div#mdl-task-result')">{{data.taskId}}</button></td>
-              <td>{{data.taskStatus.statusCode}}</td>
+              <td><button class="btn btn-info btn-sm" ng-click="storearr(data); showModal('div#mdl-task-result')">{{data.taskId}}</button></td>
+              <td>{{data.taskStatus.taskStatusCode}}</td>
               <td>{{data.orderId}}</td>
               <td>{{data.orderDate}}</td>
               <td>{{data.customerName}}</td>
@@ -115,7 +120,7 @@
     </div>
   </div>
   
-  <div class="modal fade" id="mdl-task-result" tabindex="-1" role="dialog" aria-labelledby="task-result-title" aria-hidden="true">
+  <div class="modal fade modal-two-columns" id="mdl-task-result" tabindex="-1" role="dialog" aria-labelledby="task-result-title" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -125,17 +130,15 @@
           </h4>
         </div>
         <div class="modal-body">
-          <div class="table-container-normal">
-            <div ng-repeat="data in dataarr">
-              <span>{{data}}</span>
-            </div>
-          </div>
+          <div id="det-quest"></div>
+          <div id="photo-quest"></div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

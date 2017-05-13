@@ -20,17 +20,28 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 /**
+ * Write the excel file
+ * Output extention: .xls
  * @created Jan 26, 2017
  * @author awal
  */
 public class WriteExcel {
 
-  private final File file;
-  private final List<String> titles;
-  private final List<String> headers;
-  private final List<List<String>> contents;
+  private final File file;//output file
+  private final List<String> titles;//list of description of document
+  private final List<String> headers;//list of column headers
+  private final List<List<String>> contents;//excle file contents
   private final String sheetName;
   
+  /**
+   * The only constructor to access the instance
+   * Prepare initial parameter
+   * @param file
+   * @param titles
+   * @param headers
+   * @param contents
+   * @param sheetName 
+   */
   public WriteExcel(File file, List<String> titles, List<String> headers, List<List<String>> contents, String sheetName) {
     this.file = file;
     this.titles = titles;
@@ -39,6 +50,10 @@ public class WriteExcel {
     this.sheetName = sheetName;
   }
   
+  /**
+   * Create the excel file
+   * @throws IOException 
+   */
   public void createFile() throws IOException {
     //be aware this is a new java 7 feature, avoid the object have not closed after execute
     try ( Workbook workbook = new HSSFWorkbook() ) { //.xls extention
@@ -62,7 +77,8 @@ public class WriteExcel {
       }
       
       // add header
-      rowIdx++;
+      if(!titles.isEmpty())
+        rowIdx++;
       row = sheet.createRow(rowIdx++);
       for(String header : headers) {
         cell = row.createCell(cellIdx++);

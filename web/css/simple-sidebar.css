@@ -31,10 +31,11 @@
     z-index: 500;
     position: fixed;
     left: 180px;
-    top: 15%;
+    /*top: 105px;*/
     width: 0;
-    height: 85%;
+    height: 100%;
     margin-left: -180px;
+    /*margin-top: 0px;*/
     overflow-y: hidden;
     overflow-x: hidden;
     background: rgba(60,60,60,1);
@@ -51,6 +52,7 @@
 #page-content-wrapper {
     width: 100%;
     position: absolute;
+    z-index: 1;
     /*padding: 15px;
     top: 45px;
     left: 50px;*/
@@ -64,6 +66,7 @@
     width: 180px;
     margin: 0;
     padding: 0;
+    padding-top: 115px;
     list-style: none;
 }
 
@@ -123,11 +126,17 @@
     }*/
 
     #page-content-wrapper {
-        padding: 10px;
-        padding-top: 105px;
+        padding: 0;
+        position: relative;
+        /*padding-top: 110px;        
         padding-left: 190px;
-        /*position: relative;
         opacity: 0.8;*/
+    }
+    
+    #page-content-wrapper .container {
+      position: absolute;
+      padding-left: 200px;
+      padding-top: 110px;
     }
 
     /*#wrapper.toggled #page-content-wrapper {

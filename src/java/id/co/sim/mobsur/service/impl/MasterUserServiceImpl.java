@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * User service implementation (see the service for usage info)
  * @created Apr 4, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterUserServiceImpl implements MasterUserService {
 
   @Autowired
-  private MasterUserDAO masterUserDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterUserDAO masterUserDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterUserServiceImpl implements MasterUserService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterUser delete(MasterUser mu) {
-    return masterUserDAO.delete(mu);
+  public void delete(MasterUser mu) {
+    masterUserDAO.delete(mu);
   }
 
   @Override
@@ -127,5 +128,10 @@ public class MasterUserServiceImpl implements MasterUserService {
   @Override
   public List<MasterUser> getByOfficeAndRoleTypeCode(int officeId, String roleTypeCode) {
     return masterUserDAO.getByOfficeAndRoleTypeCode(officeId, roleTypeCode);
+  }
+
+  @Override
+  public List<MasterUser> getByRoleOffice(int roleId, int officeId) {
+    return masterUserDAO.getByRoleOffice(roleId, officeId);
   }
 }

@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Template service implementation (see the service for usage info)
  * @created Jan 15, 2017
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterTemplateServiceImpl implements MasterTemplateService {
 
   @Autowired
-  private MasterTemplateDAO masterTemplateDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterTemplateDAO masterTemplateDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterTemplateServiceImpl implements MasterTemplateService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterTemplate delete(MasterTemplate template) {
-    return masterTemplateDAO.delete(template);
+  public void delete(MasterTemplate template) {
+    masterTemplateDAO.delete(template);
   }
 
   @Override

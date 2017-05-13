@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Office service implementation (see the service for usage info)
  * @created Nov 3, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterOfficeServiceImpl implements MasterOfficeService {
 
   @Autowired
-  private MasterOfficeDAO masterOfficeDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterOfficeDAO masterOfficeDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterOfficeServiceImpl implements MasterOfficeService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterOffice delete(MasterOffice mo) {
-    return masterOfficeDAO.delete(mo);
+  public void delete(MasterOffice mo) {
+    masterOfficeDAO.delete(mo);
   }
 
   @Override

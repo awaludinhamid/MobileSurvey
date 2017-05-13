@@ -2,11 +2,29 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+ * 
+ * @author awal
+ * Script specific to header page
  */
 
-//
+/**
+ * Spring 4 required CSRF token, so we need to store them in specific variable to be used later
+ * @type type
+ */
 var csrfParamName;
 var csrfToken;
+
+
+/**
+ * show your message here
+ * @param {String} message
+ * @returns void
+ */
+function showMessage(message) {
+  $("div#message-mdl .modal-body").html(message);
+  $("div#message-mdl").modal("show");
+}
+
 
 $(document).ready(function() {
 
@@ -35,9 +53,14 @@ $(document).ready(function() {
     }
   }
     
-  //logout
-  $("#btn-logout").click(function() {
-    $.get(relativePath+"apps/data/currentsession", {}, function(data) {
+  /**
+   * event: click logout button
+   * action: logout current session
+   * @param {Object} evt , event
+   */
+  $("#btn-logout").click(function(evt) {
+    evt.preventDefault();
+    $.get(relativePath+"apps/auth/currentsession", {}, function(data) {
       if(data === $("span#sessionid").text())        
         $("div#form-logout>form").submit();
       else
@@ -45,7 +68,10 @@ $(document).ready(function() {
     });
   });
   
-  //change password
+  /**
+   * event: click button change password
+   * action: show the modal where the password will be changed
+   */
   $("#change-pass").click(function() {
     var changePassMdl = $("div#change-pass-mdl");
     changePassMdl.find("input#new-password, input#con-new-password").val("");
@@ -53,7 +79,10 @@ $(document).ready(function() {
     changePassMdl.modal("show");
   });
   
-  //
+  /**
+   * event: click 'ok' button or enter submit on change password modal
+   * action: submit the change
+   */
   $("form#form-change-pass").on("submit",function() {
     if($(this).find("input#old-password").val() === $(this).find("input#new-password").val()) {
       alert("Password have not been changed");
@@ -66,7 +95,10 @@ $(document).ready(function() {
     localStorage.setItem("userPassword",$(this).find("input#new-password").val());
   });
   
-  //keep current password
+  /**
+   * event: click 'ok' button or enter submit on the form login
+   * action: store current password to be used later
+   */
   $("form#form-login").on("submit", function() {
     localStorage.setItem("userPassword",$(this).find("input#password").val());
   });

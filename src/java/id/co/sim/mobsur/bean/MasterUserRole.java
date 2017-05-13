@@ -7,7 +7,7 @@
 package id.co.sim.mobsur.bean;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import id.co.sim.mobsur.bean.support.RecordControllerBean;
+import id.co.sim.mobsur.bean.support.RecordAuditBean;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,12 +18,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_USER_ROLE
  * @created Apr 14, 2016
  * @author awal
  */
 @Entity
 @Table(name="MASTER_USER_ROLE")
-public class MasterUserRole extends RecordControllerBean {
+@SuppressWarnings("PersistenceUnitPresent")
+//public class MasterUserRole extends RecordControllerBean {
+public class MasterUserRole extends RecordAuditBean {
 
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -48,9 +51,9 @@ public class MasterUserRole extends RecordControllerBean {
   /**
    * @param userRoleId the userRoleId to set
    */
-  public void setUserRoleId(int userRoleId) {
+  /*public void setUserRoleId(int userRoleId) {
     this.userRoleId = userRoleId;
-  }
+  }*/
 
   /**
    * @return the role

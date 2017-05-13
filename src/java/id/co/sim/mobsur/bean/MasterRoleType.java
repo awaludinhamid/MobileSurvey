@@ -15,11 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_ROLE_TYPE
  * @created Feb 3, 2017
  * @author awal
  */
 @Entity
 @Table(name="MASTER_ROLE_TYPE")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterRoleType extends RecordAuditBean {
 
   @Id

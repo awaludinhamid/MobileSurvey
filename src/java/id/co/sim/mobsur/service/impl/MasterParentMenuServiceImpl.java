@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Parent menu service implementation (see the service for usage info)
  * @created Oct 14, 2016
  * @author awal
  */
@@ -24,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterParentMenuServiceImpl implements MasterParentMenuService {
 
   @Autowired
-  private MasterParentMenuDAO masterParentMenuDAO;
+  private MasterParentMenuDAO masterParentMenuDAO;// DAO injection
 
   @Override
   public void save(MasterParentMenu mpm) {

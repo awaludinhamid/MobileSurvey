@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Zipcode verificator service implementation (see the service for usage info)
  * @created Jan 23, 2017
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterZipcodeVerificatorServiceImpl implements MasterZipcodeVerificatorService {
 
   @Autowired
-  private MasterZipcodeVerificatorDAO masterZipcodeVerificatorDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterZipcodeVerificatorDAO masterZipcodeVerificatorDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,14 @@ public class MasterZipcodeVerificatorServiceImpl implements MasterZipcodeVerific
 
   @Override
   @Transactional(readOnly=false)
-  public MasterZipcodeVerificator delete(MasterZipcodeVerificator zipcodeVerif) {
-    return masterZipcodeVerificatorDAO.delete(zipcodeVerif);
+  public void save(List<MasterZipcodeVerificator> zipcodeVerifList, int numOfBulkRecord) {
+    masterZipcodeVerificatorDAO.save(zipcodeVerifList, numOfBulkRecord);
+  }
+
+  @Override
+  @Transactional(readOnly=false)
+  public void delete(MasterZipcodeVerificator zipcodeVerif) {
+    masterZipcodeVerificatorDAO.delete(zipcodeVerif);
   }
 
   @Override
@@ -98,5 +105,10 @@ public class MasterZipcodeVerificatorServiceImpl implements MasterZipcodeVerific
   @Override
   public int countByParentUserVerifAndZipcode(int parentUserId, int verificatorId, String zipcodeCodePattern) {
     return masterZipcodeVerificatorDAO.countByParentUserVerifAndZipcode(parentUserId, verificatorId, zipcodeCodePattern);
+  }
+
+  @Override
+  public List<MasterZipcodeVerificator> getByCoy(int coyId) {
+    return masterZipcodeVerificatorDAO.getByCoy(coyId);
   }
 }

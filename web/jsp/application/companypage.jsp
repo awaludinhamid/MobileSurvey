@@ -4,14 +4,20 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/company.js"></script>
+    <!--script src="../../js/application/company.js"></script-->  
+    <!--meta http-equiv="Refresh" content="1; url=../../apps/main/application"/-->   
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="company" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -46,7 +52,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.coyId}}" data-logo-id="{{data.detailCompanyLogo.companyLogoId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.coyCode}}</td>
               <td>{{data.coyName}}</td>
@@ -64,7 +70,7 @@
           </tbody>
         </table>
       </div>
-      <div id="pagination" style="text-align: center">
+      <div id="pagination">
         <ul class="pagination"></ul>
       </div>
     </div>
@@ -109,27 +115,27 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Company Code*</label>
               <div class="col-sm-4">
-                <input id="coyCode" class="form-control" placeholder="[SIM001]" maxlength="20" tabindex="1" required autofocus>
+                <input id="coyCode" class="form-control" placeholder="[SIM001]" maxlength="6" tabindex="1" required autofocus>
               </div>
               <label class="col-sm-2 control-label">Number of Users*</label>
               <div class="col-sm-4">
-                <input type="number" id="noOfUsers" class="form-control" placeholder="[100]" tabindex="10" required>
+                <input type="number" id="noOfUsers" class="form-control" placeholder="[100]" min="1" max="9999999999" tabindex="10" required>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">Company Name*</label>
               <div class="col-sm-4">
-                <input id="coyName" class="form-control" placeholder="[PT SWAKARSA INSAN MANDIRI]" maxlength="100" tabindex="2" required>
+                <input id="coyName" class="form-control" placeholder="[PT SWAKARSA INSAN MANDIRI]" maxlength="30" tabindex="2" required>
               </div>
-              <label class="col-sm-2 control-label">System Name</label>
+              <label class="col-sm-2 control-label">System Name*</label>
               <div class="col-sm-4">
-                <input id="systemName" class="form-control" placeholder="[Mobile Survey]" maxlength="30" tabindex="11">
+                <input id="systemName" class="form-control" placeholder="[Mobile Survey]" maxlength="15" tabindex="11" required>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label">Address</label>
+              <label class="col-sm-2 control-label">Address*</label>
               <div class="col-sm-4">
-                <textarea id="address" class="form-control" placeholder="[Jl Kebagusan]" maxlength="120" tabindex="3"></textarea>
+                <textarea id="address" class="form-control" placeholder="[Jl Kebagusan]" maxlength="150" tabindex="3" required></textarea>
               </div>
               <label for="companyLogo" class="col-sm-2 control-label">Company Logo</label>
               <div class="col-sm-4">
@@ -146,7 +152,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Phone</label>
               <div class="col-sm-4">
-                <input id="phone" class="form-control" placeholder="[021-777888999]" maxlength="20" tabindex="4">
+                <input id="phone" class="form-control" placeholder="[021-777888999]" maxlength="30" tabindex="4">
               </div>
             </div>
             <div class="form-group">
@@ -209,6 +215,9 @@
         </div>
       </div>
     </div>
+  </div>
+  
+  <!--script src="../../js/application/company.js"></script-->
   </div>
 </body>
 </html>

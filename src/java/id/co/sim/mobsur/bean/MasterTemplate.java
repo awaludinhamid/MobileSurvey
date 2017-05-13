@@ -22,11 +22,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_TEMPLATE
  * @created Jan 5, 2017
  * @author awal
  */
 @Entity
 @Table(name="MASTER_TEMPLATE")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterTemplate extends RecordControllerBean {
 
   @Id

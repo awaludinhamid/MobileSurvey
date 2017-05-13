@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Role menu service implementation (see the service for usage info)
  * @created Oct 16, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterRoleMenuServiceImpl implements MasterRoleMenuService {
 
   @Autowired
-  private MasterRoleMenuDAO masterRoleMenuDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterRoleMenuDAO masterRoleMenuDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,14 @@ public class MasterRoleMenuServiceImpl implements MasterRoleMenuService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterRoleMenu delete(MasterRoleMenu mrm) {
-    return masterRoleMenuDAO.delete(mrm);
+  public void delete(MasterRoleMenu mrm) {
+    if(mrm != null)
+      masterRoleMenuDAO.delete(mrm);
+  }
+
+  @Override
+  public MasterRoleMenu getById(int roleMenuId) {
+    return masterRoleMenuDAO.getById(roleMenuId);
   }
 
   @Override
@@ -67,5 +74,15 @@ public class MasterRoleMenuServiceImpl implements MasterRoleMenuService {
   @Override
   public int count() {
     return masterRoleMenuDAO.count();
+  }
+
+  @Override
+  public int countByRole(int roleId) {
+    return masterRoleMenuDAO.countByRole(roleId);
+  }
+
+  @Override
+  public int countByMenu(int menuId) {
+    return masterRoleMenuDAO.countByMenu(menuId);
   }
 }

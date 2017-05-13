@@ -15,6 +15,7 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 
 /**
+ * Various support utility
  * @created Nov 18, 2016
  * @author awal
  */
@@ -22,6 +23,11 @@ public class SupportUtil {
   
   private static final Logger logger = Logger.getLogger("others");
 
+  /**
+   * Convert normal text into MD5 encryption
+   * @param text, to convert
+   * @return 
+   */
   public static String getMd5Hash(String text) {
     try {
     MessageDigest digest = MessageDigest.getInstance("MD5");
@@ -33,6 +39,11 @@ public class SupportUtil {
     return text;
   }
   
+  /**
+   * Generate the date of today and format the return by given format
+   * @param format, date format
+   * @return today with specific format
+   */
   public static String getTodayInString(String format) {
     Date date = new Date(System.currentTimeMillis());
     return new SimpleDateFormat(format).format(date);

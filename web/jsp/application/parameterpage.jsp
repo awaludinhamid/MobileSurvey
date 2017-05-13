@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/parameter.js"></script>
+    <!--script src="../../js/application/parameter.js"></script-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="parameter" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -38,6 +43,7 @@
               <th>Description</th>
               <th>Data Type</th>
               <th>Value</th>
+              <th>Default Value</th>
               <th>Type</th>
               <th>Valid Date</th>
               <th>Until Date</th>
@@ -47,13 +53,14 @@
             <tr ng-repeat="data in datatable" data-id="{{data.parId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
-              <td>{{data.parCode}}</td>
-              <td>{{data.parDesc}}</td>
-              <td>{{data.parDataType}}</td>
+              <td>{{data.parentParameter.parentParCode}}</td>
+              <td>{{data.parentParameter.parentParDesc}}</td>
+              <td>{{data.parentParameter.parentParDatatype}}</td>
               <td>{{data.parValue}}</td>
-              <td>{{data.parAppsType}}</td>
+              <td>{{data.parentParameter.parentParValue}}</td>
+              <td>{{data.parentParameter.parentParAppstype}}</td>
               <td>{{data.startDate}}</td>
               <td>{{data.endDate}}</td>
             </tr>
@@ -79,45 +86,48 @@
             <input type="hidden" id="parId">
             <input type="hidden" id="createdBy">
             <input type="hidden" id="coyId">
+            <input type="hidden" id="parentParId" ng-value="parentpar.parentParId">
             <div class="form-group">
-              <label class="col-sm-3 control-label">Code*</label>
+              <label class="col-sm-3 control-label">Parameter*</label>
               <div class="col-sm-9">
-                <input id="parCode" class="form-control" placeholder="[TM001]" maxlength="20" tabindex="1" required autofocus>
+                <select id="parentParIdTmp" class="form-control display-only select-exclude-scan" tabindex="1" required autofocus ng-model="parentpar"
+                        ng-options="drop.parentParDesc for drop in datadrop.parentparam track by drop.parentParId">
+                </select>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Description</label>
+              <label class="col-sm-3 control-label">Code</label>
               <div class="col-sm-9">
-                <input id="parDesc" class="form-control" placeholder="[Refresh Task]" maxlength="255" tabindex="2">
+                <label id="parDesc" class="form-control" ng-bind="parentpar.parentParCode"></label>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Data Type</label>
               <div class="col-sm-9">
-                <select id="parDataType" class="form-control" tabindex="3">
-                  <option ng-repeat="drop in datadrop.pardatatype" value="{{drop.value}}">{{drop.name}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-3 control-label">Value</label>
-              <div class="col-sm-9">
-                <input id="parValue" class="form-control" placeholder="[180]" maxlength="255" tabindex="4">
+                <label class="form-control" ng-bind="parentpar.parentParDatatype"></label>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Type</label>
               <div class="col-sm-9">
-                <select id="parAppsType" class="form-control" tabindex="5">
-                  <option ng-repeat="drop in datadrop.parappstype" value="{{drop.value}}">{{drop.name}}</option>
-                </select>
+                <label class="form-control" ng-bind="parentpar.parentParAppstype"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Value*</label>
+              <div class="col-sm-9">
+                <div class="input-group">
+                  <input id="parValue" class="form-control" placeholder="[180]" maxlength="255" tabindex="2" required>
+                  <span class="input-group-addon">default:</span>
+                  <label class="form-control" ng-bind="parentpar.parentParValue"></label>
+                </div>                
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Valid Date*</label>
               <div class="col-sm-4">
                 <div class="input-group">
-                  <input id="startDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="6" required>
+                  <input id="startDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="3" required>
                   <div class="input-group-btn">
                     <button id="btn-startdate" class="btn btn-info" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
                   </div>
@@ -128,7 +138,7 @@
               <label class="col-sm-3 control-label">Until Date*</label>
               <div class="col-sm-4">
                 <div class="input-group">
-                  <input id="endDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="7" required>
+                  <input id="endDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="4" required>
                   <div class="input-group-btn">
                     <button id="btn-enddate" class="btn btn-info" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
                   </div>
@@ -146,6 +156,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

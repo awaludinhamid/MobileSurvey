@@ -9,6 +9,7 @@ package id.co.sim.mobsur.bean.dto.support;
 import java.util.List;
 
 /**
+ * DTO list table MOBILE_TASK_ASSIGNMENT
  * @created Feb 3, 2017
  * @author awal
  */

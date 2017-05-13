@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Task status service implementation (see the service for usage info)
  * @created Feb 8, 2017
  * @author awal
  */
@@ -23,8 +24,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly=true)
 public class MasterTaskStatusServiceImpl implements MasterTaskStatusService {
 
-    @Autowired
-    private MasterTaskStatusDAO masterTaskStatusDAO;
+  @Autowired
+  private MasterTaskStatusDAO masterTaskStatusDAO;// DAO injection
+
+  @Override
+  public MasterTaskStatus getById(int taskStatusId) {
+    return masterTaskStatusDAO.getById(taskStatusId);
+  }
+
+  @Override
+  public MasterTaskStatus getByCode(String taskStatusCode) {
+    return masterTaskStatusDAO.getByCode(taskStatusCode);
+  }
 
   @Override
   public List<MasterTaskStatus> getAll() {

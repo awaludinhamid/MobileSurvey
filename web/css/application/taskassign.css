@@ -8,12 +8,12 @@ and open the template in the editor.
     Author     : awal
 */
 
-table#tbl-data tr>th:first-child
+div#taskassign table#tbl-data tr>th:first-child
 {
   width: 41px;
-  padding: 0;
+  padding: 0 10px;
 }
-table#tbl-data tr>td:first-child
+div#taskassign table#tbl-data tr>td:first-child
 {
   width: 40px;
   padding: 0;

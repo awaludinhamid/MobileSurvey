@@ -12,12 +12,20 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
+ * DAO table MASTER_JOB_ASSIGNMENT
+ * extends BaseDAO class
+ * @see BaseDAO
  * @created Jan 17, 2017
  * @author awal
  */
 @Repository("masterJobAssignmentDAO")
 public class MasterJobAssignmentDAO extends BaseDAO<MasterJobAssignment> {
 
+  /**
+   * Get job assign data by commission
+   * @param userCommissionedId
+   * @return list of job assigns based on given commission
+   */
   public List<MasterJobAssignment> getByUserCommissioned(int userCommissionedId) {
     return sessionFactory.getCurrentSession().createQuery(
             "from " + domainClass.getName() + " jobass " +
@@ -26,10 +34,15 @@ public class MasterJobAssignmentDAO extends BaseDAO<MasterJobAssignment> {
             .list();
   }
   
+  /**
+   * Delete job assign by id
+   * @param jobAssignId
+   * @return deleted status (0=exit normal, otherwise force exit)
+   */
   public int deleteById(int jobAssignId) {
     return sessionFactory.getCurrentSession().createQuery(
-            "delete from " + domainClass.getName() + " " +
-              "where jobAssignId = :jobAssignId")
+            "delete from " + domainClass.getName() + " jobass " +
+              "where jobass.jobAssignId = :jobAssignId")
             .setInteger("jobAssignId", jobAssignId)
             .executeUpdate();
   }

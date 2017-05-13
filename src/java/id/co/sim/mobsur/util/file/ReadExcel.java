@@ -22,16 +22,26 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
+ * Read the excel file
+ * Supported extention: .xls and .xlsx
  * @created Jan 25, 2017
  * @author awal
  */
 public class ReadExcel {
 
-  private final MultipartFile file;
-  private final List<String> fields;
-  private final boolean hasHeader;
-  private final String fileName;
+  private final MultipartFile file;//excel file
+  private final List<String> fields;//list of column name
+  private final boolean hasHeader;//where to start read the data
+  private final String fileName;//file name
   
+  /**
+   * The only constructor to access the instance
+   * Prepare initial parameter
+   * @param file
+   * @param fields
+   * @param hasHeader
+   * @param fileName 
+   */
   public ReadExcel(MultipartFile file, List<String> fields, boolean hasHeader, String fileName) {
     this.file = file;
     this.fields = fields;
@@ -39,6 +49,11 @@ public class ReadExcel {
     this.fileName = fileName;
   }
   
+  /**
+   * Get the file contents
+   * @return list of row of column of index and data contents
+   * @throws IOException 
+   */
   public List<Map<String,String>> getFileContents() throws IOException {
     //we worked on this highest object parent
     Workbook wb;

@@ -26,6 +26,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * User logged behavior
  * @created Jun 22, 2015
  * @author awal
  */
@@ -50,7 +51,7 @@ public class CustomUserDetailsService implements UserDetailsService {
   /**
   * Retrieves a user record containing the user's credentials and access.
   * @param username
-  * @return 
+  * @return user logged detail
   */
   @Override
   public UserDetails loadUserByUsername(String username)
@@ -90,11 +91,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     return userDetails;
   }
 
-  /**
+  /*
   * Retrieves the correct ROLE type depending on the access level, where access level is an Integer.
   * Basically, this interprets the access value whether it's for a regular user or admin.
   *
-  * @param access an integer value representing the access of the user
+  * @param userId, an integer value representing the user
   * @return collection of granted authorities
   */
   private Collection<GrantedAuthority> getAuthorities(int userId) {
@@ -113,17 +114,18 @@ public class CustomUserDetailsService implements UserDetailsService {
   /*
   * Retrieval of user from a database.
   * @param username
-  * @return MasterUser
+  * @return user to be searched
   */
   private MasterUser searchDatabase(String username) {
 
     // Retrieve user from the database
-    //List<Users> users = internalDatabase();
-    MasterUser user = muServ.getByCodeAndCoy(username,request.getParameter("coyCode"));
+    String coyCode = request.getParameter("coyCode");
+    MasterUser user = muServ.getByCodeAndCoy(username,coyCode);
     if(user == null) {
       logger.error("User does not exist!");
       throw new RuntimeException("User does not exist!");
     } else {
+      request.getSession().setAttribute("userId", user.getUserId());
       return user;
     }
   }

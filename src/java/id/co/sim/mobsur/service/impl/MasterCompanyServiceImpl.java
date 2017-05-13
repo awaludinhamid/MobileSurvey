@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Company service implementation (see the service for usage info)
  * @created Oct 12, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterCompanyServiceImpl implements MasterCompanyService {
 
   @Autowired
-  private MasterCompanyDAO masterCompanyDAO;  
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterCompanyDAO masterCompanyDAO; // DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterCompanyServiceImpl implements MasterCompanyService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterCompany delete(MasterCompany mc) {
-    return masterCompanyDAO.delete(mc);
+  public void delete(MasterCompany mc) {
+    masterCompanyDAO.delete(mc);
   }
 
   @Override

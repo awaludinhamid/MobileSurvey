@@ -42,16 +42,24 @@
     <div class="modal fade" id="delete-mdl" tabindex="-1" role="dialog" aria-labelledby="title" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="background-color: red; color: white">
+          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title"><span class="glyphicon glyphicon-trash"></span>&nbsp;Delete Record</h4>
+            <h4 class="modal-title"><span class="glyphicon glyphicon-trash"></span>&nbsp;Disable/Delete Record</h4>
           </div>
           <div class="modal-body">
-            <span>Confirm to delete the record..</span>
+            <span>Do you want to disable/delete the following record ?</span>
+            <table class="table table-condensed table-bordered">
+              <thead>
+                <tr></tr>
+              </thead>
+              <tbody>
+                <tr></tr>
+              </tbody>
+            </table>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            <button id="delete-confirm-btn" type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+            <button id="delete-confirm-btn" type="button" class="btn btn-primary">Yes</button>
           </div>
         </div>
       </div>
@@ -79,7 +87,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;Information</h4>
+            <h4 class="modal-title"><span class="glyphicon glyphicon-info-sign"></span><span>&nbsp;Information</span></h4>
           </div>
           <div class="modal-body">
           </div>

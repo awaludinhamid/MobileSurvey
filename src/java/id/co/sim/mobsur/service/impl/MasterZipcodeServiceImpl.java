@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Zipcode service implementation (see the service for usage info)
  * @created Nov 26, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterZipcodeServiceImpl implements MasterZipcodeService {
 
   @Autowired
-  private MasterZipcodeDAO masterZipcodeDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterZipcodeDAO masterZipcodeDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterZipcodeServiceImpl implements MasterZipcodeService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterZipcode delete(MasterZipcode mz) {
-    return masterZipcodeDAO.delete(mz);
+  public void delete(MasterZipcode mz) {
+    masterZipcodeDAO.delete(mz);
   }
 
   @Override
@@ -82,5 +83,15 @@ public class MasterZipcodeServiceImpl implements MasterZipcodeService {
   @Override
   public List<MasterZipcode> getByKecamatan(int kecId) {
     return masterZipcodeDAO.getByKecamatan(kecId);
+  }
+
+  @Override
+  public List<MasterZipcode> getByCity(int cityId) {
+    return masterZipcodeDAO.getByCity(cityId);
+  }
+
+  @Override
+  public List<MasterZipcode> getByPatternCode(String patternCode) {
+    return masterZipcodeDAO.getByPatternCode(patternCode);
   }
 }

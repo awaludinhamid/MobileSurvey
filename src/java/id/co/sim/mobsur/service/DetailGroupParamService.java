@@ -10,10 +10,16 @@ import id.co.sim.mobsur.bean.DetailGroupParam;
 import java.util.List;
 
 /**
+ * SPI of detail group parameter module
  * @created Jan 9, 2017
  * @author awal
  */
 public interface DetailGroupParamService {
 
+  /**
+   * Get detail group parameter by the group
+   * @param groupParamId, group parameter
+   * @return list of detail group based on given group parameter
+   */
   public List<DetailGroupParam> getByGroupParamId(int groupParamId);
 }

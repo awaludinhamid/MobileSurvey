@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Option answer service implementation (see the service for usage info)
  * @created Jan 5, 2017
  * @author awal
  */
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterOptionAnswerServiceImpl implements MasterOptionAnswerService {
 
   @Autowired
-  private MasterOptionAnswerDAO masterOptionAnswerDAO;
+  private MasterOptionAnswerDAO masterOptionAnswerDAO;// DAO injection
 
   @Override
   public MasterOptionAnswer getById(int optionAnswerId) {

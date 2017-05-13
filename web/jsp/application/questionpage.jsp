@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/question.js"></script>
+    <!--script src="../../js/application/question.js"></script--> 
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="question" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -44,13 +49,13 @@
             <tr ng-repeat="data in datatable" data-id="{{data.questId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.questLabel}}</td>
               <td>{{data.answerType.answerTypeName}}</td>
               <td>
                 <img id="img-option-record" class="img-record img-record-small" src="../../img/icon/menu-icon.png" alt="Option icon" 
-                     title="Option" ng-hide="hideItem(data.optionAnswer.optionAnswerName,'NONE')" ng-click="store(data)"/>
+                     title="Option" ng-hide="hideItem(data.optionAnswer.optionAnswerName,'NONE')" ng-click="storearr(data)"/>
               </td>
               <td>{{data.maxLength}}</td>
               <td><input type="checkbox" ng-checked="{{data.isMandatory}}" disabled></td>
@@ -83,14 +88,14 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">Question Label*</label>
               <div class="col-sm-9">
-                <input id="questLabel" class="form-control" placeholder="[Tipe Identitas]" tabindex="1" maxlength="255" required autofocus>
+                <input id="questLabel" class="form-control" placeholder="[Tipe Identitas]" tabindex="1" maxlength="30" required autofocus>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Answer Type*</label>
               <div class="col-sm-9">
-                <select id="answerTypeId" class="form-control" tabindex="2">
-                  <option ng-repeat="data in datadrop.answertype" value="{{data.answerTypeId}}">{{data.answerTypeName}}</option>
+                <select id="answerTypeId" class="form-control" tabindex="2" ng-model="answertype"
+                        ng-options="drop.answerTypeName for drop in datadrop.answertype track by drop.answerTypeId">
                 </select>
               </div>
             </div>
@@ -102,10 +107,10 @@
                 </select>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-show="answertype.showMaxLength==='true'">
               <label class="col-sm-3 control-label">Max Length</label>
               <div class="col-sm-9">
-                <input id="maxLength" class="form-control" placeholder="[30]" tabindex="4" maxlength="3">
+                <input type="number" id="maxLength" class="form-control" placeholder="[30]" tabindex="4" max="500">
               </div>
             </div>
             <div class="form-group">
@@ -179,6 +184,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

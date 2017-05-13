@@ -7,6 +7,7 @@
 package id.co.sim.mobsur.bean.dto;
 
 /**
+ * DTO table MASTER_ZIPCODE_VERIFICATOR
  * @created Jan 23, 2017
  * @author awal
  */

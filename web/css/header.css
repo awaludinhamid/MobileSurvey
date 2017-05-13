@@ -95,6 +95,19 @@ div#user-menu>div.dropdown>ul>li>a:hover {
   margin: 5px
 }
 
+div#change-pass-mdl .modal-header {
+  background-color: #147;
+  color: #efefff;
+}
+div#change-pass-mdl .modal-header>button.close {
+  color: red;
+  opacity: 0.5;
+}
+div#change-pass-mdl .modal-header>button.close:hover {
+  opacity: 0.9;
+  transform: scale(1.5);
+}
+
 @media screen and (max-width: 768px) {
   .title {
     font-size: 15px;

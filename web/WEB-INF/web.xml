@@ -43,16 +43,16 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-    <error-page>
+    <!--error-page>
         <error-code>404</error-code>
         <location>/jsp/error/errorpage.jsp</location>
-    </error-page>   
+    </error-page-->   
     <error-page>
         <error-code>405</error-code>
         <location>/jsp/error/errorpage.jsp</location>
     </error-page>   
-    <error-page>
+    <!--error-page>
         <exception-type>java.lang.Exception</exception-type>
         <location>/jsp/error/errorpage.jsp</location>
-    </error-page>
+    </error-page-->
 </web-app>

@@ -17,11 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_ZIPCODE
  * @created Nov 26, 2016
  * @author awal
  */
 @Entity
 @Table(name="MASTER_ZIPCODE")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterZipcode extends RecordControllerBean {
 
   @Id
@@ -32,9 +34,12 @@ public class MasterZipcode extends RecordControllerBean {
   private String zipcodeCode;
   @Column(name="ZIPCODE_DESC")
   private String zipcodeDesc;
-  @ManyToOne
+  /*@ManyToOne
   @JoinColumn(name="KEC_ID")
-  private MasterKecamatan kecamatan;
+  private MasterKecamatan kecamatan;*/
+  @ManyToOne
+  @JoinColumn(name="CITY_ID")
+  private MasterCity city;
 
   /**
    * @return the zipcodeId
@@ -77,18 +82,18 @@ public class MasterZipcode extends RecordControllerBean {
   public void setZipcodeCode(String zipcodeCode) {
     this.zipcodeCode = zipcodeCode;
   }
-
+  
   /**
-   * @return the kecamatan
+   * @return the city
    */
-  public MasterKecamatan getKecamatan() {
-    return kecamatan;
+  public MasterCity getCity() {
+    return city;
   }
 
   /**
-   * @param kecamatan the kecamatan to set
+   * @param city the city to set
    */
-  public void setKecamatan(MasterKecamatan kecamatan) {
-    this.kecamatan = kecamatan;
+  public void setCity(MasterCity city) {
+    this.city = city;
   }
 }

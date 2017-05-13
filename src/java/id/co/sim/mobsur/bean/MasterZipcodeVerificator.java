@@ -17,11 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_ZIPCODE_VERIFICATOR
  * @created Jan 23, 2017
  * @author awal
  */
 @Entity
 @Table(name="MASTER_ZIPCODE_VERIFICATOR")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterZipcodeVerificator extends RecordAuditBean {
 
   @Id

@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Parameter service implementation (see the service for usage info)
  * @created Nov 18, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterParameterServiceImpl implements MasterParameterService {
 
   @Autowired
-  private MasterParameterDAO masterParameterDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterParameterDAO masterParameterDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,13 @@ public class MasterParameterServiceImpl implements MasterParameterService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterParameter delete(MasterParameter mp) {
-    return masterParameterDAO.delete(mp);
+  public void delete(MasterParameter mp) {
+    masterParameterDAO.delete(mp);
+  }
+
+  @Override
+  public MasterParameter getById(int parId) {
+    return masterParameterDAO.getById(parId);
   }
 
   @Override

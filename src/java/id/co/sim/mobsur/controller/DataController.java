@@ -8,6 +8,7 @@ package id.co.sim.mobsur.controller;
 import id.co.sim.mobsur.bean.DetailQuestionGroup;
 import id.co.sim.mobsur.bean.MasterAnswerType;
 import id.co.sim.mobsur.bean.MasterCity;
+import id.co.sim.mobsur.bean.MasterCompany;
 import id.co.sim.mobsur.bean.MasterJobAssignment;
 import id.co.sim.mobsur.bean.MasterKecamatan;
 import id.co.sim.mobsur.bean.MasterKelurahan;
@@ -15,6 +16,7 @@ import id.co.sim.mobsur.bean.MasterMenu;
 import id.co.sim.mobsur.bean.MasterOffice;
 import id.co.sim.mobsur.bean.MasterOptionAnswer;
 import id.co.sim.mobsur.bean.MasterParentMenu;
+import id.co.sim.mobsur.bean.MasterParentParameter;
 import id.co.sim.mobsur.bean.MasterProvinsi;
 import id.co.sim.mobsur.bean.MasterQuestion;
 import id.co.sim.mobsur.bean.MasterQuestionGroup;
@@ -27,9 +29,16 @@ import id.co.sim.mobsur.bean.MasterTemplate;
 import id.co.sim.mobsur.bean.MasterUser;
 import id.co.sim.mobsur.bean.MasterZipcode;
 import id.co.sim.mobsur.bean.MasterZipcodeVerificator;
+import id.co.sim.mobsur.bean.MobileTaskAssignment;
+import id.co.sim.mobsur.bean.MobileTaskResult;
+import id.co.sim.mobsur.bean.MobileTaskResultDetailList;
+import id.co.sim.mobsur.bean.dto.TaskVerifyDTO;
 import id.co.sim.mobsur.bean.support.ContentsBean;
+import id.co.sim.mobsur.bean.support.ImageBean;
 import id.co.sim.mobsur.bean.support.StringBean;
 import id.co.sim.mobsur.bean.support.UserMenuBean;
+import id.co.sim.mobsur.bean.support.VerifyTaskBean;
+import id.co.sim.mobsur.service.DashMonitorVwService;
 import id.co.sim.mobsur.service.DetailCompanyLogoService;
 import id.co.sim.mobsur.service.DetailQuestionGroupService;
 import id.co.sim.mobsur.service.GenericService;
@@ -47,6 +56,7 @@ import id.co.sim.mobsur.service.MasterOfficeService;
 import id.co.sim.mobsur.service.MasterOptionAnswerService;
 import id.co.sim.mobsur.service.MasterParameterService;
 import id.co.sim.mobsur.service.MasterParentMenuService;
+import id.co.sim.mobsur.service.MasterParentParameterService;
 import id.co.sim.mobsur.service.MasterProductService;
 import id.co.sim.mobsur.service.MasterProvinsiService;
 import id.co.sim.mobsur.service.MasterQuestionGroupService;
@@ -62,9 +72,13 @@ import id.co.sim.mobsur.service.MasterUserService;
 import id.co.sim.mobsur.service.MasterZipcodeService;
 import id.co.sim.mobsur.service.MasterZipcodeVerificatorService;
 import id.co.sim.mobsur.service.MobileTaskAssignmentService;
+import id.co.sim.mobsur.service.MobileTaskResultDetailListService;
+import id.co.sim.mobsur.service.MobileTaskResultImageService;
+import id.co.sim.mobsur.service.MobileTaskResultService;
 import id.co.sim.mobsur.util.file.WriteExcel;
 import id.co.sim.mobsur.util.file.WritePDF;
 import id.co.sim.mobsur.util.file.WriteText;
+import id.co.sim.mobsur.util.file.WriteText2;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -94,7 +108,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Data controller, requested via AJAX
  * Handles and retrieves the data page depending on the URI template
  * A user must be log-in first he can access these pages
- * @created Jun 19, 2015
+ * @created Jun 19, 2016
  * @author awal
  */
 @Controller
@@ -102,13 +116,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DataController {
 
  private final Logger logger = Logger.getLogger("controller");
- private final String basicDate = "2016-01-01";
- private final String basicEndDate = "2999-12-31";
- private final String folderName = "download/";
+ private final String basicDate = "2000-01-01"; //default start date
+ private final String basicEndDate = "2999-12-31"; //default end date
+ private final String folderName = "download/"; //keep the downloaded file in this folder (find out in apache bin location)
  //        
- private File downloadFile;
+ private File downloadFile; //download file object
  private String fileName;
  
+ // Service injection list
  @Autowired
  private MasterParentMenuService mpmServ;
  @Autowired
@@ -133,6 +148,8 @@ public class DataController {
  private MasterZipcodeService mzServ;
  @Autowired
  private MasterParameterService mpServ;
+ @Autowired
+ private MasterParentParameterService mppServ;
  @Autowired
  private MasterHierarchyService mhServ;
  @Autowired
@@ -173,23 +190,31 @@ public class DataController {
  private MobileTaskAssignmentService mtaServ;
  @Autowired
  private MasterTaskStatusService mtsServ;
+ @Autowired
+ private MobileTaskResultService mtrServ;
+ @Autowired
+ private MobileTaskResultDetailListService mtrdlServ;
+ @Autowired
+ private MobileTaskResultImageService mtriServ;
+ @Autowired
+ private DashMonitorVwService dmvServ;
 
  /**
-  * Generate all companies data
-  *
-   * @param pageNo
+  * Generate companies data by page
+  * store result in the java Map, so we can send the content and its count
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of companies contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/company/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getCompanies(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
       logger.debug("Received request to get companies data");
-      //
+      //parameter of find
       String coyCodePattern = httpRequest.getParameter("coyCodePattern") == null ? "" : httpRequest.getParameter("coyCodePattern");
       String coyNamePattern = httpRequest.getParameter("coyNamePattern") == null ? "" : httpRequest.getParameter("coyNamePattern");
       //
       Map<String,Object> mapCoy = new HashMap();
-      if(coyCodePattern.equals("") && coyNamePattern.equals("")) {
+      if(coyCodePattern.equals("") && coyNamePattern.equals("")) { //no filter, the default
         mapCoy.put("content", mcServ.getByPage(pageNo));
         mapCoy.put("count", mcServ.count());
       } else {
@@ -202,7 +227,7 @@ public class DataController {
  /**
   * Generate all parent menus data
   *
-  * @return json data
+  * @return list of all parent menus
   */
     @RequestMapping(value = "/parentmenu", method = RequestMethod.GET)
     public @ResponseBody List<MasterParentMenu> getAllParentMenu() {
@@ -214,7 +239,7 @@ public class DataController {
  /**
   * Generate all menus data
   *
-  * @return json data
+  * @return list of all menus
   */
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public @ResponseBody List<MasterMenu> getAllMenu() {
@@ -224,11 +249,11 @@ public class DataController {
  }
 
  /**
-  * Generate all menus data by page
+  * Generate menus data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of menus contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/menu/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getMenus(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -254,7 +279,7 @@ public class DataController {
  /**
   * Generate all role types data
   *
-  * @return json data
+  * @return list of all role types
   */
     @RequestMapping(value = "/roletype", method = RequestMethod.GET)
     public @ResponseBody List<MasterRoleType> getAllRoleTypes() {
@@ -266,7 +291,7 @@ public class DataController {
  /**
   * Generate all roles data
   *
-  * @return json data
+  * @return list of all roles
   */
     @RequestMapping(value = "/role", method = RequestMethod.GET)
     public @ResponseBody List<MasterRole> getAllRoles() {
@@ -276,33 +301,35 @@ public class DataController {
  }
 
  /**
-  * Generate all roles data for client
+  * Generate all roles data based on logged user role group: owner or client
   *
   * @param session
-  * @return json data
+  * @return list of all roles, based on logged user
   */
     @RequestMapping(value = "/rolebyrole", method = RequestMethod.GET)
     public @ResponseBody List<MasterRole> getRoleForClient(HttpSession session) {
       logger.debug("Received request to get all roles for client");
-      //
+      //owner
       if(isOwner((Integer) session.getAttribute("userId")))
         //return mrServ.getForOwnerRole();//next on implementation
         return mrServ.getAll();//purpose for testing only
+      //client
       return mrServ.getForClientRole();
  }
 
  /**
-  * Generate all roles data for client with null value
+  * Generate all roles data plus null value by logged user role group: owner or client
   *
   * @param session
-  * @return json data
+  * @return list of all roles, based on logged user plus null
   */
     @RequestMapping(value = "/rolebyrolewithnull", method = RequestMethod.GET)
     public @ResponseBody List<MasterRole> getRoleForClientWithNull(HttpSession session) {
       logger.debug("Received request to get all roles for client with null value");
-      //
+      //owner
       if(isOwner((Integer) session.getAttribute("userId")))
         return mrServ.getForOwnerRoleWithNull();
+      //client
       return mrServ.getForClientRoleWithNull();
  }
 
@@ -310,15 +337,12 @@ public class DataController {
   * Generate all roles by parent role
   *
   * @param httpRequest
-  * @return json data
+  * @return list of roles by given user as a superior
   */
     @RequestMapping(value = "/rolebyparent", method = RequestMethod.GET)
     public @ResponseBody List<MasterRole> getRoleByParentRole(HttpServletRequest httpRequest) {
       logger.debug("Received request to get all roles by parent role");
       //
-      /*return mrServ.getByCoyAndParentRole(
-              (Integer) httpRequest.getSession().getAttribute("coyId"),
-              Integer.parseInt(httpRequest.getParameter("parentRoleId")));*/
       return mrServ.getByParentRoleLevel(mrServ.getById(Integer.parseInt(httpRequest.getParameter("parentRoleId"))).getRoleLevel());
  }
 
@@ -326,7 +350,7 @@ public class DataController {
   * Generate all roles which assigned in distribution modul
   *
   * @param httpRequest
-  * @return json data
+  * @return list of roles specific to distribution model
   */
     @RequestMapping(value = "/roleassigndist", method = RequestMethod.GET)
     public @ResponseBody List<MasterRole> getRoleForAssignedDist(HttpServletRequest httpRequest) {
@@ -339,21 +363,37 @@ public class DataController {
   * Generate all roles which could assigned job
   *
   * @param httpRequest
-  * @return json data
+  * @return list of roles based on user who has privilege signing job
   */
     @RequestMapping(value = "/rolejobassign", method = RequestMethod.GET)
     public @ResponseBody List<MasterRole> getRoleForJobAssign(HttpServletRequest httpRequest) {
       logger.debug("Received request to get all roles which could assigned job");
       //
-      return mrServ.getForClientRole();
+      String userRoleTypeCode = (String) httpRequest.getSession().getAttribute("roleTypeCode");
+      String[] roleTypeCodeArr = {userRoleTypeCode,"C"};
+      //
+      return mrServ.getByRoleType(roleTypeCodeArr);
+ }
+
+ /**
+  * Generate all down level roles of role
+  *
+  * @param httpRequest
+  * @return list of children roles of the given role
+  */
+    @RequestMapping(value = "/rolechildlevel", method = RequestMethod.GET)
+    public @ResponseBody List<MasterRole> getRoleChildLevel(HttpServletRequest httpRequest) {
+      logger.debug("Received request to get all down level roles of role");
+      //      
+      return mrServ.getByRoleLevel(Integer.parseInt(httpRequest.getParameter("roleLevel")) + 1);
  }
 
  /**
   * Generate all roles data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of roles contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/role/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getRoles(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -377,15 +417,17 @@ public class DataController {
   * Generate all roles data by user
   *
   * @param httpRequest
-  * @return json data
+  * @return list of roles by the given user
   */
     @RequestMapping(value = "/rolebyuser", method = RequestMethod.GET)
     public @ResponseBody List<MasterRole> getRolesByUser(HttpServletRequest httpRequest) {
       logger.debug("Received request to get roles data by user");
       //
       String userIdStr = httpRequest.getParameter("userId");
+      //return undefined user
       if(userIdStr == null || userIdStr.equals(""))
         return new ArrayList();
+      //others
       return mrServ.getRolesByUser(Integer.parseInt(userIdStr));
  }
 
@@ -393,21 +435,27 @@ public class DataController {
   * Generate offices by company data
   *
   * @param session
-  * @return json data
+  * @return list of offices by the current company
   */
     @RequestMapping(value = "/office", method = RequestMethod.GET)
     public @ResponseBody List<MasterOffice> getOfficesByCompany(HttpSession session) {
       logger.debug("Received request to get offices data");
-      //
+      //coordinator office
+      if(((String) session.getAttribute("roleTypeCode")).equals("C")) {
+        List<MasterOffice> offices = new ArrayList();
+        offices.add(muServ.getById((Integer) session.getAttribute("userId")).getOffice());
+        return offices;
+      }
+      //all office
       return moServ.getByCompany((Integer) session.getAttribute("coyId"));
  }
 
  /**
-  * Generate offices by company data
+  * Generate offices data by company and page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of offices contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/office/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getOfficesByCompany(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -430,27 +478,29 @@ public class DataController {
  }
 
  /**
-  * Generate all users data by page
+  * Generate all users data
   *
   * @param httpRequest
-  * @return json data
+  * @return list of users based on given company
   */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public @ResponseBody List<MasterUser> getUsersByCompany(HttpServletRequest httpRequest) {
       logger.debug("Received request to get all users data");
       //
       Object coyIdObj = httpRequest.getSession().getAttribute("coyId");
+      //no company
       if(coyIdObj == null)
         return new ArrayList();
+      //normal
       return muServ.getByCompany((Integer) coyIdObj);
  }
 
  /**
   * Generate all users data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of users contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/user/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getUsersByCompany(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -476,15 +526,17 @@ public class DataController {
   * Generate all users data by office
   *
   * @param httpRequest
-  * @return json data
+  * @return list of users based on given office
   */
     @RequestMapping(value = "/userbyoffice", method = RequestMethod.GET)
     public @ResponseBody List<MasterUser> getUsersByOffice(HttpServletRequest httpRequest) {
       logger.debug("Received request to get all users data by office");
       //
       String officeIdStr = httpRequest.getParameter("officeId");
+      //no office
       if(officeIdStr == null || officeIdStr.equals(""))
         return new ArrayList();
+      //normal
       return muServ.getByOffice(Integer.parseInt(officeIdStr));
  }
 
@@ -492,7 +544,7 @@ public class DataController {
   * Generate all users data as verificator
   *
   * @param httpRequest
-  * @return json data
+  * @return list of users who has verificator role based on given company
   */
     @RequestMapping(value = "/userasverif", method = RequestMethod.GET)
     public @ResponseBody List<MasterUser> getUsersAsVerificator(HttpServletRequest httpRequest) {
@@ -502,14 +554,14 @@ public class DataController {
  }
 
  /**
-  * Generate all users data by role
+  * Generate all company users data by role
   *
   * @param httpRequest
-  * @return json data
+  * @return list of users based on given role and company
   */
-    @RequestMapping(value = {"/userbyrole","/userbyrole2"}, method = RequestMethod.GET)
-    public @ResponseBody List<MasterUser> getUsersByRole(HttpServletRequest httpRequest) {
-      logger.debug("Received request to get all users data by role");
+    @RequestMapping(value = "/userbyrole", method = RequestMethod.GET)
+    public @ResponseBody List<MasterUser> getUsersByRoleCompany(HttpServletRequest httpRequest) {
+      logger.debug("Received request to get all company users data by role");
       //
       return muServ.getByRoleCoy(
               Integer.parseInt(httpRequest.getParameter("roleId")),
@@ -517,10 +569,32 @@ public class DataController {
  }
 
  /**
+  * Generate all office users data by role
+  *
+  * @param httpRequest
+  * @return list of users depend on the role, if manager return users based on company, otherwise return based on office
+  */
+    @RequestMapping(value = "/userbyrole2", method = RequestMethod.GET)
+    public @ResponseBody List<MasterUser> getUsersByRoleOffice(HttpServletRequest httpRequest) {
+      logger.debug("Received request to get all office users data by role");
+      //
+      String roleTypeCode = httpRequest.getParameter("roleTypeCode");
+      //user company
+      if(roleTypeCode.equals("M"))
+        return muServ.getByRoleCoy(
+              Integer.parseInt(httpRequest.getParameter("roleId")),
+              (Integer) httpRequest.getSession().getAttribute("coyId"));      
+      //user office
+      return muServ.getByRoleOffice(
+              Integer.parseInt(httpRequest.getParameter("roleId")),
+              muServ.getById(Integer.parseInt(httpRequest.getParameter("userId"))).getOffice().getOfficeId());
+ }
+
+ /**
   * Generate all users data by parent
   *
    * @param session
-  * @return json data
+  * @return list of users based on given superior
   */
     @RequestMapping(value = {"/userbyparent"}, method = RequestMethod.GET)
     public @ResponseBody List<MasterUser> getUsersByParent(HttpSession session) {
@@ -533,7 +607,7 @@ public class DataController {
   * Generate all verificator users data by parent
   *
    * @param httpRequest
-  * @return json data
+  * @return list of users who has verificator role based on given superior
   */
     @RequestMapping(value = {"/userverifbyparent"}, method = RequestMethod.GET)
     public @ResponseBody List<MasterUser> getVerifUsersByParent(HttpServletRequest httpRequest) {
@@ -551,12 +625,18 @@ public class DataController {
   * Generate all coordinator users data by parent
   *
    * @param session
-  * @return json data
+  * @return list of users who has coordinator role based on given company
   */
     @RequestMapping(value = {"/usercoordbyparent"}, method = RequestMethod.GET)
     public @ResponseBody List<MasterUser> getCoordUsersByParent(HttpSession session) {
       logger.debug("Received request to get all coordinator users data by parent");
-      //      
+      //coordinator himself      
+      if(((String) session.getAttribute("roleTypeCode")).equals("C")) {
+        List<MasterUser> users = new ArrayList();
+        users.add(muServ.getById((Integer) session.getAttribute("userId")));
+        return users;
+      }
+      //normal
       return muServ.getByRoleAndParentUser(
               mrlServ.getByCode("C").getRoleTypeId(),
               (Integer) (session.getAttribute("userId")));
@@ -566,7 +646,7 @@ public class DataController {
   * Generate all users data by role and parent
   *
    * @param httpRequest
-  * @return json data
+  * @return list of users based on given role and superior
   */
     @RequestMapping(value = {"/userbyroleparent"}, method = RequestMethod.GET)
     public @ResponseBody List<MasterUser> getUsersByRoleParent(HttpServletRequest httpRequest) {
@@ -574,8 +654,10 @@ public class DataController {
       //        
       int parentUserId = (Integer) (httpRequest.getSession().getAttribute("userId"));  
       int roleId = Integer.parseInt(httpRequest.getParameter("roleId"));
+      //no role
       if(roleId == 0)
         return new ArrayList();
+      //normal
       return muServ.getByRoleAndParentUser(
               mrServ.getById(roleId).getRoleType().getRoleTypeId(),
               parentUserId);
@@ -585,7 +667,7 @@ public class DataController {
   * Generate all users data by child role
   *
   * @param httpRequest
-  * @return json data
+  * @return list of users who is a child of given superior
   */
     @RequestMapping(value = "/userbychildrole", method = RequestMethod.GET)
     public @ResponseBody List<MasterUser> getUsersByChildRole(HttpServletRequest httpRequest) {
@@ -607,27 +689,50 @@ public class DataController {
  }
 
  /**
-  * Generate all users data by office and role type
+  * Generate all coordinators data by office and role type
   *
   * @param httpRequest
-  * @return json data
+  * @return list of users who has coordinator role based on given office
   */
     @RequestMapping(value = "/coordbyofficerole", method = RequestMethod.GET)
-    public @ResponseBody List<MasterUser> getUsersByOfficeRole(HttpServletRequest httpRequest) {
-      logger.debug("Received request to get all users data by office and role type");
+    public @ResponseBody List<MasterUser> getCoordByOfficeRole(HttpServletRequest httpRequest) {
+      logger.debug("Received request to get all coordinators data by office and role type");
       //
       int officeId = Integer.parseInt(httpRequest.getParameter("officeId"));
+      //no office
       if(officeId == 0)
         return new ArrayList();
+      //normal
       return muServ.getByOfficeAndRoleTypeCode(officeId, "C");
+ }
+
+ /**
+  * Generate all verificators data by office and role type
+  *
+  * @param httpRequest
+  * @return list of users who has verificator role based on given office
+  */
+    @RequestMapping(value = "/verifbyofficerole", method = RequestMethod.GET)
+    public @ResponseBody List<MasterUser> getVerifByOfficeRole(HttpServletRequest httpRequest) {
+      logger.debug("Received request to get all verificators data by office and role type");
+      //
+      if(((String) httpRequest.getSession().getAttribute("roleTypeCode")).equals("C"))
+        return muServ.getByParentUser((Integer) httpRequest.getSession().getAttribute("userId"));
+      //
+      int officeId = Integer.parseInt(httpRequest.getParameter("officeId"));
+      //no office
+      if(officeId == 0)
+        return new ArrayList();
+      //normal
+      return muServ.getByOfficeAndRoleTypeCode(officeId, "V");
  }
 
  /**
   * Generate all user role data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of user roles contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/userrole/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getUserRoles(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -655,7 +760,7 @@ public class DataController {
   *
    * @param userId
   * @param httpRequest
-  * @return json data
+  * @return list of user-menu combinations based on given user
   */
     @RequestMapping(value = "/usermenu/{userId}", method = RequestMethod.GET)
     public @ResponseBody List<UserMenuBean> getUserMenus(@PathVariable("userId") int userId, HttpServletRequest httpRequest) {
@@ -675,11 +780,11 @@ public class DataController {
  }
 
  /**
-  * Generate all role menu data by page
+  * Generate all role menus data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of role menus contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/rolemenu/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getRoleMenus(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -704,22 +809,24 @@ public class DataController {
   * Generate role menu data by role
   *
   * @param httpRequest
-  * @return json data
+  * @return list of role-menu combinations based on given role
   */
     @RequestMapping(value = "/rolemenubyrole", method = RequestMethod.GET)
     public @ResponseBody List<MasterRoleMenu> getRoleMenuByRole(HttpServletRequest httpRequest) {
      logger.debug("Received request to get role menu data by role");
      //retrieve menu role
      String roleIdStr = httpRequest.getParameter("roleId");
+     //no role
      if(roleIdStr == null || roleIdStr.equals(""))
        return new ArrayList();
+     //normal
      return mrmServ.getByRoleId(Integer.parseInt(roleIdStr));
  }
 
  /**
   * Generate all zipcode data
   *
-  * @return json data
+  * @return list of all zipcodes
   */
     @RequestMapping(value = "/zipcode", method = RequestMethod.GET)
     public @ResponseBody List<MasterZipcode> getAllZipcode() {
@@ -732,24 +839,62 @@ public class DataController {
   * Generate all zipcode data by kecamatan
   *
   * @param httpRequest
-  * @return json data
+  * @return list of zipcodes based on given kecamatan
   */
     @RequestMapping(value = "/zipcodebykec", method = RequestMethod.GET)
     public @ResponseBody List<MasterZipcode> getZipcodeByKecamatan(HttpServletRequest httpRequest) {
       logger.debug("Received request to get all zipcode data by kecamatan");
      //retrieve zipcode
      String kecIdStr = httpRequest.getParameter("kecId");
+     //no kecamatan
      if(kecIdStr == null || kecIdStr.equals(""))
        return new ArrayList();
+     //normal
      return mzServ.getByKecamatan(Integer.parseInt(kecIdStr));
  }
 
  /**
-  * Generate all zipcode data by page
+  * Generate all zipcode data by city
   *
-   * @param pageNo
   * @param httpRequest
-  * @return json data
+  * @return list of zipcodes based on given city
+  */
+    @RequestMapping(value = "/zipcodebycity", method = RequestMethod.GET)
+    public @ResponseBody List<MasterZipcode> getZipcodeByCity(HttpServletRequest httpRequest) {
+      logger.debug("Received request to get all zipcode data by city");
+     //retrieve zipcode
+     String cityIdStr = httpRequest.getParameter("cityId");
+     //no city
+     if(cityIdStr == null || cityIdStr.equals(""))
+       return new ArrayList();
+     //normal
+     return mzServ.getByCity(Integer.parseInt(cityIdStr));
+ }
+
+ /**
+  * Generate all zipcode data by pattern code
+  *
+  * @param httpRequest
+  * @return list of zipcodes based on given pattern
+  */
+    @RequestMapping(value = "/zipcodebypattern", method = RequestMethod.GET)
+    public @ResponseBody List<MasterZipcode> getZipcodeByPattern(HttpServletRequest httpRequest) {
+      logger.debug("Received request to get all zipcode data by pattern code");
+     //retrieve zipcode
+     String patternCode = httpRequest.getParameter("patternCode");
+     //no pattern
+     if(patternCode == null || patternCode.equals(""))
+       return new ArrayList();
+     //normal
+     return mzServ.getByPatternCode(patternCode);
+ }
+
+ /**
+  * Generate all zipcodes data by page
+  *
+   * @param pageNo, page number
+  * @param httpRequest
+  * @return list of zipcodes contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/zipcode/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getZipcode(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -770,11 +915,23 @@ public class DataController {
  }
 
  /**
+  * Generate all parent parameters data
+  *
+  * @return list of all parent parameters
+  */
+    @RequestMapping(value = "/parentparam", method = RequestMethod.GET)
+    public @ResponseBody List<MasterParentParameter> getAllParentParam() {
+     logger.debug("Received request to get all parent parameters data");
+     //retrieve all parent parameters
+     return mppServ.getAll();
+ }
+
+ /**
   * Generate all parameter data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of parameters contents based on given page and company, and count of them by the finding parameters
   */
     @RequestMapping(value = "/parameter/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getParameter(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -799,9 +956,9 @@ public class DataController {
  /**
   * Generate all hierarchy data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of hierarchies contents of the given page and company, and count of them by the finding parameters
   */
     @RequestMapping(value = "/hierarchy/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getHierarchy(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -825,9 +982,9 @@ public class DataController {
  /**
   * Generate all distribution data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of distributions contents of the given page and company, and count of them by the finding parameters
   */
     @RequestMapping(value = "/distribution/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getDistribution(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -850,7 +1007,7 @@ public class DataController {
  /**
   * Generate all provinsi data
   *
-  * @return json data
+  * @return list of all provinsi
   */
     @RequestMapping(value = "/provinsi", method = RequestMethod.GET)
     public @ResponseBody List<MasterProvinsi> getAllProvinsi() {
@@ -862,9 +1019,9 @@ public class DataController {
  /**
   * Generate all provinsi data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of provinsi contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/provinsi/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getProvinsi(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -887,9 +1044,9 @@ public class DataController {
  /**
   * Generate all city data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of cities contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/city/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getCity(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -913,24 +1070,26 @@ public class DataController {
   * Generate city data by provinsi
   *
   * @param httpRequest
-  * @return json data
+  * @return list of all cities based on given provinsi
   */
     @RequestMapping(value = "/citybyprov", method = RequestMethod.GET)
     public @ResponseBody List<MasterCity> getCityByProv(HttpServletRequest httpRequest) {
      logger.debug("Received request to get city data by provinsi");
      //retrieve city
      String provIdStr = httpRequest.getParameter("provId");
+     //no provinsi
      if(provIdStr == null || provIdStr.equals(""))
        return new ArrayList();
+     //normal
      return mciServ.getByProvinsi(Integer.parseInt(provIdStr));
  }
 
  /**
   * Generate all kecamatan data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of kecamatan contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/kecamatan/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getKecamatan(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -954,24 +1113,26 @@ public class DataController {
   * Generate all kecamatan data by city
   *
   * @param httpRequest
-  * @return json data
+  * @return list of all kecamatan based on given city
   */
     @RequestMapping(value = "/kecbycity", method = RequestMethod.GET)
     public @ResponseBody List<MasterKecamatan> getKecamatanByCity(HttpServletRequest httpRequest) {
       logger.debug("Received request to get all kecamatan data by city");
      //retrieve kecamatan
      String cityIdStr = httpRequest.getParameter("cityId");
+     //no city
      if(cityIdStr == null || cityIdStr.equals(""))
        return new ArrayList();
+     //normal
      return mkServ.getByCity(Integer.parseInt(cityIdStr));
  }
 
  /**
   * Generate all kelurahan data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of kelurahan contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/kelurahan/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getKelurahan(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -992,18 +1153,20 @@ public class DataController {
  }
 
  /**
-  * Generate all kelurahan data by city
+  * Generate all kelurahan data by kecamatan
   *
   * @param httpRequest
-  * @return json data
+  * @return list of kelurahan based on given kecamatan
   */
     @RequestMapping(value = "/kelbykec", method = RequestMethod.GET)
     public @ResponseBody List<MasterKelurahan> getKelurahanByKecamatan(HttpServletRequest httpRequest) {
       logger.debug("Received request to get all kelurahan data by kecamatan");
      //retrieve kelurahan
      String kecIdStr = httpRequest.getParameter("kecId");
+     //no kecamatan
      if(kecIdStr == null || kecIdStr.equals(""))
        return new ArrayList();
+     //normal
      return mklServ.getByKecamatan(Integer.parseInt(kecIdStr));
  }
 
@@ -1011,7 +1174,7 @@ public class DataController {
   * Generate question data by coy
   *
   * @param session
-  * @return json data
+  * @return list of questions based on given company
   */
     @RequestMapping(value = "/question", method = RequestMethod.GET)
     public @ResponseBody List<MasterQuestion> getQuestionByCoy(HttpSession session) {
@@ -1023,9 +1186,9 @@ public class DataController {
  /**
   * Generate question data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of questions contents of the given page and company, and count of them by the finding parameters
   */
     @RequestMapping(value = "/question/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getQuestion(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -1049,7 +1212,7 @@ public class DataController {
  /**
   * Generate all answer type data
   *
-  * @return json data
+  * @return list of all answer types
   */
     @RequestMapping(value = "/answertype", method = RequestMethod.GET)
     public @ResponseBody List<MasterAnswerType> getAllAnswerType() {
@@ -1061,7 +1224,7 @@ public class DataController {
  /**
   * Generate all option answer data
   *
-  * @return json data
+  * @return list of all option answers
   */
     @RequestMapping(value = "/optionanswer", method = RequestMethod.GET)
     public @ResponseBody List<MasterOptionAnswer> getAllOptionAnswer() {
@@ -1074,7 +1237,7 @@ public class DataController {
   * Generate list option parameter data
   *
    * @param request
-  * @return json data
+  * @return list of options based on given table or group parameter
   */
     @RequestMapping(value = "/listoptions", method = RequestMethod.GET)
     public @ResponseBody ContentsBean getDetailGroupParams(HttpServletRequest request) {
@@ -1090,7 +1253,7 @@ public class DataController {
   * Generate question group data by coy
   *
   * @param session
-  * @return json data
+  * @return list of question groups based on given company
   */
     @RequestMapping(value = "/questiongroup", method = RequestMethod.GET)
     public @ResponseBody List<MasterQuestionGroup> getQuestionGroupByCoy(HttpSession session) {
@@ -1102,9 +1265,9 @@ public class DataController {
  /**
   * Generate group question data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of question groups contents of the given page and company, and count of them by the finding parameters
   */
     @RequestMapping(value = "/questiongroup/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getQuestionGroup(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -1129,7 +1292,7 @@ public class DataController {
   * Generate detail question group by group
   *
   * @param httpRequest
-  * @return json data
+  * @return list of detail question based on given question group
   */
     @RequestMapping(value = "/detailquestionbygroup", method = RequestMethod.GET)
     public @ResponseBody List<DetailQuestionGroup> getDetailQuestionByGroup(HttpServletRequest httpRequest) {
@@ -1142,7 +1305,7 @@ public class DataController {
   * Generate question template by coy
   *
   * @param session
-  * @return json data
+  * @return list of templates based on given company
   */
     @RequestMapping(value = "/template", method = RequestMethod.GET)
     public @ResponseBody List<MasterTemplate> getTemplateByCoy(HttpSession session) {
@@ -1154,9 +1317,9 @@ public class DataController {
  /**
   * Generate template data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of templates contents of the given page and company, and count of them by the finding parameters
   */
     @RequestMapping(value = "/template/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getTemplate(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -1179,9 +1342,9 @@ public class DataController {
  /**
   * Generate product data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of products contents of the given page and company, and count of them by the finding parameters
   */
     @RequestMapping(value = "/product/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getProduct(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -1206,40 +1369,41 @@ public class DataController {
   *
    * @param userCommissionedId
   * @param httpRequest
-  * @return json data
+  * @return list of jobs contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/jobassignment/{userCommissionedId}", method = RequestMethod.GET)
     public @ResponseBody List<MasterJobAssignment> getJobAssignByUserCommission(
             @PathVariable("userCommissionedId") int userCommissionedId,
             HttpServletRequest httpRequest) {
       logger.debug("Received request to get job assignment data by user commissioned");
-      //
+      //no commission
       if(userCommissionedId == 0)
        return new ArrayList();
+      //normal
       return mjaServ.getByUserCommissioned(userCommissionedId);
  }
 
  /**
-  * Generate question template by coy
+  * Generate maximum sub zipcode
   *
    * @param httpRequest
-  * @return json data
+  * @return maximum sub zipcode based on given company and zipcode
   */
     @RequestMapping(value = "/maxsubzipcode", method = RequestMethod.GET)
-    public @ResponseBody StringBean getMaxSubZipcode(HttpServletRequest httpRequest) {
+    public @ResponseBody String getMaxSubZipcode(HttpServletRequest httpRequest) {
       logger.debug("Received request to get template data by coy");
       //
-      return new StringBean(mzvServ.getMaxSubZipcodeByCoyAndZipcode(
+      return mzvServ.getMaxSubZipcodeByCoyAndZipcode(
               (Integer) httpRequest.getSession().getAttribute("coyId"),
-              Integer.parseInt(httpRequest.getParameter("zipcodeId"))));
+              Integer.parseInt(httpRequest.getParameter("zipcodeId")));
  }
 
  /**
   * Generate zipcode verificator data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of zipcode verificators contents of the given page and company, and count of them by the finding parameters
   */
     @RequestMapping(value = "/zipcodeverif/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getZipcodeVerif(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -1264,7 +1428,7 @@ public class DataController {
   /**
    * Handles zipcode verificator download request
    * @param httpRequest 
-   * @return  
+   * @return download request status 
    */
   @RequestMapping(value = "/zipcodeverif/download/request", method = RequestMethod.POST)
   public @ResponseBody StringBean processDownloadZipcodeVerificator(HttpServletRequest httpRequest) {
@@ -1274,26 +1438,25 @@ public class DataController {
     sb.setId(0);
     sb.setVal("SUCCESS");
     //request parameter
-    int coyId = (Integer) httpRequest.getSession().getAttribute("coyId");
+    MasterCompany coy = mcServ.getById((Integer) httpRequest.getSession().getAttribute("coyId"));
     String fileType = httpRequest.getParameter("fileType");
-    int verificatorId = Integer.parseInt(httpRequest.getParameter("verificatorId"));
-    MasterUser user = muServ.getById(verificatorId);
+    int userId = (Integer) httpRequest.getSession().getAttribute("userId");
+    MasterUser user = muServ.getById(userId);
     String textDelimiter = httpRequest.getParameter("textDelimiter");
     
     //read data and rewrite it into downloadable file
     //titles
     List<String> titles = new ArrayList();
-    titles.add("Verificator: " + user.getUserName());
-    Date processDate = new Date();
+    titles.add("Company: " + coy.getCoyName());
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    String processDateStr = simpleDateFormat.format(processDate);
+    String processDateStr = simpleDateFormat.format(new Date());
     titles.add("Process Date: " + processDateStr);
     //headers
     String[] hdrArr = {"Verificator Code","Zipcode Code","Sub Zipcode","Description"};
     List<String> headers = Arrays.asList(hdrArr);
     //contents
     List<List<String>> contents = new ArrayList();
-    for(MasterZipcodeVerificator zipcodeVerif : mzvServ.getByCoyVerif(coyId, verificatorId)) {
+    for(MasterZipcodeVerificator zipcodeVerif : mzvServ.getByCoy(coy.getCoyId())) {
       List<String> content = new ArrayList();
       content.add(zipcodeVerif.getVerificator().getUserCode());
       content.add(zipcodeVerif.getZipcode().getZipcodeCode());
@@ -1313,8 +1476,8 @@ public class DataController {
       case "textfile":
         fileExt = ".txt";
         break;
-   }
-    fileName = "list_zipcode_verificator_" + user.getUserCode() + "_" + processDateStr.replaceAll("-", "_") + fileExt;
+    }
+    fileName = "list_zipcode_verificator_" + coy.getCoyCode() + "_" + processDateStr.replaceAll("-", "_") + fileExt;
     try {
       downloadFile = new File(folderName + fileName);
       switch (fileType) {
@@ -1325,7 +1488,7 @@ public class DataController {
           new WritePDF(downloadFile, titles, headers, contents, user.getUserCode()).createFile();
           break;
         case "textfile":
-          new WriteText(downloadFile, titles, headers, contents, user.getUserCode(),textDelimiter).createFile();
+          new WriteText2(downloadFile, titles, headers, contents, user.getUserCode(),textDelimiter).createFile();
           break;
       }
     } catch (IOException | COSVisitorException ex) {
@@ -1337,7 +1500,68 @@ public class DataController {
   }
 
   /**
-   * Handles zipcode verificator download page
+   * Handles zipcode verificator download template request
+   * @param httpRequest 
+   * @return download template request status
+   */
+  @RequestMapping(value = "/zipcodeverif/download/requesttemp", method = RequestMethod.POST)
+  public @ResponseBody StringBean processDownloadZipcodeVerificatorTemp(HttpServletRequest httpRequest) {
+    logger.debug("Received request to process zipcode verificator file");   
+    //return object
+    StringBean sb = new StringBean();
+    sb.setId(0);
+    sb.setVal("SUCCESS");
+    //request parameter
+    String fileType = httpRequest.getParameter("fileType");
+    int userId = (Integer) httpRequest.getSession().getAttribute("userId");
+    MasterUser user = muServ.getById(userId);
+    String textDelimiter = httpRequest.getParameter("textDelimiter");
+    
+    //read data and rewrite it into downloadable file
+    //titles
+    List<String> titles = new ArrayList();
+    //headers
+    String[] hdrArr = {"Verificator Code","Zipcode Code","Sub Zipcode","Description"};
+    List<String> headers = Arrays.asList(hdrArr);
+    //contents
+    List<List<String>> contents = new ArrayList();
+    //file name
+    String fileExt = "";
+    switch (fileType) {
+      case "excelfile":
+        fileExt = ".xls";
+        break;
+      case "pdffile":
+        fileExt = ".pdf";
+        break;
+      case "textfile":
+        fileExt = ".txt";
+        break;
+    }
+    fileName = "list_zipcode_verificator" + fileExt;
+    try {
+      downloadFile = new File(folderName + fileName);
+      switch (fileType) {
+        case "excelfile":
+          new WriteExcel(downloadFile, titles, headers, contents, user.getUserCode()).createFile();
+          break;
+        case "pdffile":
+          new WritePDF(downloadFile, titles, headers, contents, user.getUserCode()).createFile();
+          break;
+        case "textfile":
+          new WriteText2(downloadFile, titles, headers, contents, user.getUserCode(),textDelimiter).createFile();
+          break;
+      }
+    } catch (IOException | COSVisitorException ex) {
+      logger.error(ex);
+      sb.setId(1);
+      sb.setVal("FAILED");
+    }
+    return sb;
+  }
+
+  /**
+   * Handles zipcode verificator download file
    * @param httpResponse 
    */
   @RequestMapping(value = "/zipcodeverif/download", method = RequestMethod.GET)
@@ -1361,9 +1585,9 @@ public class DataController {
  /**
   * Generate absence data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of absences contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/absence/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getAbsence(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
@@ -1390,36 +1614,38 @@ public class DataController {
  /**
   * Generate mobile task assignment data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of task assigns contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/taskassign/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getMobileTaskAssign(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
       logger.debug("Received request to get mobile task assignment data by page");
       //
+      String taskStatusCode = "ASSG"; //assigned status only allowed
       int userId = Integer.parseInt(httpRequest.getParameter("coordinatorId"));
       //
       Map<String,Object> mapTaskAssign = new HashMap();
       if(userId == 0) {
         userId = (Integer) httpRequest.getSession().getAttribute("userId");
       }
-      mapTaskAssign.put("content", mtaServ.getByPageUser(userId,pageNo));
-      mapTaskAssign.put("count", mtaServ.countByUser(userId));
+      mapTaskAssign.put("content", mtaServ.getByPageUser(userId, taskStatusCode, pageNo));
+      mapTaskAssign.put("count", mtaServ.countByUser(userId, taskStatusCode));
       return mapTaskAssign;
   }
 
  /**
   * Generate mobile rolling task data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of rolling tasks contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/rollingtask/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getMobileRollingTask(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
       logger.debug("Received request to get mobile rolling task data by page");
       //
+      String[] taskStatusArr = {"ASSG","RETR"}; //assigned and retrieve status allowed
       int userId = Integer.parseInt(httpRequest.getParameter("commissionedId"));
       //
       Map<String,Object> mapRollTask = new HashMap();
@@ -1427,8 +1653,8 @@ public class DataController {
         mapRollTask.put("content", new ArrayList());
         mapRollTask.put("count", 0);
       } else {
-        mapRollTask.put("content", mtaServ.getByPageUser(userId,pageNo));
-        mapRollTask.put("count", mtaServ.countByUser(userId));
+        mapRollTask.put("content", mtaServ.getByPageUserAndTaskStatusList(userId, taskStatusArr, pageNo));
+        mapRollTask.put("count", mtaServ.countByUserAndTaskStatusList(userId, taskStatusArr));
       }
       return mapRollTask;
   }
@@ -1436,31 +1662,362 @@ public class DataController {
  /**
   * Generate mobile inquiry task data by page
   *
-   * @param pageNo
+   * @param pageNo, page number
   * @param httpRequest
-  * @return json data
+  * @return list of tasks contents of the given page, and count of them by the finding parameters
   */
     @RequestMapping(value = "/inquirytask/{pageNo}", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getMobileInquiryTask(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
       logger.debug("Received request to get mobile inquiry task data by page");
       //
-      int userId = Integer.parseInt(httpRequest.getParameter("coordinatorId"));
+      int officeId = Integer.parseInt(httpRequest.getParameter("officeId"));
+      int coordinatorId = Integer.parseInt(httpRequest.getParameter("coordinatorId"));
+      int verificatorId = Integer.parseInt(httpRequest.getParameter("verificatorId"));
+      int taskStatusId = Integer.parseInt(httpRequest.getParameter("taskStatusId"));
+      int tempId = Integer.parseInt(httpRequest.getParameter("tempId"));
+      String priority = httpRequest.getParameter("priority");
+      String startDate = emptyToValue(httpRequest.getParameter("startDate"),basicDate);
+      String endDate = emptyToValue(httpRequest.getParameter("endDate"),basicEndDate);
+      int taskId = Integer.parseInt(emptyToValue(httpRequest.getParameter("taskId"),"0"));
       //
       Map<String,Object> mapInqTask = new HashMap();
-      if(userId == 0) {
+      if(officeId == 0) {
         mapInqTask.put("content", new ArrayList());
         mapInqTask.put("count", 0);
+      } else if(coordinatorId == 0) {
+        if(startDate.equals(basicDate) && endDate.equals(basicEndDate)) { //currently date assign is null
+          mapInqTask.put("content", mtaServ.getByPageOfficeAndOther(officeId, taskStatusId, tempId, priority, taskId, pageNo));
+          mapInqTask.put("count", mtaServ.countByOfficeAndOther(officeId, taskStatusId, tempId, priority, taskId));
+        } else {
+          mapInqTask.put("content", mtaServ.getByPageOfficeAndOther(officeId, taskStatusId, tempId, priority, startDate, endDate, taskId, pageNo));
+          mapInqTask.put("count", mtaServ.countByOfficeAndOther(officeId, taskStatusId, tempId, priority, startDate, endDate, taskId));
+        }
+      } else if(verificatorId == 0) {
+        mapInqTask.put("content", mtaServ.getByPageParentUserAndOther(coordinatorId, taskStatusId, tempId, priority, startDate, endDate, taskId, pageNo));
+        mapInqTask.put("count", mtaServ.countByParentUserAndOther(coordinatorId, taskStatusId, tempId, priority, startDate, endDate, taskId));
       } else {
-        mapInqTask.put("content", mtaServ.getByPageUser(userId,pageNo));
-        mapInqTask.put("count", mtaServ.countByUser(userId));
+        mapInqTask.put("content", mtaServ.getByPageUserAndOther(verificatorId, taskStatusId, tempId, priority, startDate, endDate, taskId, pageNo));
+        mapInqTask.put("count", mtaServ.countByUserAndOther(verificatorId, taskStatusId, tempId, priority, startDate, endDate, taskId));
       }
       return mapInqTask;
   }
 
  /**
+  * Generate verify task data
+  *
+     * @param httpRequest
+  * @return verify task, based on task
+  */
+    @RequestMapping(value = "/verifytask", method = RequestMethod.GET)
+    public @ResponseBody VerifyTaskBean getVerifyTask(HttpServletRequest httpRequest) {
+      logger.debug("Received request to get verify task data");
+      //retrieve verify task data     
+      VerifyTaskBean vtb = new VerifyTaskBean();
+      int taskId = Integer.parseInt(httpRequest.getParameter("taskId"));
+      MobileTaskResult taskResult = mtrServ.getByTaskIsLast(taskId);
+      //no result
+      if(taskResult == null)
+        return vtb;
+      //get image (if exists)
+      List<ImageBean> imageList = new ArrayList();
+      for(MobileTaskResultDetailList taskResultDetailList : mtrdlServ.getByTaskResultHasImage(taskResult.getTaskResultId())) {
+        ImageBean image = new ImageBean();
+        image.setId(taskResultDetailList.getTaskResultImage().getImageId());
+        image.setName(taskResultDetailList.getTaskResultDetail().getQuestion().getQuestLabel());
+        imageList.add(image);
+      }
+      //get data
+      List<TaskVerifyDTO> taskVerifyList = genServ.getByTaskResult(taskResult.getTaskResultId());
+      for(TaskVerifyDTO taskVerify : taskVerifyList) {
+        if(taskVerify.getAnswerId() != null)
+          taskVerify.setOptionList(genServ.getOptionList(taskVerify.getGroupParamId(), taskVerify.getTableName()));
+      }
+      vtb.setTaskVerifyList(taskVerifyList);
+      vtb.setImageList(imageList);
+      return vtb;
+ }
+
+ /**
+  * Generate image of task by id
+  *
+   * @param imageId
+   * @param httpResponse
+  * @return image by given id
+  */
+    @RequestMapping(value = "/verifytask/image/{imageId}", method = RequestMethod.GET)
+    public @ResponseBody byte[] getImageById(
+            @PathVariable("imageId") int imageId,
+            HttpServletResponse httpResponse) {
+     logger.debug("Received request to get image of task by id");
+     //no cache applicable
+     setNoCache(httpResponse);
+     // must be base64 object before sending to client
+     return Base64.encodeBase64(mtriServ.getById(imageId).getImage());
+ }
+
+ /**
+  * Generate mobile verify task data by page
+  *
+   * @param pageNo, page number
+  * @param httpRequest
+  * @return list of verify tasks contents of the given page, and count of them by the finding parameters
+  */
+    @RequestMapping(value = "/verifytask/{pageNo}", method = RequestMethod.GET)
+    public @ResponseBody Map<String,Object> getMobileVerifyTask(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
+      logger.debug("Received request to get mobile verify task data by page");
+      //
+      String taskStatusCode = "SUBM";
+      int coordId = Integer.parseInt(httpRequest.getParameter("coordinatorId"));
+      int verifId = Integer.parseInt(httpRequest.getParameter("verificatorId"));
+      //
+      Map<String,Object> mapVerTask = new HashMap();
+      if(coordId == 0 && verifId == 0) {
+        mapVerTask.put("content", new ArrayList());
+        mapVerTask.put("count", 0);
+      } else if(verifId == 0) {
+        mapVerTask.put("content", mtrServ.getByPageCoordAndTaskStatus(coordId, taskStatusCode, pageNo));
+        mapVerTask.put("count", mtrServ.countByCoordAndTaskStatus(coordId, taskStatusCode));
+      } else {
+        mapVerTask.put("content", mtrServ.getByPageVerifAndTaskStatus(verifId, taskStatusCode,pageNo));
+        mapVerTask.put("count", mtrServ.countByVerifAndTaskStatus(verifId, taskStatusCode));
+      }
+      return mapVerTask;
+  }
+
+ /**
+  * Generate mobile drop task data by page
+  *
+   * @param pageNo, page number
+  * @param httpRequest
+  * @return list of drop tasks contents of the given page, and count of them by the finding parameters
+  */
+    @RequestMapping(value = "/droptask/{pageNo}", method = RequestMethod.GET)
+    public @ResponseBody Map<String,Object> getMobileDropTask(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
+      logger.debug("Received request to get mobile drop task data by page");
+      //
+      String[] taskStatusArr = {"NEW","ASSG","RETR"};
+      String startDate = emptyToValue(httpRequest.getParameter("startDate"),basicDate);
+      String endDate = emptyToValue(httpRequest.getParameter("endDate"),basicEndDate);
+      String userRoleTypeCode = (String) httpRequest.getSession().getAttribute("roleTypeCode");
+      int taskId = Integer.parseInt(emptyToValue(httpRequest.getParameter("taskId"), "0"));
+      //
+      Map<String,Object> mapDropTask = new HashMap();
+      if(userRoleTypeCode.equals("C")) {
+        int parentUserId = (Integer) httpRequest.getSession().getAttribute("userId");
+        if(startDate.equals(basicDate) && endDate.equals(basicEndDate) && taskId == 0) {
+          mapDropTask.put("content", mtaServ.getByPageParentUserAndTaskStatusList(parentUserId, taskStatusArr, pageNo));
+          mapDropTask.put("count", mtaServ.countByParentUserAndTaskStatusList(parentUserId, taskStatusArr));
+        } else {
+          mapDropTask.put("content", mtaServ.getByPageParentUserOrderDateTaskStatusListAndTask(
+                  parentUserId, startDate, endDate, taskStatusArr, taskId, pageNo));
+          mapDropTask.put("count", mtaServ.countByParentUserOrderDateTaskStatusListAndTask(parentUserId, startDate, endDate, taskStatusArr, taskId));
+        }
+      } else {
+        int coyId = (Integer) httpRequest.getSession().getAttribute("coyId");
+        if(startDate.equals(basicDate) && endDate.equals(basicEndDate) && taskId == 0) {
+          mapDropTask.put("content", mtaServ.getByPageCoyAndTaskStatusList(coyId, taskStatusArr, pageNo));
+          mapDropTask.put("count", mtaServ.countByCoyAndTaskStatusList(coyId, taskStatusArr));
+        } else {
+          mapDropTask.put("content", mtaServ.getByPageCoyOrderDateTaskStatusListAndTask(
+                  coyId, startDate, endDate, taskStatusArr, taskId, pageNo));
+          mapDropTask.put("count", mtaServ.countByCoyOrderDateTaskStatusListAndTask(coyId, startDate, endDate, taskStatusArr, taskId));
+        }
+      }
+      return mapDropTask;
+  }
+
+ /**
+  * Generate mobile dashboard monitor data
+  *
+   * @param pageNo, page number
+  * @param httpRequest
+  * @return list of monitor data contents of the given page, and count of them by the finding parameters
+  */
+    @RequestMapping(value = "/dashmon/{pageNo}", method = RequestMethod.GET)
+    public @ResponseBody Map<String,Object> getMobileDashboardMonitor(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
+      logger.debug("Received request to get mobile dashboard monitor data");
+      //
+      int coordId = Integer.parseInt(httpRequest.getParameter("coordinatorId"));
+      //
+      Map<String,Object> mapDashMon = new HashMap();
+      if(coordId == 0) {
+        mapDashMon.put("content", new ArrayList());
+        mapDashMon.put("count", 0);
+      } else {
+        mapDashMon.put("content", dmvServ.getByParentUser(coordId));
+        mapDashMon.put("count", 1);
+      }
+      return mapDashMon;
+  }
+
+ /**
+  * Generate mobile location tracking data
+  *
+   * @param pageNo, page number
+  * @param httpRequest
+  * @return list of location tracking contents of the given page, and count of them by the finding parameters
+  */
+    @RequestMapping(value = "/loctrack/{pageNo}", method = RequestMethod.GET)
+    public @ResponseBody Map<String,Object> getMobileLocationTracking(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
+      logger.debug("Received request to get mobile location tracking data");
+      //
+      int verifId = Integer.parseInt(httpRequest.getParameter("verificatorId"));
+      String startDate = emptyToValue(httpRequest.getParameter("startDate"),basicDate);
+      String endDate = emptyToValue(httpRequest.getParameter("endDate"),basicEndDate);
+      String isGps = httpRequest.getParameter("isGps");
+      //
+      Map<String,Object> mapLocTrack = new HashMap();
+      if(verifId == 0) {
+        mapLocTrack.put("content", new ArrayList());
+        mapLocTrack.put("count", 0);
+      } else {
+        mapLocTrack.put("content", mtrServ.getCoordinateByVerifAssignDateAndGps(verifId, startDate, endDate, isGps));
+        mapLocTrack.put("count", 1);
+      }
+      return mapLocTrack;
+  }
+
+  /**
+   * Handles report monitoring download request
+   * @param httpRequest 
+   * @return download status
+   */
+  @RequestMapping(value = "/repmon/download/request", method = RequestMethod.POST)
+  public @ResponseBody StringBean processDownloadReportMonitoring(HttpServletRequest httpRequest) {
+    logger.debug("Received request to process report monitoring file");   
+    //return object
+    StringBean sb = new StringBean();
+    sb.setId(0);
+    sb.setVal("SUCCESS");
+    //request parameter
+    int officeId = Integer.parseInt(httpRequest.getParameter("officeId"));
+    String fileType = httpRequest.getParameter("fileType");
+    MasterUser user = muServ.getById((Integer) httpRequest.getSession().getAttribute("userId"));
+    MasterOffice office = moServ.getById(officeId);
+    if(office == null)
+      office = user.getOffice();
+    String textDelimiter = httpRequest.getParameter("textDelimiter");
+    String roleTypeCode = (String) httpRequest.getSession().getAttribute("roleTypeCode");
+    
+    //read data and rewrite it into downloadable file
+    //titles
+    List<String> titles = new ArrayList();
+    titles.add("Office: " + office.getOfficeName());
+    titles.add("Coordinator: " + (roleTypeCode.equals("C") ? user.getUserName() : "ALL"));
+    Date processDate = new Date();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String processDateStr = simpleDateFormat.format(processDate);
+    titles.add("Process Date: " + processDateStr);
+    //headers
+    String[] hdrArr = {"User Code","User Name","Order No","Assignment Date","Retrieve Date","Submit Date","Task Status"};
+    List<String> headers = Arrays.asList(hdrArr);
+    //contents
+    
+    List<List<String>> contents = new ArrayList();
+    List<MobileTaskAssignment> taskList = roleTypeCode.equals("C") ? mtaServ.getByParentUserAndActive(user.getUserId()) : mtaServ.getByOfficeAndRole(officeId, "V");
+    for(MobileTaskAssignment task : taskList) {
+      List<String> content = new ArrayList();
+      content.add(task.getUser().getUserCode());
+      content.add(task.getUser().getUserName());
+      content.add(task.getOrderId());
+      content.add(task.getAssignmentDate()+"");
+      content.add(task.getRetrieveDate()+"");
+      content.add(task.getSubmitDate()+"");
+      content.add(task.getTaskStatus().getTaskStatusCode());
+      contents.add(content);
+    }
+    //file name
+    String fileExt = "";
+    switch (fileType) {
+      case "excelfile":
+        fileExt = ".xls";
+        break;
+      case "pdffile":
+        fileExt = ".pdf";
+        break;
+      case "textfile":
+        fileExt = ".txt";
+        break;
+   }
+    fileName = "report_monitoring_" + office.getOfficeCode() + "_" + (roleTypeCode.equals("C") ? user.getUserCode() : "all") + "_" + processDateStr.replaceAll("-", "_") + fileExt;
+    try {
+      downloadFile = new File(folderName + fileName);
+      switch (fileType) {
+        case "excelfile":
+          new WriteExcel(downloadFile, titles, headers, contents, user.getUserCode()).createFile();
+          break;
+        case "pdffile":
+          new WritePDF(downloadFile, titles, headers, contents, user.getUserCode()).createFile();
+          break;
+        case "textfile":
+          new WriteText(downloadFile, titles, headers, contents, user.getUserCode(),textDelimiter).createFile();
+          break;
+      }
+    } catch (IOException | COSVisitorException ex) {
+      logger.error(ex);
+      sb.setId(1);
+      sb.setVal("FAILED");
+    }
+    return sb;
+  }
+
+  /**
+   * Handles report monitoring download file
+   * @param httpResponse 
+   */
+  @RequestMapping(value = "/repmon/download", method = RequestMethod.GET)
+  public void downloadReportMonitoring(HttpServletResponse httpResponse) {
+    logger.debug("Received request to download report monitoring file");   
+    //no cache applicable
+    setNoCache(httpResponse);
+    try {
+      httpResponse.setHeader("Content-disposition","attachment; filename=" + fileName);
+      setNoCache(httpResponse);
+      //be aware this is a new java 7 feature, avoid the object have not closed after execute
+      try (InputStream in = new FileInputStream(downloadFile)) {
+        FileCopyUtils.copy(in, httpResponse.getOutputStream());
+        httpResponse.flushBuffer();
+      }
+    } catch (IOException ex) {
+      logger.error(ex);
+    }
+  }
+
+ /**
+  * Generate report monitoring data
+  *
+   * @param pageNo, page number
+  * @param httpRequest
+  * @return list of reports contents of the given page, and count of them by the finding parameters
+  */
+    @RequestMapping(value = "/repmon/{pageNo}", method = RequestMethod.GET)
+    public @ResponseBody Map<String,Object> getReportMonitoring(@PathVariable("pageNo") int pageNo, HttpServletRequest httpRequest) {
+      logger.debug("Received request to get report monitoring data");
+      Map<String,Object> mapRepMon = new HashMap();
+      //
+      if(((String) httpRequest.getSession().getAttribute("roleTypeCode")).equals("C")) {        
+        mapRepMon.put("content", mtaServ.getByParentUserAndActive((Integer) httpRequest.getSession().getAttribute("userId")));
+        mapRepMon.put("count", 1);
+        return mapRepMon;
+      }
+      //
+      String roleTypeCode = "V";
+      int officeId = Integer.parseInt(httpRequest.getParameter("officeId"));
+      //
+      if(officeId == 0) {
+        mapRepMon.put("content", new ArrayList());
+        mapRepMon.put("count", 0);
+      } else {
+        mapRepMon.put("content", mtaServ.getByOfficeAndRole(officeId, roleTypeCode));
+        mapRepMon.put("count", 1);
+      }
+      return mapRepMon;
+  }
+
+ /**
   * Generate all reason type data
   *
-  * @return json data
+  * @return list of all reason types
   */
     @RequestMapping(value = "/reasontype", method = RequestMethod.GET)
     public @ResponseBody List<MasterReasonType> getReasonType() {
@@ -1472,7 +2029,7 @@ public class DataController {
  /**
   * Generate all task status data
   *
-  * @return json data
+  * @return list of all task status
   */
     @RequestMapping(value = "/taskstatus", method = RequestMethod.GET)
     public @ResponseBody List<MasterTaskStatus> getAllTaskStatus() {
@@ -1487,7 +2044,7 @@ public class DataController {
    * @param companyLogoId
   * @param httpRequest
    * @param httpResponse
-  * @return json data
+  * @return company logo by given id
   */
     @RequestMapping(value = "/detailcompanylogo/{companyLogoId}", method = RequestMethod.GET)
     public @ResponseBody byte[] getCoyLogo(
@@ -1500,7 +2057,12 @@ public class DataController {
      // must be base64 object before sending to client
      return Base64.encodeBase64(dclServ.getById(companyLogoId).getLogoPicture());
  }
-  
+ 
+  /**
+   * Check current user is a coordinator
+   * @param httpRequest
+   * @return coordinator flag, true or false
+   */
   @RequestMapping(value = "/iscoordinator", method = RequestMethod.GET)
   public @ResponseBody StringBean isCoordinator(HttpServletRequest httpRequest) {
     logger.debug("Received request to get status whether user is coordinator or not");
@@ -1516,18 +2078,26 @@ public class DataController {
     return sb;
   }
   
+  /**
+   * Generate current session
+   * @param httpRequest
+   * @return current session id
+   */
   @RequestMapping(value = "/currentsession", method = RequestMethod.GET)
   public @ResponseBody String getCurrentSession(HttpServletRequest httpRequest) {
     logger.debug("Received request to get current session");
     return httpRequest.getSession().getId();
   }
   
+  //set response no cache
+  //applicable on rapid data change
   private void setNoCache(HttpServletResponse httpResponse) {
     httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
     httpResponse.setHeader("Pragma", "no-cache"); // HTTP 1.0.
     httpResponse.setDateHeader("Expires", 0); // Proxies    
   }
   
+  //check current connected user is an owner
   private boolean isOwner(int userId) {        
     List<MasterRole> roles = mrServ.getRolesByUser(userId);
     for(MasterRole role : roles) {
@@ -1537,6 +2107,7 @@ public class DataController {
     return false;
   }
   
+  //convert empty value to default
   private String emptyToValue(String valueToBeChecked, String valueIfNull) {
     if(valueToBeChecked == null || valueToBeChecked.equals(""))
       return valueIfNull;

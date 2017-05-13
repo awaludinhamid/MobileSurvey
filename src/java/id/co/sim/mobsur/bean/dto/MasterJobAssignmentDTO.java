@@ -7,6 +7,7 @@
 package id.co.sim.mobsur.bean.dto;
 
 /**
+ * DTO table MASTER_JOB_ASSIGNMENT
  * @created Jan 17, 2017
  * @author awal
  */

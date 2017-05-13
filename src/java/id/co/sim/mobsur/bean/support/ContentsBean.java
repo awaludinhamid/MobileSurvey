@@ -9,6 +9,7 @@ package id.co.sim.mobsur.bean.support;
 import java.util.List;
 
 /**
+ * POJO dynamic table
  * @created Jan 9, 2017
  * @author awal
  */

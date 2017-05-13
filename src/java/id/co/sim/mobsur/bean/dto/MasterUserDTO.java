@@ -9,6 +9,7 @@ package id.co.sim.mobsur.bean.dto;
 import id.co.sim.mobsur.bean.dto.support.RecordControllerBeanDTO;
 
 /**
+ * DTO table MASTER_USER
  * @created Nov 18, 2016
  * @author awal
  */
@@ -20,6 +21,7 @@ public class MasterUserDTO extends RecordControllerBeanDTO {
   private String userPassword;  
   private String isVerif;  
   private String userEmail;
+  private String userImei;
   private int officeId;
 
   /**
@@ -118,6 +120,20 @@ public class MasterUserDTO extends RecordControllerBeanDTO {
    */
   public void setOfficeId(int officeId) {
     this.officeId = officeId;
+  }
+
+  /**
+   * @return the userImei
+   */
+  public String getUserImei() {
+    return userImei;
+  }
+
+  /**
+   * @param userImei the userImei to set
+   */
+  public void setUserImei(String userImei) {
+    this.userImei = userImei;
   }
   
 }

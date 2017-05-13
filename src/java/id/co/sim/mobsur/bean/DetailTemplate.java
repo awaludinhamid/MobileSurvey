@@ -18,11 +18,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table DETAIL_TEMPLATE
  * @created Jan 5, 2017
  * @author awal
  */
 @Entity
 @Table(name="DETAIL_TEMPLATE")
+@SuppressWarnings("PersistenceUnitPresent")
 public class DetailTemplate extends RecordControllerBean {
 
   @Id

@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/absence.js"></script>
+    <!--script src="../../js/application/absence.js"></script--> 
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="absence" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -53,7 +58,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.absenceId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.user.userName}}</td>
               <td>{{data.startDate}}</td>
@@ -121,9 +126,9 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Description</label>
+              <label class="col-sm-3 control-label">Description*</label>
               <div class="col-sm-9">
-                <textarea id="description" class="form-control" placeholder="[Diare]" maxlength="255" tabindex="5"></textarea>
+                <textarea id="description" class="form-control" placeholder="[Diare]" maxlength="255" tabindex="5" required></textarea>
               </div>
             </div>
             <div class="btn-form-save">
@@ -137,6 +142,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

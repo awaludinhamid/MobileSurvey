@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/rolemenu.js"></script>
+    <!--script src="../../js/application/rolemenu.js"></script-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="rolemenu" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -41,22 +46,26 @@
               <th>Parent Menu</th>
               <th>Menu</th>
               <th>Description</th>
-              <th>Start Date</th>
-              <th>End Date</th>
+              <th>Role Start Date</th>
+              <th>Role End Date</th>
+              <th>Menu Start Date</th>
+              <th>Menu End Date</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="data in datatable" data-id="{{data.roleMenuId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.role.roleName}}</td>
               <td>{{data.menu.parentMenu.parentMenuName}}</td>
               <td>{{data.menu.menuName}}</td>
               <td>{{data.roleMenuDesc}}</td>
-              <td>{{data.startDate}}</td>
-              <td>{{data.endDate}}</td>
+              <td>{{data.role.startDate}}</td>
+              <td>{{data.role.endDate}}</td>
+              <td>{{data.menu.startDate}}</td>
+              <td>{{data.menu.endDate}}</td>
             </tr>
           </tbody>
         </table>
@@ -102,7 +111,7 @@
                 <input id="roleMenuDesc" class="form-control" placeholder="[Role menu office]" tabindex="3">
               </div>
             </div>
-            <div class="form-group">
+            <!--div class="form-group">
               <label class="col-sm-3 control-label">Valid Date*</label>
               <div class="col-sm-4">
                 <div class="input-group">
@@ -123,7 +132,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div-->
             <div class="btn-form-save">
               <button id="btn-clear" class="btn btn-warning" type="reset">Clear</button>
               <button id="btn-save" class="btn btn-primary" type="submit" tabindex="10">Save</button>
@@ -136,6 +145,6 @@
       </div>
     </div>
   </div>
-  
+  </div>
 </body>
 </html>

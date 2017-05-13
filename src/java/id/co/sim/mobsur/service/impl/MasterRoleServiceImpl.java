@@ -16,7 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Role service implementation (see the service for usage info)
  * @created Apr 4, 2016
  * @author awal
  */
@@ -25,8 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterRoleServiceImpl implements MasterRoleService {
 
   @Autowired
-  private MasterRoleDAO masterRoleDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterRoleDAO masterRoleDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -114,5 +115,20 @@ public class MasterRoleServiceImpl implements MasterRoleService {
   @Override
   public List<MasterRole> getByParentRoleLevel(int parentRoleLevel) {
     return masterRoleDAO.getByParentRoleLevel(parentRoleLevel);
+  }
+
+  @Override
+  public List<MasterRole> getForJobAssign() {
+    return masterRoleDAO.getForJobAssign();
+  }
+
+  @Override
+  public List<MasterRole> getByRoleLevel(int roleLevel) {
+    return masterRoleDAO.getByRoleLevel(roleLevel);
+  }
+
+  @Override
+  public List<MasterRole> getByRoleType(String[] roleTypeCode) {
+    return masterRoleDAO.getByRoleType(roleTypeCode);
   }
 }

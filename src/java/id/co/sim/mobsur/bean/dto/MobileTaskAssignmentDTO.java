@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
+ * DTO table MOBILE_TASK_ASSIGNMENT
  * @created Feb 2, 2017
  * @author awal
  */

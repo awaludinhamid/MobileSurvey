@@ -1,0 +1,39 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 16, 2017, 6:29:34 AM
+    Author     : awal
+*/
+
+div#droptask table#tbl-data tr>th:first-child
+{
+  width: 41px;
+  padding: 0 10px;
+}
+div#droptask table#tbl-data tr>td:first-child
+{
+  width: 40px;
+  padding: 2px;
+}
+
+div#droptask div#mdl-drop-record .modal-dialog {
+  width: 800px;
+}
+div#droptask div#mdl-drop-record .modal-header {
+  background-color: #cf0f0f;
+  color: #efefff;
+}
+div#droptask div#mdl-drop-record .modal-body>table {
+  margin-top: 10px;  
+}
+div#droptask div#mdl-drop-record .modal-body>table th {
+  text-align: center;
+  background-color: #147;
+  color: #efefff;
+}
+div#droptask div#mdl-drop-record .modal-body>span {
+  font-weight: bold;
+}

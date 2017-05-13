@@ -7,7 +7,6 @@ package id.co.sim.mobsur.controller;
 
 import id.co.sim.mobsur.bean.MasterUser;
 import id.co.sim.mobsur.service.MasterUserService;
-import id.co.sim.mobsur.util.SessionUtil;
 import id.co.sim.mobsur.util.SupportUtil;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
@@ -24,13 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Login controller
- * @created Jun 19, 2015
+ * Login and authentication controller
+ * @created Jun 19, 2016
  * @author awal
- */
-
-/**
- * Handles and retrieves the login or denied page depending on the URI template
  */
 @Controller
 @RequestMapping("/auth")
@@ -44,9 +39,9 @@ public class LoginLogoutController {
  /**
   * Handles and retrieves the login JSP page
   *
-  * @param error
-  * @param model
-  * @return the name of the JSP page
+  * @param error, check error condition
+  * @param model, page parameter container, access via ${error}
+  * @return the name of the login JSP page
   */
  @RequestMapping(value = "/login", method = RequestMethod.GET)
  public String getLoginPage(@RequestParam(value="error", required=false) boolean error,
@@ -57,7 +52,6 @@ public class LoginLogoutController {
   Authentication auth = SecurityContextHolder.getContext().getAuthentication();
   if (!(auth instanceof AnonymousAuthenticationToken)) {
     return "redirect:/apps/main/validation";
-    //return "welcomepage";  
   }
 
   // Add an error message to the model if login is unsuccessful
@@ -83,7 +77,7 @@ public class LoginLogoutController {
  /**
   * Handles and retrieves the denied JSP page. This is shown whenever user tries to access the unauthorized page.
   *
-  * @return the name of the JSP page
+  * @return the name of the denied JSP page
   */
  @RequestMapping(value = "/denied", method = RequestMethod.GET)
   public String getDeniedPage() {
@@ -97,8 +91,8 @@ public class LoginLogoutController {
   * Process change password
   *
    * @param userId
-   * @param request
-   * @return 
+   * @param request, http request
+   * @return redirected page
   */
  @RequestMapping(value = "/password/{userId}", method = RequestMethod.POST)
   public String changePassword(@PathVariable("userId") int userId, HttpServletRequest request) {
@@ -109,6 +103,17 @@ public class LoginLogoutController {
     mu.setUserPassword(SupportUtil.getMd5Hash(request.getParameter("new-password")));
     muServ.save(mu);
     return "redirect:" + request.getHeader("Referer");
+  }
+  
+  /**
+   * Get current connection
+   * @param httpRequest
+   * @return session id of current connection
+   */  
+  @RequestMapping(value = "/currentsession", method = RequestMethod.GET)
+  public @ResponseBody String getCurrentSession(HttpServletRequest httpRequest) {
+    logger.debug("Received request to get current session");
+    return httpRequest.getSession().getId();
   }
 
 }

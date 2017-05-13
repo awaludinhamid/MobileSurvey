@@ -18,11 +18,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_PARENT_MENU
  * @created Oct 14, 2016
  * @author awal
  */
 @Entity
 @Table(name="MASTER_PARENT_MENU")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterParentMenu extends RecordAuditBean {
 
   @Id

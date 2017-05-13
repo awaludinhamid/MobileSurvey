@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Absence service implementation (see the service for usage info)
  * @created Jan 26, 2017
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterAbsenceServiceImpl implements MasterAbsenceService {
 
   @Autowired
-  private MasterAbsenceDAO masterAbsenceDAO; 
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterAbsenceDAO masterAbsenceDAO; // DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,13 @@ public class MasterAbsenceServiceImpl implements MasterAbsenceService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterAbsence delete(MasterAbsence absence) {
-    return masterAbsenceDAO.delete(absence);
+  public void delete(MasterAbsence absence) {
+    masterAbsenceDAO.delete(absence);
+  }
+
+  @Override
+  public MasterAbsence getById(int absenceId) {
+    return masterAbsenceDAO.getById(absenceId);
   }
 
   @Override

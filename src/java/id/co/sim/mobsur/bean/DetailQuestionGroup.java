@@ -18,11 +18,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table DETAIL_QUESTION_GROUP
  * @created Jan 5, 2017
  * @author awal
  */
 @Entity
 @Table(name="DETAIL_QUESTION_GROUP")
+@SuppressWarnings("PersistenceUnitPresent")
 public class DetailQuestionGroup extends RecordControllerBean {
 
   @Id

@@ -18,12 +18,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table DETAIL_COMPANY_LOGO
  * @created Oct 19, 2016
  * @author awal
  */
 @Entity
 @Table(name="DETAIL_COMPANY_LOGO")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class,property="detailCompanyLogo")
+@SuppressWarnings("PersistenceUnitPresent")
 public class DetailCompanyLogo implements Serializable {
 
   @Id

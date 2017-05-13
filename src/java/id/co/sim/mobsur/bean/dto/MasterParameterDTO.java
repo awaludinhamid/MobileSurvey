@@ -9,18 +9,16 @@ package id.co.sim.mobsur.bean.dto;
 import id.co.sim.mobsur.bean.dto.support.RecordControllerBeanDTO;
 
 /**
+ * DTO table MASTER_PARAMETER
  * @created Nov 29, 2016
  * @author awal
  */
 public class MasterParameterDTO extends RecordControllerBeanDTO {
 
   private int parId;
-  private String parCode;
-  private String parDesc;
-  private String parAppsType;
-  private String parDataType;
   private String parValue;
   private int coyId;
+  private int parentParId;
 
   /**
    * @return the parId
@@ -34,62 +32,6 @@ public class MasterParameterDTO extends RecordControllerBeanDTO {
    */
   public void setParId(int parId) {
     this.parId = parId;
-  }
-
-  /**
-   * @return the parCode
-   */
-  public String getParCode() {
-    return parCode;
-  }
-
-  /**
-   * @param parCode the parCode to set
-   */
-  public void setParCode(String parCode) {
-    this.parCode = parCode;
-  }
-
-  /**
-   * @return the parDesc
-   */
-  public String getParDesc() {
-    return parDesc;
-  }
-
-  /**
-   * @param parDesc the parDesc to set
-   */
-  public void setParDesc(String parDesc) {
-    this.parDesc = parDesc;
-  }
-
-  /**
-   * @return the parAppsType
-   */
-  public String getParAppsType() {
-    return parAppsType;
-  }
-
-  /**
-   * @param parAppsType the parAppsType to set
-   */
-  public void setParAppsType(String parAppsType) {
-    this.parAppsType = parAppsType;
-  }
-
-  /**
-   * @return the parDataType
-   */
-  public String getParDataType() {
-    return parDataType;
-  }
-
-  /**
-   * @param parDataType the parDataType to set
-   */
-  public void setParDataType(String parDataType) {
-    this.parDataType = parDataType;
   }
 
   /**
@@ -118,5 +60,19 @@ public class MasterParameterDTO extends RecordControllerBeanDTO {
    */
   public void setCoyId(int coyId) {
     this.coyId = coyId;
+  }
+
+  /**
+   * @return the parentParId
+   */
+  public int getParentParId() {
+    return parentParId;
+  }
+
+  /**
+   * @param parentParId the parentParId to set
+   */
+  public void setParentParId(int parentParId) {
+    this.parentParId = parentParId;
   }
 }

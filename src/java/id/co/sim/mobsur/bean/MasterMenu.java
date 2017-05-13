@@ -21,11 +21,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_MENU
  * @created Oct 14, 2016
  * @author awal
  */
 @Entity
 @Table(name="MASTER_MENU")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterMenu extends RecordControllerBean {
 
   @Id

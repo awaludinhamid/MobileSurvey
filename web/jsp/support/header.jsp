@@ -100,6 +100,7 @@
       <span id="is-valid">${sessionScope.isValid}</span>
       <span id="sessionid">${sessionScope.sessionId}</span>
       <span id="officename">${sessionScope.officeName}</span>
+      <span id="roletype-code">${sessionScope.roleTypeCode}</span>
       <span id="paging-records">${sessionScope.pagingRecords}</span>
       <span id="company-logo-id">${sessionScope.companyLogoId}</span>
       <span id="csrf-param-name">${_csrf.parameterName}</span>

@@ -4,15 +4,20 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/rollingtask.js"></script>
-    <link rel="stylesheet" href="../../css/application/rollingtask.css"/>
+    <!--script src="../../js/application/rollingtask.js"></script>
+    <link rel="stylesheet" href="../../css/application/rollingtask.css"/--> 
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="rollingtask" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -73,6 +78,7 @@
         <ul class="pagination"></ul>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

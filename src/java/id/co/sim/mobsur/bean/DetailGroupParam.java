@@ -17,11 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table DETAIL_GROUP_PARAM
  * @created Jan 5, 2017
  * @author awal
  */
 @Entity
 @Table(name="DETAIL_GROUP_PARAM")
+@SuppressWarnings("PersistenceUnitPresent")
 public class DetailGroupParam extends RecordAuditBean {
 
   @Id

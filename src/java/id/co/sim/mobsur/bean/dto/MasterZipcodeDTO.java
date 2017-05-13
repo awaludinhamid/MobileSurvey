@@ -9,6 +9,7 @@ package id.co.sim.mobsur.bean.dto;
 import id.co.sim.mobsur.bean.dto.support.RecordControllerBeanDTO;
 
 /**
+ * DTO table MASTER_ZIPCODE
  * @created Dec 23, 2016
  * @author awal
  */
@@ -17,7 +18,8 @@ public class MasterZipcodeDTO extends RecordControllerBeanDTO {
   private int zipcodeId;
   private String zipcodeCode;
   private String zipcodeDesc;
-  private int kecId;
+  //private int kecId;
+  private int cityId;
 
   /**
    * @return the zipcodeId
@@ -62,16 +64,16 @@ public class MasterZipcodeDTO extends RecordControllerBeanDTO {
   }
 
   /**
-   * @return the kecId
+   * @return the cityId
    */
-  public int getKecId() {
-    return kecId;
+  public int getCityId() {
+    return cityId;
   }
 
   /**
-   * @param kecId the kecId to set
+   * @param cityId the cityId to set
    */
-  public void setKecId(int kecId) {
-    this.kecId = kecId;
+  public void setCityId(int cityId) {
+    this.cityId = cityId;
   }
 }

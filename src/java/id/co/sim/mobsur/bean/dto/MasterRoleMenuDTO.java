@@ -6,13 +6,15 @@
 
 package id.co.sim.mobsur.bean.dto;
 
-import id.co.sim.mobsur.bean.dto.support.RecordControllerBeanDTO;
+import id.co.sim.mobsur.bean.dto.support.RecordAuditBeanDTO;
 
 /**
+ * DTO table MASTER_ROLE_MENU
  * @created Nov 26, 2016
  * @author awal
  */
-public class MasterRoleMenuDTO extends RecordControllerBeanDTO {
+//public class MasterRoleMenuDTO extends RecordControllerBeanDTO {
+public class MasterRoleMenuDTO extends RecordAuditBeanDTO {
 
   private int roleMenuId;
   private String roleMenuDesc;

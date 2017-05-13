@@ -4,23 +4,29 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/jobassignment.js"></script>
-    <link rel="stylesheet" href="../../css/application/jobassignment.css"/>
+    <!--script src="../../js/application/jobassignment.js"></script>
+    <link rel="stylesheet" href="../../css/application/jobassignment.css"/--> 
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="jobassignment" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
-      <form id="form-save" class="form-horizontal">
+      <form id="form-save" class="form-horizontal form-non-modal">
         <div class="form-group">
           <label class="col-sm-3 control-label">Role</label>
           <div class="col-sm-9">
             <select id="roleId" class="form-control display-only" tabindex="1" autofocus>
-              <option ng-repeat="drop in datadrop.rolejobassign" value="{{drop.roleId}}">{{drop.roleName}}</option>
+              <option ng-repeat="drop in datadrop.rolejobassign" value="{{drop.roleId}}"
+                      data-level="{{drop.roleLevel}}" data-roletypecode="{{drop.roleType.roleTypeCode}}">{{drop.roleName}}</option>
             </select>
           </div>
         </div>
@@ -42,7 +48,7 @@
           <label class="col-sm-3 control-label">Assign To</label>
           <div class="col-sm-9">
             <select id="assignRoleId" class="form-control display-only" tabindex="3">
-              <option ng-repeat="drop in datadrop.rolebyparent" value="{{drop.roleId}}">{{drop.roleName}}</option>
+              <option ng-repeat="drop in datadrop.rolechildlevel" value="{{drop.roleId}}">{{drop.roleName}}</option>
             </select>
           </div>
         </div>
@@ -74,6 +80,7 @@
         </div>
       </form>
     </div>
+  </div>
   </div>
 </body>
 </html>

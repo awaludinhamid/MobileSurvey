@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Kelurahan service implementation (see the service for usage info)
  * @created Dec 23, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterKelurahanServiceImpl implements MasterKelurahanService {
 
   @Autowired
-  private MasterKelurahanDAO masterKelurahanDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterKelurahanDAO masterKelurahanDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,8 @@ public class MasterKelurahanServiceImpl implements MasterKelurahanService {
 
   @Override
   @Transactional(readOnly=false)
-  public MasterKelurahan delete(MasterKelurahan mk) {
-    return masterKelurahanDAO.delete(mk);
+  public void delete(MasterKelurahan mk) {
+    masterKelurahanDAO.delete(mk);
   }
 
   @Override

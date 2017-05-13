@@ -4,33 +4,41 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/zipcodeverif.js"></script>
-    <link rel="stylesheet" href="../../css/application/zipcodeverif.css"/>
+    <!--script src="../../js/application/zipcodeverif.js"></script>
+    <link rel="stylesheet" href="../../css/application/zipcodeverif.css"/--> 
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="zipcodeverif" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div style="float: right">
         <button id="upload-btn" class="btn btn-warning" ng-click="showModal('div#upload-mdl')">
           <span class="glyphicon glyphicon-upload"></span>&nbsp;Upload
         </button>
-        <button id="download-btn" class="btn btn-info" ng-click="showModal('div#download-mdl')">
+        <button id="download-temp-btn" class="btn btn-info" ng-click="showModal('div#download-temp-mdl')">
+          <span class="glyphicon glyphicon-download"></span>&nbsp;Download Template
+        </button>
+        <button id="download-btn" class="btn btn-success" ng-click="showModal('div#download-mdl')">
           <span class="glyphicon glyphicon-download-alt"></span>&nbsp;Download
         </button>
       </div>
       <div class="find-record form-group">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <select class="form-control" ng-model="verificatorId" ng-init="verificatorId=0">
             <option value="0">--Choose Verificator--</option>
             <option ng-repeat="data in datadrop.userverifbyparent" value="{{data.userId}}">{{data.userCode}}</option>
           </select>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <input class="form-control" placeholder="Zipcode/Kode Pos" ng-model="zipcodeCodePattern" ng-init="zipcodeCodePattern=''">
         </div>
       </div>
@@ -50,7 +58,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.zipcodeVerifId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <!--img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/-->
               </td>
               <td>{{data.zipcode.zipcodeCode}}</td>
               <td>{{data.subZipcode}}</td>
@@ -80,8 +88,24 @@
             <input type="hidden" id="zipcodeVerifId"/>
             <input type="hidden" id="createdBy"/>
             <div class="form-group">
+              <label class="col-sm-3 control-label">Provinsi</label>
+              <div class="col-sm-9">
+                <select id="provId" class="form-control display-only select-exclude-scan" tabindex="1" ng-model="prov" 
+                        ng-options="drop.provName for drop in datadrop.provinsi track by drop.provId">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Kab/Kota</label>
+              <div class="col-sm-9">
+                <select id="cityId" class="form-control select-exclude-scan" tabindex="2" ng-model="city"
+                        ng-options="drop.cityName for drop in datadrop.citybyprov track by drop.cityId">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
               <label class="col-sm-3 control-label">Zipcode*</label>
-              <div class="col-sm-3">
+              <!--div class="col-sm-3">
                 <input id="inputSearch" class="form-control" placeholder="Type to search..&#x261E;" tabindex="1" autofocus
                        ng-model="zipcodeSearch">
               </div>
@@ -90,6 +114,14 @@
                   <option ng-repeat="drop in datadrop.zipcode | filter: {zipcodeCode: zipcodeSearch}"
                           value="{{drop.zipcodeId}}" ng-if="zipcodeSearch">{{drop.zipcodeCode}}</option>
                 </select>
+              </div-->
+              <div class="col-sm-7">
+                <select id="zipcodeId" class="form-control select-exclude-scan" tabindex="3" required>
+                  <option ng-repeat="data in datadrop.zipcodebycity" value="{{data.zipcodeId}}">{{data.zipcodeCode}}</option>
+                </select>
+              </div>
+              <div class="col-sm-7">
+                <label id="zipcodeCode" class="form-control"></label>
               </div>
               <div class="col-sm-2">
                 <input id="subZipcode" class="form-control" readonly>
@@ -235,13 +267,7 @@
                   <input type="radio" name="filetypedl" ng-model="filetypedl" value="excelfile" ng-init="filetypedl='excelfile'">
                   <img class="img-record-small" src="../../img/icon/excel_icon.jpg" alt="Excel">&nbsp;Excel
                 </label>                
-              </div>              
-              <div id="pdftypedl" class="radio">
-                <label>
-                  <input type="radio" name="filetypedl" ng-model="filetypedl" value="pdffile">
-                  <img class="img-record-small" src="../../img/icon/pdf_icon.png" alt="PDF">&nbsp;PDF
-                </label>               
-              </div>              
+              </div>               
               <div id="texttypedl" class="radio">
                 <label>
                   <input type="radio" name="filetypedl" ng-model="filetypedl" value="textfile">
@@ -255,14 +281,6 @@
                 <input class="form-control" maxlength="3" style="width: 60px" ng-model="textdelimiterdl"> 
               </div>
             </div>
-            <div class="form-group">
-              <label>Verificator</label>
-              <div>
-                <select class="form-control" ng-model="verificatoriddl">
-                  <option ng-repeat="data in datadrop.userasverif" value="{{data.userId}}">{{data.userCode}}</option>
-                </select>
-              </div>             
-            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -271,6 +289,47 @@
         </div>
       </div>
     </div>
+  </div>
+  
+  <div class="modal fade" id="download-temp-mdl" tabindex="-1" role="dialog" aria-labelledby="download-temp-title" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="download-temp-title"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Download Template</h4>
+        </div>
+        <div class="modal-body">
+          <div>
+            <div class="form-group">
+              <label>Please select download file type:</label>
+              <div id="exceltypedltemp" class="radio">
+                <label>
+                  <input type="radio" name="filetypedltemp" ng-model="filetypedltemp" value="excelfile" ng-init="filetypedltemp='excelfile'">
+                  <img class="img-record-small" src="../../img/icon/excel_icon.jpg" alt="Excel">&nbsp;Excel
+                </label>                
+              </div>
+              <div id="texttypedltemp" class="radio">
+                <label>
+                  <input type="radio" name="filetypedltemp" ng-model="filetypedltemp" value="textfile">
+                  <img class="img-record-small" src="../../img/icon/text_icon.jpg" alt="Text">&nbsp;Text
+                </label>               
+              </div>             
+              <div id="textdelimiterdltemp" class="input-group" ng-show="filetypedltemp==='textfile'">
+                <label class="input-group-addon">
+                  <span>Delimiter:</span>
+                </label>
+                <input class="form-control" maxlength="3" style="width: 60px" ng-model="textdelimiterdltemp"> 
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          <button id="download-temp-btn-exec" class="btn btn-primary">Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 </body>
 </html>

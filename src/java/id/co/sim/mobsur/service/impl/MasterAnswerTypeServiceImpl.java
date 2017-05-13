@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Answer type service implementation (see the service for usage info)
  * @created Jan 5, 2017
  * @author awal
  */
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterAnswerTypeServiceImpl implements MasterAnswerTypeService {
 
   @Autowired
-  private MasterAnswerTypeDAO masterAnswerTypeDAO;
+  private MasterAnswerTypeDAO masterAnswerTypeDAO;// DAO injection
 
   @Override
   public MasterAnswerType getById(int answerTypeId) {

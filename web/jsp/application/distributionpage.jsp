@@ -4,21 +4,26 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/distribution.js"></script>
+    <!--script src="../../js/application/distribution.js"></script-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="distribution" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
         <div class="col-sm-6">
           <select class="form-control" ng-model="officeId" ng-init="officeId=0">
             <option value="0">--Choose Office--</option>
-            <option ng-repeat="data in datadrop.office" value="{{data.officeId}}">{{data.officeCode}}</option>
+            <option ng-repeat="data in datadrop.office" value="{{data.officeId}}">{{data.officeName}}</option>
           </select>
         </div>
       </div>
@@ -42,7 +47,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.distId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.office.officeCode}}</td>
               <td>{{data.office.officeName}}</td>
@@ -82,17 +87,17 @@
             <input type="hidden" id="distId"/>
             <input type="hidden" id="createdBy"/>
             <div class="form-group">
-              <label class="col-sm-4 control-label">Office Code*</label>
+              <label class="col-sm-4 control-label">Office*</label>
               <div class="col-sm-8">
                 <select id="officeId" class="form-control display-only select-exclude-scan" tabindex="1" ng-model="office" 
-                        ng-options="drop.officeCode for drop in datadrop.office track by drop.officeId">
+                        ng-options="drop.officeName for drop in datadrop.office track by drop.officeId">
                 </select>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-4 control-label">Office Name</label>
+              <label class="col-sm-4 control-label">Office Code</label>
               <div class="col-sm-8">
-                <input id="officeName" class="form-control display-only" tabindex="2" readonly>
+                <label id="officeCode" class="form-control" ng-bind="office.officeCode"></label>
               </div>
             </div>
             <div class="form-group">
@@ -153,6 +158,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

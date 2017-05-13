@@ -7,6 +7,7 @@
 package id.co.sim.mobsur.bean.support;
 
 /**
+ * POJO for user menu
  * @created Oct 19, 2016
  * @author awal
  */

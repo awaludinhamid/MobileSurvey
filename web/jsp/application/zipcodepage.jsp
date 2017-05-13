@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/zipcode.js"></script>
+    <!--script src="../../js/application/zipcode.js"></script-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="zipcode" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -30,9 +35,9 @@
               </th>
               <th>Zipcode</th>
               <th>Description</th>
-              <th>Provinsi</th>
+              <!--th>Provinsi</th>
               <th>Kabupaten/Kota</th>
-              <th>Kecamatan</th>
+              <th>Kecamatan</th-->
               <th>Start Date</th>
               <th>End Date</th>
             </tr>
@@ -41,13 +46,13 @@
             <tr ng-repeat="data in datatable" data-id="{{data.zipcodeId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.zipcodeCode}}</td>
               <td>{{data.zipcodeDesc}}</td>
-              <td>{{data.kecamatan.city.provinsi.provName}}</td>
-              <td>{{data.kecamatan.city.cityName}}</td>
-              <td>{{data.kecamatan.kecName}}</td>
+              <!--td>{{data.city.provinsi.provName}}</td>
+              <td>{{data.city.cityName}}</td>
+              <!--td>{{data.kecamatan.kecName}}</td-->
               <td>{{data.startDate}}</td>
               <td>{{data.endDate}}</td>
             </tr>
@@ -73,32 +78,32 @@
           <form id="form-save" class="form-horizontal">
             <input type="hidden" id="zipcodeId"/>
             <input type="hidden" id="createdBy"/>
-            <input type="hidden" id="kecId" value="{{kecamatan}}">
+            <!--input type="hidden" id="kecId" value="{{kecamatan}}"-->
             <div class="form-group">
               <label class="col-sm-3 control-label">Zipcode*</label>
               <div class="col-sm-9">
-                <input id="zipcodeCode" class="form-control" placeholder="[16151]" maxlength="5" tabindex="1" required autofocus>
+                <input id="zipcodeCode" class="form-control" placeholder="[16151]" pattern="[0-9]+" maxlength="5" tabindex="1" required autofocus>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-3 control-label">Description</label>
+              <label class="col-sm-3 control-label">Description*</label>
               <div class="col-sm-9">
-                <input id="zipcodeDesc" class="form-control" placeholder="[Kode pos kelurahan cimahpar]" maxlength="255" tabindex="2">
+                <input id="zipcodeDesc" class="form-control" placeholder="[Kode pos kelurahan cimahpar]" maxlength="255" tabindex="2" required>
               </div>
             </div>
-            <div class="form-group">
+            <!--div class="form-group">
               <label class="col-sm-3 control-label">Provinsi*</label>
               <div class="col-sm-9">
-                <select id="prov" class="form-control display-only select-exclude-scan" tabindex="3" ng-model="prov" 
-                        ng-options="drop.provId as drop.provName for drop in datadrop.provinsi">
+                <select id="provId" class="form-control display-only select-exclude-scan" tabindex="3" ng-model="prov" 
+                        ng-options="drop.provName for drop in datadrop.provinsi track by drop.provId">
                 </select>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Kab/Kota*</label>
               <div class="col-sm-9">
-                <select id="city" class="form-control select-exclude-scan" tabindex="4" required ng-model="city"
-                        ng-options="drop.cityId as drop.cityName for drop in datadrop.citybyprov">
+                <select id="cityId" class="form-control select-exclude-scan" tabindex="4" ng-model="city"
+                        ng-options="drop.cityName for drop in datadrop.citybyprov track by drop.cityId">
                 </select>
               </div>
             </div>
@@ -109,7 +114,7 @@
                         ng-options="drop.kecId as drop.kecName for drop in datadrop.kecbycity">
                 </select>
               </div>
-            </div>
+            </div-->
             <div class="form-group">
               <label class="col-sm-3 control-label">Valid Date*</label>
               <div class="col-sm-4">
@@ -143,6 +148,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

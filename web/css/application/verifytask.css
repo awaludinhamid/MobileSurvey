@@ -1,0 +1,95 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 15, 2017, 3:08:10 PM
+    Author     : awal
+*/
+
+div#verifytask table.verify-title td:first-child,
+div#verifytask table.verify-title td:nth-child(3) {
+  font-weight: bold;
+  background-color: #efefff;
+  width: 200px;
+}
+
+div#verifytask div#mdl-verify-record .modal-header,
+div#verifytask div#det-quest div.group-header,
+div#verifytask div#photo-quest div.group-header {
+  background-color: #147;
+  color: #efefff;
+}
+div#verifytask div#mdl-verify-record .modal-header img {
+  width: 30px;
+  height: 30px;
+}
+div#verifytask div#mdl-verify-record .modal-header>button.close {
+  color: red;
+  opacity: 0.5;
+}
+div#verifytask div#mdl-verify-record .modal-header>button.close:hover {
+  opacity: 0.9;
+  transform: scale(1.5);
+}
+div#verifytask div#mdl-verify-record .modal-body {
+  height: 600px;
+  overflow: auto;
+}
+
+div#verifytask div#det-quest div.group-header,
+div#verifytask div#photo-quest div.group-header {
+  text-align: center;
+  padding: 5px;
+  width: 100%;
+  font-weight: bold;
+}
+div#verifytask div#det-quest table tr>th {
+  background-color: #efefff;
+  text-align: center;
+  vertical-align: middle;
+}
+div#verifytask div#det-quest table tr>th.checkbox-hdr {
+  width: 30px;
+}
+/*div#verifytask div#det-quest table tr>th.input-data {
+  width: 200px;
+}*/
+div#verifytask div#det-quest table tr>td.checkbox-dtl {
+  text-align: center;
+}
+div#verifytask div#det-quest table tr>td.input-dtl {
+  margin: 0;
+  padding:0;
+}
+/*div#verifytask div#det-quest table tr>th.input-id,
+div#verifytask div#det-quest table tr>td.input-id>input,
+div#verifytask div#det-quest table tr>th.column-id {
+  width: 50px;
+}*/
+div#verifytask div#det-quest table tr>td:not(.checkbox-dtl) {
+  min-width: 150px;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+div#verifytask div#det-quest table tr>td:not(.checkbox-dtl):hover {
+  overflow: visible; 
+  white-space: normal;
+}
+div#verifytask div#det-quest table tr>td.input-id>input,
+div#verifytask div#det-quest table tr>td.input-text>input,
+div#verifytask div#det-quest table tr>td.input-id>select {
+  width: 100%;
+  height: 30px;
+}
+div#verifytask div#photo-quest div.img-photo {
+  float: left;
+  margin-right: 10px;
+  text-align: center;
+}
+div#verifytask div#photo-quest div.img-photo>img {
+  width: 300px;
+}

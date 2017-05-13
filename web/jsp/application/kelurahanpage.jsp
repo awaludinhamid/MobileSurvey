@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/kelurahan.js"></script>
+    <!--script src="../../js/application/kelurahan.js"></script-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="kelurahan" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -42,7 +47,7 @@
             <tr ng-repeat="data in datatable" data-id="{{data.kelId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.kelCode}}</td>
               <td>{{data.kelName}}</td>
@@ -75,7 +80,7 @@
           <form id="form-save" class="form-horizontal">
             <input type="hidden" id="kelId"/>
             <input type="hidden" id="createdBy"/>
-            <input type="hidden" id="kecId" value="{{kecamatan}}">
+            <input type="hidden" id="kecId" value="{{kecamatan.kecId}}">
             <input type="hidden" id="zipcodeId" value="{{zipcode}}">
             <div class="form-group">
               <label class="col-sm-4 control-label">Kelurahan Code*</label>
@@ -92,16 +97,16 @@
             <div class="form-group">
               <label class="col-sm-4 control-label">Provinsi*</label>
               <div class="col-sm-8">
-                <select id="prov" class="form-control display-only select-exclude-scan" tabindex="3" ng-model="prov" 
-                        ng-options="drop.provId as drop.provName for drop in datadrop.provinsi">
+                <select id="provId" class="form-control display-only select-exclude-scan" tabindex="3" ng-model="prov" 
+                        ng-options="drop.provName for drop in datadrop.provinsi track by drop.provId">
                 </select>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-4 control-label">Kab/Kota*</label>
               <div class="col-sm-8">
-                <select id="city" class="form-control select-exclude-scan" tabindex="4" required ng-model="city"
-                        ng-options="drop.cityId as drop.cityName for drop in datadrop.citybyprov">
+                <select id="cityId" class="form-control select-exclude-scan" tabindex="4" required ng-model="city"
+                        ng-options="drop.cityName for drop in datadrop.citybyprov track by drop.cityId">
                 </select>
               </div>
             </div>
@@ -109,15 +114,23 @@
               <label class="col-sm-4 control-label">Kecamatan*</label>
               <div class="col-sm-8">
                 <select id="kecamatan" class="form-control select-exclude-scan" tabindex="5" required ng-model="kecamatan"
-                        ng-options="drop.kecId as drop.kecName for drop in datadrop.kecbycity">
+                        ng-options="drop.kecName for drop in datadrop.kecbycity track by drop.kecId">
                 </select>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-4 control-label">Zipcode</label>
-              <div class="col-sm-8">
-                <select id="zipcode" class="form-control select-exclude-scan" tabindex="6" ng-model="zipcode"
-                        ng-options="drop.zipcodeId as drop.zipcodeCode for drop in datadrop.zipcodebykec">
+              <div class="col-sm-5">
+                <div class="input-group">
+                  <input id="patternCode" class="form-control " placeholder="Type Number" maxlength="5" tabindex="6">
+                  <div class="input-group-btn">
+                    <button type="button" id="btn-load-zipcode" class="btn btn-info" tabindex="7"><span class="glyphicon glyphicon-search"></span>&nbsp;Load List</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <select id="zipcode" class="form-control select-exclude-scan" tabindex="8" ng-model="zipcode"
+                        ng-options="drop.zipcodeId as drop.zipcodeCode for drop in datadrop.zipcodebypattern">
                   <option value=""></option>
                 </select>
               </div>
@@ -126,7 +139,7 @@
               <label class="col-sm-4 control-label">Valid Date*</label>
               <div class="col-sm-4">
                 <div class="input-group">
-                  <input id="startDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="7" required>
+                  <input id="startDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="9" required>
                   <div class="input-group-btn">
                     <button id="btn-startdate" class="btn btn-info" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
                   </div>
@@ -137,7 +150,7 @@
               <label class="col-sm-4 control-label">Until Date*</label>
               <div class="col-sm-4">
                 <div class="input-group">
-                  <input id="endDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="8" required>
+                  <input id="endDate" class="form-control" placeholder="[yyyy-mm-dd]" pattern="^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" title="(yyyy-mm-dd)" tabindex="10" required>
                   <div class="input-group-btn">
                     <button id="btn-enddate" class="btn btn-info" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
                   </div>
@@ -155,6 +168,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>

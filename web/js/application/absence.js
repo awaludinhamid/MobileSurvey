@@ -2,40 +2,22 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+ * 
+ * @author awal
+ * Script specific to absence page
  */
 
-//
+//initialize the variables
+//see application.js file for completed info in each variable
 dataIdField = "absenceId";
+disableObjArr = [{fieldName: "User", fieldValue: "user.userName"},
+                  {fieldName: "Reason Type", fieldValue: "reasonType.reasonTypeName"},
+                  {fieldName: "Valid Date", fieldValue: "startDate"}];
 objRelMap = [{name: "user", field: [{column: "userId", id: "userId"}]},
               {name: "reasonType", field: [{column: "reasonTypeId", id: "reasonTypeId"}]}];
 dropdownArr = ["userbyparent","reasontype"];
+isDateCheckToToday = true;
 
-$(document).ready(function() {
-  //
-  datePicker("input#startDateFind");
-  datePicker("input#endDateFind");
-  
-  //  
-  $("div.find-record").on("click", "div.img-container>img#img-find-record", function() {
-    var currInput = [$("input#startDateFind"),$("input#endDateFind")];
-    $.each(currInput,function(idx,val) {
-      if(val) {
-        var tooltipDate = $("div.tooltip-date");
-        var currInputVal = val.val();
-        if(!(currInputVal.match(asofdatePattern) || currInputVal === "")) {
-          var currInputOff = val.offset();
-          setTtDateStyle("transform","translate("+currInputOff.left+"px,"+(currInputOff.top - 20)+"px)");
-          setTtDateStyle("animation-play-state","running");
-          tooltipDate.on("animationend webkitAnimationEnd", function() {
-            setTtDateStyle("animation-play-state","paused");
-            tooltipDate.replaceWith(tooltipDate.clone(true));
-          });
-        }
-      }
-      function setTtDateStyle(styleProp,styleValue) {
-        tooltipDate.css(styleProp,styleValue);
-        tooltipDate.css("webkit-" + styleProp,styleValue);
-      }      
-    });
-  });
+$("div#absence").ready(function() {
+  //currently nothing to do in this page
 });

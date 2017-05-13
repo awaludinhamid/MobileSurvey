@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Distribution service implementation (see the service for usage info)
  * @created Dec 4, 2016
  * @author awal
  */
@@ -24,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterDistributionServiceImpl implements MasterDistributionService {
 
   @Autowired
-  private MasterDistributionDAO masterDistributionDAO;
-  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();
+  private MasterDistributionDAO masterDistributionDAO;// DAO injection
+  private final int pagingRecords = GlobalIntVariable.PAGING_RECORDS.getVar();//number of records per page (paging)
 
   @Override
   @Transactional(readOnly=false)
@@ -35,8 +36,13 @@ public class MasterDistributionServiceImpl implements MasterDistributionService 
 
   @Override
   @Transactional(readOnly=false)
-  public MasterDistribution delete(MasterDistribution md) {
-    return masterDistributionDAO.delete(md);
+  public void delete(MasterDistribution md) {
+    masterDistributionDAO.delete(md);
+  }
+
+  @Override
+  public MasterDistribution getById(int distId) {
+    return masterDistributionDAO.getById(distId);
   }
 
   @Override

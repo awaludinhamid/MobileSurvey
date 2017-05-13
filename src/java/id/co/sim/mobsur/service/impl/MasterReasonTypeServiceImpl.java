@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
+/**	
+ * Reason type service implementation (see the service for usage info)
  * @created Jan 26, 2017
  * @author awal
  */
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MasterReasonTypeServiceImpl implements MasterReasonTypeService {
 
   @Autowired
-  private MasterReasonTypeDAO masterReasonTypeDAO;
+  private MasterReasonTypeDAO masterReasonTypeDAO;// DAO injection
 
   @Override
   public List<MasterReasonType> getAll() {

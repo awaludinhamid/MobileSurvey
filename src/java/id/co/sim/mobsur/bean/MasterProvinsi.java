@@ -15,11 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_PROVINSI
  * @created Dec 16, 2016
  * @author awal
  */
 @Entity
 @Table(name="MASTER_PROVINSI")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterProvinsi extends RecordControllerBean {
 
   @Id

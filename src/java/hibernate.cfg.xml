@@ -3,11 +3,11 @@
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-    <!--property name="hibernate.show_sql">true</property-->
-    <property name="hibernate.format_sql">true</property>
+    <!--property name="hibernate.show_sql">true</property>
+    <property name="hibernate.format_sql">true</property-->
     <property name="hibernate.hbm2ddl.auto">none</property>
     <property name="hibernate.connection.release_mode">auto</property>
-    <!--Bean class -->
+    <!--Bean class, have moved to annotation -->
     <!--mapping class="id.co.sim.mobsur.bean.MasterUser"/-->
     
   </session-factory>

@@ -4,14 +4,19 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/userrole.js"></script>
+    <!--script src="../../js/application/userrole.js"></script-->
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="userrole" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -48,24 +53,28 @@
               <th>Role</th>
               <th>Menu List</th>
               <th>Office</th>
-              <th>Start Date</th>
-              <th>End Date</th>
+              <th>User Start Date</th>
+              <th>User End Date</th>
+              <th>Role Start Date</th>
+              <th>Role End Date</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="data in datatable" data-id="{{data.userRoleId}}">
               <td>
                 <img id="img-edit-record" class="img-record img-record-small" src="../../img/icon/edit-icon.png" alt="Edit icon" title="Edit Record" ng-click="storearr(data)"/>
-                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record"/>
+                <img id="img-delete-record" class="img-record img-record-small" src="../../img/icon/delete-icon.png" alt="Delete icon" title="Delete Record" ng-click="storearr(data)"/>
               </td>
               <td>{{data.user.userName}}</td>
               <td>{{data.role.roleName}}</td>
               <td>
-                <img id="img-menu-record" class="img-record img-record-small" src="../../img/icon/menu-icon.png" alt="Menu icon" title="Detail" ng-click="store(data)"/>
+                <img id="img-menu-record" class="img-record img-record-small" src="../../img/icon/menu-icon.png" alt="Menu icon" title="Detail" ng-click="storearr(data)"/>
               </td>
               <td>{{data.user.office.officeName}}</td>
-              <td>{{data.startDate}}</td>
-              <td>{{data.endDate}}</td>
+              <td>{{data.user.startDate}}</td>
+              <td>{{data.user.endDate}}</td>
+              <td>{{data.role.startDate}}</td>
+              <td>{{data.role.endDate}}</td>
             </tr>
           </tbody>
         </table>
@@ -126,7 +135,7 @@
                 </select>
               </div>
             </div>
-            <div class="form-group">
+            <!--div class="form-group">
               <label class="col-sm-3 control-label">Valid Date*</label>
               <div class="col-sm-4">
                 <div class="input-group">
@@ -147,7 +156,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div-->
             <div class="btn-form-save">
               <button id="btn-clear" class="btn btn-warning" type="reset">Clear</button>
               <button id="btn-save" class="btn btn-primary" type="submit" tabindex="10">Save</button>
@@ -193,6 +202,6 @@
       </div>
     </div>
   </div>
-  
+  </div>
 </body>
 </html>

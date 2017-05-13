@@ -11,6 +11,9 @@ import id.co.sim.mobsur.util.BaseDAO;
 import org.springframework.stereotype.Repository;
 
 /**
+ * DAO table MASTER_PARENT_MENU
+ * extends BaseDAO class
+ * @see BaseDAO
  * @created Oct 14, 2016
  * @author awal
  */

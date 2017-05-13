@@ -8,27 +8,27 @@ and open the template in the editor.
     Author     : awal
 */
 
-table#tbl-data-dtl tr>th:first-child
+div#jobassignment table#tbl-data-dtl tr>th:first-child
 {
   width: 41px;
 }
-table#tbl-data-dtl tr>td:first-child
+div#jobassignment table#tbl-data-dtl tr>td:first-child
 {
   width: 40px;
 }
-table#tbl-data-dtl tr>th:nth-child(2),
-table#tbl-data-dtl tr>td:nth-child(2)
+div#jobassignment table#tbl-data-dtl tr>th:nth-child(2),
+div#jobassignment table#tbl-data-dtl tr>td:nth-child(2)
 {
   width: 100px;
 }
-table#tbl-data-dtl tr>th:last-child,
-table#tbl-data-dtl tr>td:last-child
+div#jobassignment table#tbl-data-dtl tr>th:last-child,
+div#jobassignment table#tbl-data-dtl tr>td:last-child
 {
   width: 400px;
   max-width: 400px;
 }
 
-form#form-save {
+div#jobassignment form#form-save.form-non-modal {
   margin-top: 20px;
   width: 50%;
 }

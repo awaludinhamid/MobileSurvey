@@ -15,11 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_REASON_TYPE
  * @created Jan 26, 2017
  * @author awal
  */
 @Entity
 @Table(name="MASTER_REASON_TYPE")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterReasonType extends RecordAuditBean {
 
   @Id

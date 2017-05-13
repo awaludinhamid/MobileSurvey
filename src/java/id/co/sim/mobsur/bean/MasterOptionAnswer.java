@@ -17,11 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * POJO table MASTER_OPTION_ANSWER
  * @created Jan 5, 2017
  * @author awal
  */
 @Entity
 @Table(name="MASTER_OPTION_ANSWER")
+@SuppressWarnings("PersistenceUnitPresent")
 public class MasterOptionAnswer extends RecordAuditBean {
 
   @Id

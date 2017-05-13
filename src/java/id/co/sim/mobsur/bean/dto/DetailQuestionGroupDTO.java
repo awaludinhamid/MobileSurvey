@@ -9,6 +9,7 @@ package id.co.sim.mobsur.bean.dto;
 import id.co.sim.mobsur.bean.dto.support.RecordControllerBeanDTO;
 
 /**
+ * DTO table DETAIL_QUESTION_GROUP
  * @created Jan 13, 2017
  * @author awal
  */

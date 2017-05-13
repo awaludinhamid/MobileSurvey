@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Handles and retrieves various page depending on the URI template.
  * A user must be log-in first he can access these pages.
  * Specific page can be accessed by specific user, however.
- * @created Jun 19, 2015
+ * @created Jun 19, 2016
  * @author awal
  */
 @Controller
@@ -26,11 +26,10 @@ public class ApplicationController {
 
   private final Logger logger = Logger.getLogger("controller");
 
-
   /**
     * Handles and retrieves the company JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the company JSP page
     */
   @RequestMapping(value = "/company", method = RequestMethod.GET)
   public String getCompanyPage() {
@@ -42,7 +41,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves the menu JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the menu JSP page
     */
   @RequestMapping(value = "/menu", method = RequestMethod.GET)
   public String getMenuPage() {
@@ -54,7 +53,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves the role JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the role JSP page
     */
   @RequestMapping(value = "/role", method = RequestMethod.GET)
   public String getRolePage() {
@@ -66,7 +65,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves the office JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the office JSP page
     */
   @RequestMapping(value = "/office", method = RequestMethod.GET)
   public String getOfficePage() {
@@ -78,7 +77,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves the user JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the user JSP page
     */
   @RequestMapping(value = "/user", method = RequestMethod.GET)
   public String getUserPage() {
@@ -90,7 +89,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves the user role JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the user role JSP page
     */
   @RequestMapping(value = "/userrole", method = RequestMethod.GET)
   public String getUserRolePage() {
@@ -102,7 +101,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves the role menu JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the role menu JSP page
     */
   @RequestMapping(value = "/rolemenu", method = RequestMethod.GET)
   public String getRoleMenuPage() {
@@ -114,7 +113,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves the zipcode JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the zipcode JSP page
     */
   @RequestMapping(value = "/zipcode", method = RequestMethod.GET)
   public String getZipcodePage() {
@@ -126,7 +125,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves parameter JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the parameter JSP page
     */
   @RequestMapping(value = "/parameter", method = RequestMethod.GET)
   public String getParameterPage() {
@@ -138,7 +137,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves hierarchy JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the hierarchy JSP page
     */
   @RequestMapping(value = "/hierarchy", method = RequestMethod.GET)
   public String getHierarchyPage() {
@@ -150,7 +149,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves distribution JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the distribution JSP page
     */
   @RequestMapping(value = "/distribution", method = RequestMethod.GET)
   public String getDistributionPage() {
@@ -162,7 +161,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves provinsi JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the provinsi JSP page
     */
   @RequestMapping(value = "/provinsi", method = RequestMethod.GET)
   public String getProvinsiPage() {
@@ -174,7 +173,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves city JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the city JSP page
     */
   @RequestMapping(value = "/city", method = RequestMethod.GET)
   public String getCityPage() {
@@ -186,7 +185,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves kecamatan JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the kecamatan JSP page
     */
   @RequestMapping(value = "/kecamatan", method = RequestMethod.GET)
   public String getKecamatanPage() {
@@ -198,7 +197,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves kelurahan JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the kelurahan JSP page
     */
   @RequestMapping(value = "/kelurahan", method = RequestMethod.GET)
   public String getKelurahanPage() {
@@ -210,7 +209,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves question JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the question JSP page
     */
   @RequestMapping(value = "/question", method = RequestMethod.GET)
   public String getQuestionPage() {
@@ -222,7 +221,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves group question JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the group question JSP page
     */
   @RequestMapping(value = "/questiongroup", method = RequestMethod.GET)
   public String getQuestionGroupPage() {
@@ -234,7 +233,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves template JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the template JSP page
     */
   @RequestMapping(value = "/template", method = RequestMethod.GET)
   public String getTemplatePage() {
@@ -246,7 +245,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves product JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the product JSP page
     */
   @RequestMapping(value = "/product", method = RequestMethod.GET)
   public String getProductPage() {
@@ -258,7 +257,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves job assignment JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the job assignment JSP page
     */
   @RequestMapping(value = "/jobassignment", method = RequestMethod.GET)
   public String getJobAssignmentPage() {
@@ -270,7 +269,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves zipcode verificator JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the zipcode verificator JSP page
     */
   @RequestMapping(value = "/zipcodeverif", method = RequestMethod.GET)
   public String getZipcodeVerifPage() {
@@ -282,7 +281,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves absence JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the absence JSP page
     */
   @RequestMapping(value = "/absence", method = RequestMethod.GET)
   public String getAbsencePage() {
@@ -294,7 +293,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves mobile task assign JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the mobile task assign JSP page
     */
   @RequestMapping(value = "/taskassign", method = RequestMethod.GET)
   public String getMobileTaskAssignPage() {
@@ -306,7 +305,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves mobile rolling task JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the mobile rolling task JSP page
     */
   @RequestMapping(value = "/rollingtask", method = RequestMethod.GET)
   public String getMobileRollingTaskPage() {
@@ -318,7 +317,7 @@ public class ApplicationController {
   /**
     * Handles and retrieves mobile inquiry task JSP page
     *
-    * @return the name of the JSP page
+    * @return the name of the mobile inquiry task JSP page
     */
   @RequestMapping(value = "/inquirytask", method = RequestMethod.GET)
   public String getMobileInquiryTaskPage() {
@@ -328,11 +327,71 @@ public class ApplicationController {
   }
 
   /**
+    * Handles and retrieves mobile verify task JSP page
+    *
+    * @return the name of the mobile verify task JSP page
+    */
+  @RequestMapping(value = "/verifytask", method = RequestMethod.GET)
+  public String getMobileVerifyTaskPage() {
+    logger.debug("Received request to show mobile verify task page");
+    // This will resolve to /jsp/application/verifytaskpage.jsp
+    return "application/verifytaskpage";
+  }
+
+  /**
+    * Handles and retrieves mobile drop task JSP page
+    *
+    * @return the name of the mobile drop task JSP page
+    */
+  @RequestMapping(value = "/droptask", method = RequestMethod.GET)
+  public String getMobileDropTaskPage() {
+    logger.debug("Received request to show mobile drop task page");
+    // This will resolve to /jsp/application/droptaskpage.jsp
+    return "application/droptaskpage";
+  }
+
+  /**
+    * Handles and retrieves dashboard monitor JSP page
+    *
+    * @return the name of the dashboard monitor JSP page
+    */
+  @RequestMapping(value = "/dashmon", method = RequestMethod.GET)
+  public String getDashboardMonitorPage() {
+    logger.debug("Received request to show dashboard monitor page");
+    // This will resolve to /jsp/application/dashmonpage.jsp
+    return "application/dashmonpage";
+  }
+
+  /**
+    * Handles and retrieves location tracking JSP page
+    *
+    * @return the name of the location tracking JSP page
+    */
+  @RequestMapping(value = "/loctrack", method = RequestMethod.GET)
+  public String getLocationTrackingPage() {
+    logger.debug("Received request to show location tracking page");
+    // This will resolve to /jsp/application/loctrackpage.jsp
+    return "application/loctrackpage";
+  }
+
+  /**
+    * Handles and retrieves report monitoring JSP page
+    *
+    * @return the name of the report monitoring JSP page
+    */
+  @RequestMapping(value = "/repmon", method = RequestMethod.GET)
+  public String getReportMonitoringPage() {
+    logger.debug("Received request to show report monitoring page");
+    // This will resolve to /jsp/application/repmonpage.jsp
+    return "application/repmonpage";
+  }
+
+  /**
     * Handles and retrieves the summary JSP page
     *
     * @param httpRequest
     * @param principal
-    * @return the name of the JSP page
+    * @return the name of the summary JSP page
     */
   @RequestMapping(value = "/summary", method = RequestMethod.GET)
   public String getSummaryPage(HttpServletRequest httpRequest, Principal principal) {

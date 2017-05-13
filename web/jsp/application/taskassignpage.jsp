@@ -4,15 +4,20 @@
     Author     : awal
 --%>
 
-<%@include file="../support/application.jsp" %>
+<!--%@include file="../support/application.jsp" %-->
 <!DOCTYPE html>
 
 <html>
   <head>
-    <script src="../../js/application/taskassign.js"></script>
-    <link rel="stylesheet" href="../../css/application/taskassign.css"/>
+    <!--script src="../../js/application/taskassign.js"></script>
+    <link rel="stylesheet" href="../../css/application/taskassign.css"/--> 
+    <script>
+      localStorage.setItem("previousUrl",window.location.href);
+      window.location.replace("../../apps/main/application");
+    </script>
   </head>
 <body>
+  <div id="taskassign" class="target-div" hidden>
   <div id="page-content-wrapper">
     <div class="container">
       <div class="find-record form-group">
@@ -34,7 +39,7 @@
           <thead>
             <tr>
               <th><input id="inputVerifAll" type="checkbox" class="form-control checkbox data-detail" tabindex="4"/></th>
-              <th>Order Id</th>
+              <th>Order No</th>
               <th>Order Date</th>
               <th>Customer Name</th>
               <th>Address</th>
@@ -67,6 +72,7 @@
         <ul class="pagination"></ul>
       </div>
     </div>
+  </div>
   </div>
 </body>
 </html>
