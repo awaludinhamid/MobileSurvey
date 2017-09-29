@@ -35,7 +35,7 @@ body {
   font-weight: bolder;
   color: white;
   text-shadow: black 0px 2px 3px;
-  background: linear-gradient(#026 50%,#fff 85%);
+  /*background: linear-gradient(#026 50%,#fff 85%);*/
   z-index: 1100;
   /*overflow-y: hidden;*/
 }

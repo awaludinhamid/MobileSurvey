@@ -151,7 +151,7 @@ public class MobileTaskResultDAO extends BaseDAO<MobileTaskResult> {
    */
   public List<CoordinateBean> getCoordinateByVerifAssignDateAndGps(int verifId, String startDate, String endDate, String isGps) {
     return sessionFactory.getCurrentSession().createQuery(
-            "select mtr.gpsLatitude as latitude, mtr.gpsLongitude as longitude from " + domainClass.getName() + " mtr " +
+            "select mtr.gpsLatitude as latitude, mtr.gpsLongitude as longitude, mtr.task.submitDate as submitDate from " + domainClass.getName() + " mtr " +
               "where mtr.task.user.userId = :verifId " +
                 "and date_trunc('day',mtr.task.submitDate) >= to_date(:startDate,'yyyy-mm-dd') " +
                 "and date_trunc('day',mtr.task.submitDate) <= to_date(:endDate,'yyyy-mm-dd') " +

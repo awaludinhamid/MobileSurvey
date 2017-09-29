@@ -24,13 +24,45 @@ $("div#loctrack").ready(function() {
   var map;//the map
   var markers = [];//object in the map in the various shape (icon, character, etc)
   var trippedPath;//object in the map in the form line path
+  var infoWindowTmp;//popup object contains several info such as lat and lang position
   
   if($(currDiv).length) {
     
-    /**
-     * Get google API
-     */
-    $.getScript("http://maps.googleapis.com/maps/api/js?key=AIzaSyAv3z1L3q9NZim5mwhvUqejnueYlgVSGt0", function() {
+    //load google API if only unloaded
+    if(typeof google === "object" && typeof google.maps === "object")
+      initPageLoc();
+    else
+      /**
+       * Get google API
+       */
+      $.getScript("http://maps.googleapis.com/maps/api/js?key=AIzaSyAv3z1L3q9NZim5mwhvUqejnueYlgVSGt0", function() {
+        initPageLoc();
+      });
+  }
+  
+  /**
+   * event: change/choose office list value
+   * action: assign verificator value to default
+   *         reload verificator list
+   */
+  $(currDiv + " div.find-record select#officeId").change(function() {
+    if(scope.officeId === "0") {
+      scope.datadrop.verifbyofficerole = [];
+      scope.verificatorId = "0";
+      scope.$apply();
+    } else {
+      scope.officeId = $(this).val();
+      changeListVerifLoc(function() {
+        scope.verificatorId = "0";
+      });
+    }
+  });
+  
+  /**
+   * process when initialize page
+   * @returns {undefined}
+   */
+  function initPageLoc() {
       
       //currently online
       if (typeof google === "object" && typeof google.maps === "object") {
@@ -60,6 +92,7 @@ $("div#loctrack").ready(function() {
             //iterate position node
             $.each(datatable,function(idx,val) {
               
+              var marker;//where point tracking is assigned
               var latlng = new google.maps.LatLng(val.latitude,val.longitude);//switch plain value to object
               
               //assign icon
@@ -71,30 +104,40 @@ $("div#loctrack").ready(function() {
               };
               
               //put icon to the map
-              markers.push(new google.maps.Marker({
+              marker = new google.maps.Marker({
                 position: latlng,
                 icon: icon,
                 map: map
-              }));      
+              });
+              markers.push(marker);      
               
               //assign start and end marker
               if(idx === 0) {
-                markers.push(new google.maps.Marker({
+                marker = new google.maps.Marker({
                   position: latlng,
                   label: "A",
                   map: map
-                }));
+                });
+                markers.push(marker);
                 map.setCenter(latlng);
               }
               if(idx === (datatablelen - 1))
-                markers.push(new google.maps.Marker({
+                marker = new google.maps.Marker({
                   position: latlng,
                   label: "Z",
                   map: map
-                }));
+                });
+                markers.push(marker);
               
               //put position to path
               tripped.push(latlng);
+
+              //show tooltip on marker
+              google.maps.event.addListener(marker,"click",function(event) {
+                //alert("ok");
+                //alert(JSON.stringify(val)); 
+                showLocInfo(marker,val);
+              });
             });
             
             //create path
@@ -110,7 +153,7 @@ $("div#loctrack").ready(function() {
           } else {
             if($("div#googleMap").is(":visible"))
               $("div#googleMap").hide();      
-          }
+          } 
           
           /**
            * Flushing map content
@@ -124,6 +167,19 @@ $("div#loctrack").ready(function() {
             });
             markers = [];
           }
+    
+          /**
+           * Show the given info
+           * @param {Object} marker , current marker
+           * @param {Object} info , info to show
+           * @returns {void}
+           */
+          function showLocInfo(marker,info) {
+            infoWindowTmp = new google.maps.InfoWindow({
+              content: "Latitude: " + info.latitude + "<br>Longitude: " + info.longitude + "<br>Submit Time: " + info.submitDate
+            });
+            infoWindowTmp.open(map,marker);
+          }
         };  
         
       } else {
@@ -136,26 +192,7 @@ $("div#loctrack").ready(function() {
         $(currDiv + " div.find-record input#officeLbl").show();
         changeListVerifLoc(function() {});
       }    
-    });
-  }
-  
-  /**
-   * event: change/choose office list value
-   * action: assign verificator value to default
-   *         reload verificator list
-   */
-  $(currDiv + " div.find-record select#officeId").change(function() {
-    if(scope.officeId === "0") {
-      scope.datadrop.verifbyofficerole = [];
-      scope.verificatorId = "0";
-      scope.$apply();
-    } else {
-      scope.officeId = $(this).val();
-      changeListVerifLoc(function() {
-        scope.verificatorId = "0";
-      });
-    }
-  });
+  }   
   
   /**
    * Reload verificator list

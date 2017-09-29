@@ -29,38 +29,16 @@ $("div#dashmon").ready(function() {
   
   if($(currDiv).length) {
     
-    /**
-     * Get google API
-     */
-    $.getScript("http://maps.googleapis.com/maps/api/js?key=AIzaSyAv3z1L3q9NZim5mwhvUqejnueYlgVSGt0", function() {
-      
-      //currently online
-      if (typeof google === "object" && typeof google.maps === "object") {
-      
-        //load map
-        initializeMap();
-
-        //additional process when loading the page
-        cbFuncGenData = function() {
-          //just hide the map
-          if($("div#googleMap").is(":visible")) 
-            $("div#googleMap").hide();
-        };
-      } else {    
-        showInfoMessage("You're currently offline and may not show the map ..!");
-      }
-
-      //get initial data via AJAX and set object view in their default
-      scope.getDataCommon(relativePath + "apps/data/iscoordinator",{},function(response) {
-        if(response.data.val === "true") {
-          $("div.find-record select#officeId").hide();
-          $("div.find-record input#officeLbl").show();
-          $("div.find-record select#coordinatorId").hide();
-          $("div.find-record input#coordinatorLbl").show();
-          scope.coordinatorId = $("span#userid").text();
-        } 
+    //load google API if only unloaded
+    if(typeof google === "object" && typeof google.maps === "object")
+      initPage();
+    else
+      /**
+       * Get google API
+       */
+      $.getScript("http://maps.googleapis.com/maps/api/js?key=AIzaSyAv3z1L3q9NZim5mwhvUqejnueYlgVSGt0", function() {
+        initPage();
       });
-    });
   }
   
   /**
@@ -93,6 +71,39 @@ $("div#dashmon").ready(function() {
     $(this).parent("div").css("background-color","#cfcfef");
     changeMapAndObjectPosition(map,scope.dataarr.gpsLatitude,scope.dataarr.gpsLongitude);
   });
+  
+  /**
+   * process when initialize page
+   * @returns {undefined}
+   */
+  function initPage() {      
+    //currently online
+    if (typeof google === "object" && typeof google.maps === "object") {
+
+      //load map
+      initializeMap();
+
+      //additional process when loading the page
+      cbFuncGenData = function() {
+        //just hide the map
+        if($("div#googleMap").is(":visible")) 
+          $("div#googleMap").hide();
+      };
+    } else {    
+      showInfoMessage("You're currently offline and may not show the map ..!");
+    }
+
+    //get initial data via AJAX and set object view in their default
+    scope.getDataCommon(relativePath + "apps/data/iscoordinator",{},function(response) {
+      if(response.data.val === "true") {
+        $("div.find-record select#officeId").hide();
+        $("div.find-record input#officeLbl").show();
+        $("div.find-record select#coordinatorId").hide();
+        $("div.find-record input#coordinatorLbl").show();
+        scope.coordinatorId = $("span#userid").text();
+      } 
+    });    
+  }
   
   /**
    * change the map and its object position

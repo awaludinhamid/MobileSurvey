@@ -27,6 +27,15 @@ function showMessage(message) {
 
 
 $(document).ready(function() {
+    
+  //header coloring
+  if($("span#user-from-owner").text() === "N") {
+    $(".title").css("background","linear-gradient(#cc2 50%,#fff 85%)");
+    //$(".topbar-add-style").css("background","linear-gradient(#cc2,#cc2)");
+  } else {
+    $(".title").css("background","linear-gradient(#026 50%,#fff 85%)");
+    //$(".topbar-add-style").css("background","linear-gradient(#026,#026)");
+  }
 
   //controlling user visibility
   if($("span#username").text().length > 0) {

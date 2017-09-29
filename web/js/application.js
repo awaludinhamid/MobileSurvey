@@ -156,6 +156,12 @@ var errorCaptureArr = [];
 var isDateCheckToToday = false;
 
 /**
+ * Additional parameters when saving
+ * @type Object
+ */
+var saveParams = {};
+
+/**
  * variable modal message
  * @type various
  */
@@ -295,6 +301,7 @@ $(document).ready(function() {
       extraScriptArr = [];
       extraCheckFieldDetail = {};
       errorCaptureArr = [];
+      saveParams = {};
       cbFuncGenData = function() {};
       isDateCheckToToday = false;
 
@@ -644,7 +651,8 @@ $(document).ready(function() {
         if(status) {
           scope.saveData(relativePath + activePage.data("save-url") + "?" + $("span#csrf-param-name").text() + "=" + $("span#csrf-token").text(),
                         formInputFile,
-                        modalSave);
+                        modalSave,
+                        saveParams);
         }
       });
   
@@ -714,7 +722,8 @@ $(document).ready(function() {
         } else {
           scope.saveData(relativePath + activePage.data("save-url") + "?" + $("span#csrf-param-name").text() + "=" + $("span#csrf-token").text(),
                         formInputFile,
-                        modalSave);
+                        modalSave,
+                        saveParams);
         }
       });
       
@@ -1012,8 +1021,8 @@ angularApp.service("dataserv", function(paramserv) {
    * @param {Function} callback
    * @returns void
    */
-  this.saveData = function(url,data,callback) {
-    paramserv.execajax("POST",url,null,data,{"Content-Type": "application/json"},callback);
+  this.saveData = function(url,params,data,callback) {
+    paramserv.execajax("POST",url,params,data,{"Content-Type": "application/json"},callback);
   };
   
   /**
@@ -1347,9 +1356,10 @@ angularApp.controller("angularCtrl", function($scope,$compile,dataserv,domserv) 
    * @param {String} url
    * @param {Object} formInputFile
    * @param {String} modalSave
+   * @param {Object} saveParams
    * @returns void
    */
-  $scope.saveData = function(url,formInputFile,modalSave) {
+  $scope.saveData = function(url,formInputFile,modalSave,saveParams) {
     $scope.$apply();
     
     //additional process if any, such as upload image, etc.
@@ -1375,7 +1385,7 @@ angularApp.controller("angularCtrl", function($scope,$compile,dataserv,domserv) 
     };
     
     //execute AJAX call
-    dataserv.saveData(url,domserv.assignData(),uploadFile);
+    dataserv.saveData(url,saveParams,domserv.assignData(),uploadFile);
   };
   
   /**
@@ -1524,7 +1534,7 @@ angularApp.controller("angularCtrl", function($scope,$compile,dataserv,domserv) 
    * @returns void
    */
   $scope.saveDataNonAssign = function(url,data,callback) {
-    dataserv.saveData(url,data,function(response) {
+    dataserv.saveData(url,null,data,function(response) {
       callback(response);
       $scope.getData($scope.url,$scope.params);
     });

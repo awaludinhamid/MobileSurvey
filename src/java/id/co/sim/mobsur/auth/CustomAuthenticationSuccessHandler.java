@@ -78,6 +78,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
       session.setAttribute("officeName", mstOffice.getOfficeName());
       MasterUserRole mur = murServ.getByUser(mstUser.getUserId());
       session.setAttribute("roleTypeCode", mur == null ? "" : mur.getRole().getRoleType().getRoleTypeCode());
+      session.setAttribute("userFromOwner", murServ.getByCoyAndRoleType(mstCoy.getCoyId(),"O").isEmpty() ? "N" : "Y");
     }
     //redirect
     setDefaultTargetUrl("/apps/main/validation");

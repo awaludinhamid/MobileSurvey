@@ -6,6 +6,11 @@
 
 package id.co.sim.mobsur.bean.support;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 /**
  * POJO location coordinate
  * @author awal
@@ -15,6 +20,9 @@ public class CoordinateBean {
 
   private double latitude;
   private double longitude;
+  @Temporal(TemporalType.TIMESTAMP)
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+  private Date submitDate;
 
   /**
    * @return the latitude
@@ -42,5 +50,19 @@ public class CoordinateBean {
    */
   public void setLongitude(double longitude) {
     this.longitude = longitude;
+  }
+
+  /**
+   * @return the submitDate
+   */
+  public Date getSubmitDate() {
+    return submitDate;
+  }
+
+  /**
+   * @param submitDate the submitDate to set
+   */
+  public void setSubmitDate(Date submitDate) {
+    this.submitDate = submitDate;
   }
 }

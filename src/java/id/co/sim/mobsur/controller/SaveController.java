@@ -109,6 +109,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -563,7 +564,8 @@ public class SaveController {
           )
   {
     MasterRoleMenu roleMenu = mrmServ.getById(roleMenuDTO.getRoleMenuId());
-    mrmServ.delete(roleMenu);
+    if(roleMenu != null)
+      mrmServ.delete(roleMenu);
     return roleMenuDTO;
   }
 
@@ -1189,21 +1191,23 @@ public class SaveController {
   /**
    * Save given job assignment
    * @param jobAssignDTOList
-   * @param session, http session object
+   * @param httpRequest, http request object
    * @return saved job assignment
    */
   @RequestMapping(value = "/jobassignment", method = RequestMethod.POST)
   public @ResponseBody MasterJobAssignmentDTOList saveJobAssignment(
           @RequestBody MasterJobAssignmentDTOList jobAssignDTOList,
-          HttpSession session
+          HttpServletRequest httpRequest
           )
   {    
-    String username = (String) session.getAttribute("userName");
+    String username = (String) httpRequest.getSession().getAttribute("userName");
+    //who has this data list
+    int userCommissionedId = Integer.parseInt(httpRequest.getParameter("userCommissionedId"));
     //job assign list POSTED
     List<MasterJobAssignmentDTO> jobAssignDTOs = jobAssignDTOList.getJobAssignmentDTOList();
     List<Integer> toDeleteList = new ArrayList();
     //job assign list CURRENT (prepare to DELETED)
-    for(MasterJobAssignment jobAssign : mjaServ.getByUserCommissioned(jobAssignDTOs.get(0).getUserCommissionedId()))
+    for(MasterJobAssignment jobAssign : mjaServ.getByUserCommissioned(userCommissionedId))
       toDeleteList.add(jobAssign.getJobAssignId());
     //check:
     //if record exists in POSTED and not in CURRENT then insert it

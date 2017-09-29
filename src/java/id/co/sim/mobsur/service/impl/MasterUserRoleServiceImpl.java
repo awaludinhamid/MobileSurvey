@@ -92,4 +92,9 @@ public class MasterUserRoleServiceImpl implements MasterUserRoleService {
   public MasterUserRole getByUser(int userId) {
     return masterUserRoleDAO.getByUser(userId);
   }
+
+  @Override
+  public List<MasterUserRole> getByCoyAndRoleType(int coyId, String roleTypeCode) {
+    return masterUserRoleDAO.getByCoyAndRoleType(coyId, roleTypeCode);
+  }
 }

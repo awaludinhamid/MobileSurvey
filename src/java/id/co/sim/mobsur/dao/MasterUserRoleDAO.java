@@ -184,4 +184,20 @@ public class MasterUserRoleDAO extends BaseDAO<MasterUserRole> {
             .setInteger("userId", userId)
             .uniqueResult();
   }
+  
+  /**
+   * Get user role by company and role type
+   * @param coyId , company
+   * @param roleTypeCode 
+   * @return list of user roles based on given company and role type code
+   */
+  public List<MasterUserRole> getByCoyAndRoleType(int coyId, String roleTypeCode) {
+    return sessionFactory.getCurrentSession().createQuery(
+            "from " + domainClass.getName() + " mur " +
+              "where mur.user.office.company.coyId = :coyId " +
+                "and mur.role.roleType.roleTypeCode = :roleTypeCode")
+            .setInteger("coyId", coyId)
+            .setString("roleTypeCode", roleTypeCode)
+            .list();
+  }
 }

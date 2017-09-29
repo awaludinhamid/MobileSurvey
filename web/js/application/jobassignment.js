@@ -37,6 +37,7 @@ $("div#jobassignment").ready(function() {
         //if logged user is coordinator then inaccessible other user
         if($("span#roletype-code").text() === "C") {
           scope.usercomm = currUser;
+          saveParams = {userCommissionedId:scope.usercomm.userId};
           $("form#form-save select#userCommissionedId").prop("disabled",true);
           $("form#form-save select#roleId").prop("disabled",true);
         }
@@ -94,6 +95,7 @@ $("div#jobassignment").ready(function() {
    */
   $(currDiv + " form#form-save select#assignRoleId, " + currDiv + " form#form-save select#userCommissionedId").change(function() {
     scope.datadrop.userbyrole2 = [];
+    saveParams = {userCommissionedId:$("form#form-save select#userCommissionedId").val()};
     changeListUserByRole2($("form#form-save select#assignRoleId").val(),
                           $("form#form-save select#roleId").find(":selected").data("roletypecode"),
                           $("form#form-save select#userCommissionedId").val());
@@ -151,7 +153,9 @@ $("div#jobassignment").ready(function() {
    */
   function changeListUserByRole(roleId, callback) {
     changeListUserOrRole("userbyrole",{roleId: roleId},function(response) {
-      scope.usercomm = response.data[0];
+      scope.usercomm = response.data[0];        
+      //assign save parameter
+      saveParams = {userCommissionedId:scope.usercomm.userId};
       callback(response);
     });
   }

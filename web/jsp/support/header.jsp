@@ -103,6 +103,7 @@
       <span id="roletype-code">${sessionScope.roleTypeCode}</span>
       <span id="paging-records">${sessionScope.pagingRecords}</span>
       <span id="company-logo-id">${sessionScope.companyLogoId}</span>
+      <span id="user-from-owner">${sessionScope.userFromOwner}</span>
       <span id="csrf-param-name">${_csrf.parameterName}</span>
       <span id="csrf-token">${_csrf.token}</span>
     </div>

@@ -16,7 +16,7 @@ $(document).ready(function() {
   if($("div>span#has-role").text() === "no" || $("div>span#is-valid").text() === "no") {
     $("div#validation-alert-mdl").modal("show");
   } else {
-    
+      
     // generate menu
     $.get(relativePath+"apps/data/usermenu/"+$("div>span#userid").text(), {}, function(data, status) {
       if(data.length === 0) {

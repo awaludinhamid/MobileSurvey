@@ -108,5 +108,13 @@ public interface MasterUserRoleService {
    * @param userId
    * @return user role based on given user
    */
-  MasterUserRole getByUser(int userId);
+  MasterUserRole getByUser(int userId);  
+  
+  /**
+   * Get user role by company and role type
+   * @param coyId , company
+   * @param roleTypeCode 
+   * @return list of user roles based on given company and role type code
+   */
+  List<MasterUserRole> getByCoyAndRoleType(int coyId, String roleTypeCode);
 }

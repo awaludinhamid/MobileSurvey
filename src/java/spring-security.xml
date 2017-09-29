@@ -41,10 +41,10 @@
   <security:intercept-url pattern="/apps/application/questiongroup" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
   <security:intercept-url pattern="/apps/application/template" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
   <security:intercept-url pattern="/apps/application/product" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
-  <security:intercept-url pattern="/apps/application/jobassignment" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
   <security:intercept-url pattern="/apps/application/zipcodeverif" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER')"/>
   <!-- -->
   <!--Authorization to owner, manager and coordinator -->
+  <security:intercept-url pattern="/apps/application/jobassignment" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
   <security:intercept-url pattern="/apps/application/absence" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
   <security:intercept-url pattern="/apps/application/taskassign" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
   <security:intercept-url pattern="/apps/application/rollingtask" access="hasAnyRole('ROLE_SYS_OWNER','ROLE_SYS_MANAGER','ROLE_COORD_VER')"/>
